@@ -3486,7 +3486,7 @@ class AjaxController extends Controller
             // ->whereMonth('activation_forms.created_at', Carbon::now()->month())
             // ->get();
             // $operation = lead_sale::wherestatus('1.01')->get();
-            return view('dashboard.view-all-active', compact('operation', 'id'));
+            return view('manager.view-all-active', compact('operation', 'id'));
         } else if ($id == 'followup') {
             if (Auth()->user()->role == 'Elife Manager') {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
@@ -3536,7 +3536,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 //    return "Zoom";
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
@@ -3586,7 +3586,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'reject') {
             if (Auth()->user()->role == 'Elife Manager') {
@@ -3639,7 +3639,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -3688,7 +3688,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'verified' || $id == '1.07') {
             if (Auth()->user()->role == 'Elife Manager') {
@@ -3739,7 +3739,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -3794,7 +3794,7 @@ class AjaxController extends Controller
                     // ->whereDate('verification_forms.created_at', Carbon::today())
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
                 // $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*","status_codes.status_name", 'users.name as agent_name')
                 // // $user =  DB::table("subjects")->select('subject_name', 'id')
                 // ->LeftJoin(
@@ -3824,7 +3824,7 @@ class AjaxController extends Controller
                 // ->orderBy('lead_sales.updated_at', 'desc')
                 // ->get();
                 // // $operation = lead_sale::wherestatus('1.01')->get();
-                // return view('dashboard.manager.mygrplead', compact('operation'));
+                // return view('manager.mygrplead', compact('operation'));
             }
         } else {
             if (auth()->user()->role == 'Manager' || auth()->user()->role == 'NumberSuperAdmin' || auth()->user()->role == 'Cordination') {
@@ -3874,7 +3874,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             } else if (Auth()->user()->role == 'Elife Manager') {
 
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
@@ -3921,7 +3921,7 @@ class AjaxController extends Controller
 
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             }
         }
     }
@@ -3956,7 +3956,7 @@ class AjaxController extends Controller
             // ->whereMonth('activation_forms.created_at', Carbon::now()->month())
             // ->get();
             // $operation = lead_sale::wherestatus('1.01')->get();
-            return view('dashboard.view-all-active', compact('operation', 'id'));
+            return view('manager.view-all-active', compact('operation', 'id'));
         } else if ($id == 'followup') {
             if (Auth()->user()->role == 'Elife Manager') {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
@@ -3989,7 +3989,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4021,7 +4021,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'reject') {
             if (Auth()->user()->role == 'Elife Manager') {
@@ -4056,7 +4056,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4088,7 +4088,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'verified' || $id == '1.07') {
             if (Auth()->user()->role == 'Elife Manager') {
@@ -4122,7 +4122,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4160,7 +4160,7 @@ class AjaxController extends Controller
                     // ->whereDate('verification_forms.created_at', Carbon::today())
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
                 // $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*","status_codes.status_name", 'users.name as agent_name')
                 // // $user =  DB::table("subjects")->select('subject_name', 'id')
                 // ->LeftJoin(
@@ -4190,7 +4190,7 @@ class AjaxController extends Controller
                 // ->orderBy('lead_sales.updated_at', 'desc')
                 // ->get();
                 // // $operation = lead_sale::wherestatus('1.01')->get();
-                // return view('dashboard.manager.mygrplead', compact('operation'));
+                // return view('manager.mygrplead', compact('operation'));
             }
         } else {
             if (auth()->user()->role == 'Manager' || auth()->user()->role == 'NumberSuperAdmin' || auth()->user()->role == 'Cordination') {
@@ -4223,7 +4223,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             } else if (Auth()->user()->role == 'Elife Manager') {
 
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
@@ -4255,7 +4255,7 @@ class AjaxController extends Controller
 
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             }
         }
     }
@@ -4310,7 +4310,7 @@ class AjaxController extends Controller
             // ->whereMonth('activation_forms.created_at', Carbon::now()->month())
             // ->get();
             // $operation = lead_sale::wherestatus('1.01')->get();
-            return view('dashboard.view-all-active', compact('operation', 'id'));
+            return view('manager.view-all-active', compact('operation', 'id'));
         } else if ($id == 'followup') {
             if (Auth()->user()->role == 'Elife Manager') {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
@@ -4358,7 +4358,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4403,7 +4403,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'reject') {
             if (Auth()->user()->role == 'Elife Manager') {
@@ -4450,7 +4450,7 @@ class AjaxController extends Controller
                     ->whereDate('lead_sales.updated_at', Carbon::today())
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4495,7 +4495,7 @@ class AjaxController extends Controller
                     ->whereDate('lead_sales.updated_at', Carbon::today())
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'verified' || $id == '1.07') {
             if (Auth()->user()->role == 'Elife Manager') {
@@ -4541,7 +4541,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4593,7 +4593,7 @@ class AjaxController extends Controller
                     ->whereDate('verification_forms.created_at', Carbon::today())
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'VUN') {
             if (Auth()->user()->role == 'Elife Manager') {
@@ -4639,7 +4639,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4692,7 +4692,7 @@ class AjaxController extends Controller
                     ->whereYear('verification_forms.created_at', Carbon::now()->year)
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else {
             if (auth()->user()->role == 'Manager' || auth()->user()->role == 'NumberSuperAdmin' || auth()->user()->role == 'Cordination') {
@@ -4739,7 +4739,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             } else if (Auth()->user()->role == 'Elife Manager') {
 
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
@@ -4768,7 +4768,7 @@ class AjaxController extends Controller
                     ->where('lead_sales.status', $id)
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             }
         }
     }
@@ -4807,7 +4807,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4837,7 +4837,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'reject') {
             if (Auth()->user()->role == 'Elife Manager') {
@@ -4869,7 +4869,7 @@ class AjaxController extends Controller
                     ->whereDate('lead_sales.updated_at', Carbon::today())
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4899,7 +4899,7 @@ class AjaxController extends Controller
                     ->whereDate('lead_sales.updated_at', Carbon::today())
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'verified' || $id == '1.07') {
             if (Auth()->user()->role == 'Elife Manager') {
@@ -4930,7 +4930,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4967,7 +4967,7 @@ class AjaxController extends Controller
                     ->whereDate('verification_forms.created_at', Carbon::today())
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             }
         } else {
             if (auth()->user()->role == 'Manager' || auth()->user()->role == 'NumberSuperAdmin' || auth()->user()->role == 'Cordination') {
@@ -4999,7 +4999,7 @@ class AjaxController extends Controller
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
-                return view('dashboard.manager.mygrplead', compact('operation'));
+                return view('manager.mygrplead', compact('operation'));
             } else if (Auth()->user()->role == 'Elife Manager') {
 
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
@@ -5028,7 +5028,7 @@ class AjaxController extends Controller
                     ->where('lead_sales.status', $id)
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->get();
-                return view('dashboard.manager.mygrpleadElife', compact('operation'));
+                return view('manager.mygrpleadElife', compact('operation'));
             }
         }
     }
@@ -5961,7 +5961,7 @@ class AjaxController extends Controller
     {
         // return "bOom";
         // return $id;
-        $operation = verification_form::select("lead_sales.id", "verification_forms.id as ver_id", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "users.name as agent_name", "lead_sales.*", "lead_locations.location_url", "lead_locations.lat", "lead_locations.lng")
+        $data = verification_form::select("lead_sales.id", "verification_forms.id as ver_id", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "users.name as agent_name", "lead_sales.*", "lead_locations.location_url", "lead_locations.lat", "lead_locations.lng")
             // $user =  DB::table("subjects")->select('subject_name', 'id')
             ->LeftJoin(
                 'timing_durations',
@@ -5999,18 +5999,18 @@ class AjaxController extends Controller
         // ->where("remarks.user_agent_id", auth()->user()->id)
         // return $operation->lead_id;
         $remarks =  remark::select("remarks.*")
-            ->where("remarks.lead_id", $operation->id)
+            ->where("remarks.lead_id", $data->id)
             ->get();
         $countries = \App\Models\country_phone_code::all();
         // $operation = verification_form::wherestatus('1.10')->get();
         $emirates = \App\Models\emirate::all();
         $plans = \App\Models\plan::wherestatus('1')->get();
         $users = \App\Models\User::role('activation')->get();
-        $addons = \App\Models\addon::wherestatus('1')->get();
-        $device = \App\Models\imei_list::wherestatus('1')->get();
+        // $addons = \App\Models\addon::wherestatus('1')->get();
+        // $device = \App\Models\imei_list::wherestatus('1')->get();
 
         // $operation = verification_form::whereid($id)->get();
-        return view('dashboard.assign-lead-to-activation', compact('operation', 'remarks', 'countries', 'emirates', 'plans', 'users', 'addons', 'device'));
+        return view('coordination.assign-lead-to-activation', compact('data', 'remarks', 'countries', 'emirates', 'plans', 'users'));
         // return view('dashboar', compact('operation'));
     }
     public function MyLog()
@@ -6374,7 +6374,7 @@ class AjaxController extends Controller
             'sim_type' => $request->simtype,
             'gender' => $request->gender,
             'lead_type' => 'postpaid',
-            'channel_type' => $channel_type,
+            'channel_type' => 'ConnectCC',
             'emirates' => $request->emirates,
             'emirate_num' => $request->emirate_number,
             'etisalat_number' => $request->etisalat_number,
@@ -7149,7 +7149,7 @@ class AjaxController extends Controller
                 ->orderBy('lead_sales.updated_at', 'desc')
                 ->get();
             // $operation = lead_sale::wherestatus('1.01')->get();
-            return view('dashboard.manager.mygrpleadmnp', compact('operation'));
+            return view('manager.mygrpleadmnp', compact('operation'));
             // $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name","lead_locations.assign_to", "users.name as agent_name")
             // // $user =  DB::table("subjects")->select('subject_name', 'id')
             // ->LeftJoin(

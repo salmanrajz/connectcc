@@ -14,7 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Example Routes
-Route::view('/', 'landing');
+Route::get('/', function () {
+    return redirect()->route('login');
+    // return redirect('home/landing/page');
+});
+
+// Route::view('/', 'landing');
 Route::match(['get', 'post'], '/dashboard', function(){
     return view('dashboard');
 })->middleware('auth');
@@ -58,7 +63,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
 
 
 });
-Route::group(['prefix' => 'Verification','middleware'=>'auth'], function () {
+Route::group(['prefix' => 'Coordination','middleware'=>'auth'], function () {
     Route::post('LoadMainCordData', [App\Http\Controllers\AjaxController::class, 'LoadMainCordData'])->name('admin.LoadMainCordData');
     Route::get('time-out', [App\Http\Controllers\CoordinaterController::class, 'timeout'])->name('time.out');
     Route::get('appointment', [App\Http\Controllers\CoordinaterController::class, 'appointment_lead'])->name('appointment');
@@ -82,6 +87,23 @@ Route::group(['prefix' => 'Verification','middleware'=>'auth'], function () {
     Route::get('my-lead-yesterday', [App\Http\Controllers\CoordinaterController::class, 'myproceedleadyesterday'])->name('my.proceed.yesterday');
     Route::get('later-lead-all', [App\Http\Controllers\CoordinaterController::class, 'later_lead_all'])->name('laterlead.all');
     Route::get('proceed-lead-daily', [App\Http\Controllers\CoordinaterController::class, 'agent_proceed_lead_daily'])->name('activation.proceed.daily');
+    Route::get('manage-cordination/{id}', [App\Http\Controllers\AjaxController::class, 'manage_cordinator'])->name('manage-cordination');
+    Route::post('update-time', [App\Http\Controllers\AjaxController::class, 'update_time'])->name('update.time');
+    Route::get('add-activation/{id}', [App\Http\Controllers\ActivationController::class, 'AddActivation'])->name('activation.edit');
+    Route::get('ActivationFollow', [App\Http\Controllers\AjaxController::class, 'ActivationFollow'])->name('activation.follow');
+    // Route::get('ActivationFollow', 'AjaxController@ActivationFollow')->name('activation.follow')->middleware('role:Admin|superAdmin');
+    //
+
+    Route::post('LeadReAssign', '\App\Http\Controllers\AjaxController@LeadReAssign')->name('lead.re-assign');
+    Route::post('activate-lead', 'App\Http\Controllers\ActivationController@ActiveNew')->name('activate-lead');
+    Route::post('activate-nonverified', 'App\Http\Controllers\ActivationController@ActiveNewNonVerified')->name('activate-nonverified');
+    Route::post('confirm-lead', 'App\Http\Controllers\ActivationController@ConfirmLead')->name('confirm-lead');
+
+    Route::post('ActivationStore', [App\Http\Controllers\ActivationController::class, 'ActivationStore'])->name('activation.store');
+    Route::post('LaterLead', [App\Http\Controllers\AjaxController::class, 'LaterLead'])->name('LaterLead');
+    // Route::get('/manage-cordination/{id}', 'AjaxController@manage_cordinator')->name('manage-cordination')->middleware('auth');
+
+    // Route::post('LaterLead', 'AjaxController@LaterLead')->name('LaterLead')->middleware('auth');
     //
     // Route::get('/proceed-lead-daily', 'CoordinaterController@agent_proceed_lead_daily')->name('activation.proceed.daily')->middleware('auth');
 
@@ -125,6 +147,8 @@ Route::group(['prefix' => 'Verification','middleware'=>'auth'], function () {
     Route::post('PlanType2', [App\Http\Controllers\AjaxController::class, 'PlanType2'])->name('ajaxRequest.PlanType2');
     Route::post('checkNumData', [App\Http\Controllers\AjaxController::class, 'checkNumData'])->name('ajaxRequest.checkNumData');
 
+    // Route::post('/update-time', 'AgentController@update_time')->name('update.time')->middleware('auth');
+
     // Route::get('/later-lead-today', 'CoordinaterController@later_lead_today')->name('laterlead.today')->middleware('auth');
     // Route::get('/proceed-lead-daily', 'CoordinaterController@agent_proceed_lead_daily')->name('activation.proceed.daily')->middleware('auth');
     // Route::get('/my-lead-daily', 'CoordinaterController@myproceedleaddaily')->name('my.proceed.daily')->middleware('auth');
@@ -161,6 +185,33 @@ Route::group(['prefix' => 'Verification','middleware'=>'auth'], function () {
     // Route::post('assign_me', 'AjaxController@assign_me')->name('ajaxRequest.Assignme')->middleware('auth');
 
 
+});
+Route::group(['prefix' => 'Coordination','middleware'=>'auth'], function () {
+    Route::get('mygroupleads/{id}/channel/{channel}', [
+        'as' => 'showCampaignProductDetails', 'uses' => 'App\Http\Controllers\AjaxController@ShowGroupLeads'
+    ]);
+    Route::get('Ourgroupleads/{id}/channel/{channel}/call_center/{call_center}', [
+        'as' => 'OurshowCampaignProductDetails', 'uses' => 'App\Http\Controllers\AjaxController@OurShowGroupLeads'
+    ]);
+    Route::get('mygroupleads-daily/{id}/channel/{channel}', [
+        'as' => 'showCampaignProductDetailsDaily', 'uses' => 'App\Http\Controllers\AjaxController@ShowGroupLeadsDaily'
+    ]);
+    Route::get('ourgroupleads-daily/{id}/channel/{channel}/call_center/{call_center}', [
+        'as' => 'OurshowCampaignProductDetailsDaily', 'uses' => 'App\Http\Controllers\AjaxController@OurShowGroupLeadsDaily'
+    ]);
+    Route::get('/add-location-lead', [App\Http\Controllers\CoordinaterController::class, 'CordinationLead'])->name('verification.add-location-lead');
+    Route::get('/add-re-process/{id}', [App\Http\Controllers\CoordinaterController::class, 'reprocess_CordinationLead'])->name('cord.add-location-lead');
+    Route::post('/reprocess-group', [App\Http\Controllers\AgentController::class, 'reprocessgroup'])->name('reprocess.group');
+    Route::post('/lead-location-store', [App\Http\Controllers\AgentController::class, 'leadlocationstore'])->name('lead-location.store');
+    Route::post('/leadrejectedAgent', [App\Http\Controllers\AjaxController::class, 'leadreject'])->name('lead.rejected');
+    // Route::get('/add-location-lead/{id}', 'CoordinaterController@CordinationLead')->name('verification.add-location-lead')->middleware('auth');
+    // lead.rejected
+    // Route::post('leadrejectedAgent', 'AjaxController@leadreject')->name('lead.rejected');
+    // Route::post('/reprocess-group', 'AgentController@reprocessgroup')->name('reprocess.group');
+
+    // Route::get('/add-re-process/{id}', 'CoordinaterController@reprocess_CordinationLead')->name('cord.add-location-lead')->middleware('auth');
+    //
+    //
 });
 Route::group(['prefix' => 'Agent','middleware'=>'auth'], function () {
 
@@ -232,6 +283,7 @@ Route::group(['prefix' => 'Agent','middleware'=>'auth'], function () {
     Route::post('RevNum', [App\Http\Controllers\AjaxController::class, 'RevNum'])->name('ajaxRequest.RevNum');
     Route::post('RemoveRevive', [App\Http\Controllers\AjaxController::class, 'RemoveRevive'])->name('Remove.RevNum');
     Route::post('HoldNum', [App\Http\Controllers\AjaxController::class, 'HoldNum'])->name('ajaxRequest.HoldNum');
+    // lead . rejected
     // Route::post('NumberByType', 'AjaxController@NumberByType')->name('ajaxRequest.NumberByType');
     // Route::post('NumberByCallCenter', 'AjaxController@NumberByCallCenter')->name('ajaxRequest.NumberByCallCenter');
     // Route::post('NumberByType2', 'AjaxController@NumberByType2')->name('ajaxRequest.NumberByType2');

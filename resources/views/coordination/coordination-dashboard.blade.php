@@ -27,7 +27,8 @@
     </div>
   </div>
   <!-- END Hero -->
-                @inject('provider', 'App\Http\Controllers\HomeController')
+                @inject('HomeCount', 'App\Http\Controllers\HomeController')
+
 
   <!-- Page Content -->
    <div class="content">
@@ -36,16 +37,242 @@
                           <h2 class="text-left display-10 mt-4">
                     Daily Summary
                 </h2>
-                <div id="DailySummaryLead">
-
+ <div class="row items-push">
+            <div class="col-sm-3 col-xxl-3">
+                <!-- Pending Orders -->
+                <div class="block block-rounded d-flex flex-column h-100 mb-0">
+                    <div
+                        class="block-content block-content-full flex-grow-1 d-flex justify-content-between align-items-center">
+                        <dl class="mb-0">
+                            <dt class="fs-3 fw-bold">
+                                {{$HomeCount::TotalLeadStatus_daily('1.07','postpaid','ConnectCC')}}                            </dt>
+                            <dd class="fs-sm fw-medium fs-sm fw-medium text-muted mb-0">
+                                {{ __('Verified Leads') }}</dd>
+                        </dl>
+                        <div class="item item-rounded-lg bg-body-light">
+                            <i class="far fa-gem fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="bg-body-light rounded-bottom">
+                        <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
+                            href="{{route('showCampaignProductDetailsDaily',['id'=>'1.07','channel'=>'ConnectCC'])}}">
+                            <span>{{ __('View Leads') }}</span>
+                            <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
+                        </a>
+                    </div>
                 </div>
+                <!-- END Pending Orders -->
+            </div>
+            <div class="col-sm-3 col-xxl-3">
+                <!-- Pending Orders -->
+                <div class="block block-rounded d-flex flex-column h-100 mb-0">
+                    <div
+                        class="block-content block-content-full flex-grow-1 d-flex justify-content-between align-items-center">
+                        <dl class="mb-0">
+                            <dt class="fs-3 fw-bold">
+                                         {{$HomeCount::my_group_daily_unassigned('ConnectCC')}}
+                            </dt>
+                            <dd class="fs-sm fw-medium fs-sm fw-medium text-muted mb-0">
+                                {{ __('Un Assigned Leads') }}</dd>
+                        </dl>
+                        <div class="item item-rounded-lg bg-body-light">
+                            <i class="far fa-gem fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="bg-body-light rounded-bottom">
+                        <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
+                            href="{{route('activation.proceed.daily')}}">
+                            <span>{{ __('View Leads') }}</span>
+                            <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- END Pending Orders -->
+            </div>
+            <div class="col-sm-3 col-xxl-3">
+                <!-- Pending Orders -->
+                <div class="block block-rounded d-flex flex-column h-100 mb-0">
+                    <div
+                        class="block-content block-content-full flex-grow-1 d-flex justify-content-between align-items-center">
+                        <dl class="mb-0">
+                            <dt class="fs-3 fw-bold">
+                                         {{$HomeCount::my_group_daily_assigned('ConnectCC')}}
+                            </dt>
+                            <dd class="fs-sm fw-medium fs-sm fw-medium text-muted mb-0">
+                                {{ __('Assigned Leads') }}</dd>
+                        </dl>
+                        <div class="item item-rounded-lg bg-body-light">
+                            <i class="far fa-gem fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="bg-body-light rounded-bottom">
+                        <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
+                            href="{{ route('my.proceed.daily') }}">
+                            <span>{{ __('View Leads') }}</span>
+                            <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- END Pending Orders -->
+            </div>
+            <div class="col-sm-3 col-xxl-3">
+                <!-- Pending Orders -->
+                <div class="block block-rounded d-flex flex-column h-100 mb-0">
+                    <div
+                        class="block-content block-content-full flex-grow-1 d-flex justify-content-between align-items-center">
+                        <dl class="mb-0">
+                            <dt class="fs-3 fw-bold">
+                                         {{$HomeCount::later_today()}}
+                            </dt>
+                            <dd class="fs-sm fw-medium fs-sm fw-medium text-muted mb-0">
+                                {{ __('Later Leads') }}</dd>
+                        </dl>
+                        <div class="item item-rounded-lg bg-body-light">
+                            <i class="far fa-gem fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="bg-body-light rounded-bottom">
+                        <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
+                            href="{{ route('laterlead.today') }}">
+                            <span>{{ __('View Leads') }}</span>
+                            <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- END Pending Orders -->
+            </div>
+            <div class="col-sm-3 col-xxl-3">
+                <!-- Pending Orders -->
+                <div class="block block-rounded d-flex flex-column h-100 mb-0">
+                    <div
+                        class="block-content block-content-full flex-grow-1 d-flex justify-content-between align-items-center">
+                        <dl class="mb-0">
+                            <dt class="fs-3 fw-bold">
+                                {{$k = $HomeCount::total_active_daily('1.02','postpaid','ConnectCC')}}
+                            </dt>
+                            <dd class="fs-sm fw-medium fs-sm fw-medium text-muted mb-0">
+                                {{ __('Active Leads') }}</dd>
+                        </dl>
+                        <div class="item item-rounded-lg bg-body-light">
+                            <i class="far fa-gem fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="bg-body-light rounded-bottom">
+                        <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
+                            href="{{ route('showCampaignProductDetailsDaily',['id'=>'1.02','channel'=>'ConnectCC']) }}">
+                            <span>{{ __('View Leads') }}</span>
+                            <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- END Pending Orders -->
+            </div>
+            <div class="col-sm-3 col-xxl-3">
+                <!-- Pending Orders -->
+                <div class="block block-rounded d-flex flex-column h-100 mb-0">
+                    <div
+                        class="block-content block-content-full flex-grow-1 d-flex justify-content-between align-items-center">
+                        <dl class="mb-0">
+                            <dt class="fs-3 fw-bold">
+                                {{$k = $HomeCount::total_non_active_daily('1.04','postpaid','ConnectCC')}}                            </dt>
+                            <dd class="fs-sm fw-medium fs-sm fw-medium text-muted mb-0">
+                                {{ __('FollowUp Leads') }}</dd>
+                        </dl>
+                        <div class="item item-rounded-lg bg-body-light">
+                            <i class="far fa-gem fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="bg-body-light rounded-bottom">
+                        <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
+                            href="{{ route('showCampaignProductDetailsDaily',['id'=>'followup','channel'=>'ConnectCC']) }}">
+                            <span>{{ __('View Leads') }}</span>
+                            <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- END Pending Orders -->
+            </div>
+            <div class="col-sm-3 col-xxl-3">
+                <!-- Pending Orders -->
+                <div class="block block-rounded d-flex flex-column h-100 mb-0">
+                    <div
+                        class="block-content block-content-full flex-grow-1 d-flex justify-content-between align-items-center">
+                        <dl class="mb-0">
+                            <dt class="fs-3 fw-bold">
+                                {{$l = $HomeCount::TotalLeadStatus_daily('pending_followup','postpaid','ConnectCC')}}
+                            <dd class="fs-sm fw-medium fs-sm fw-medium text-muted mb-0">
+                                {{ __('Non Active Ver Leads') }}</dd>
+                        </dl>
+                        <div class="item item-rounded-lg bg-body-light">
+                            <i class="far fa-gem fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="bg-body-light rounded-bottom">
+                        <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
+                            href="{{ route('showCampaignProductDetailsDaily',['id'=>'1.04','channel'=>'ConnectCC']) }}">
+                            <span>{{ __('View Leads') }}</span>
+                            <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- END Pending Orders -->
+            </div>
+            <div class="col-sm-3 col-xxl-3">
+                <!-- Pending Orders -->
+                <div class="block block-rounded d-flex flex-column h-100 mb-0">
+                    <div
+                        class="block-content block-content-full flex-grow-1 d-flex justify-content-between align-items-center">
+                        <dl class="mb-0">
+                            <dt class="fs-3 fw-bold">
+                                {{$k + $l}}
+                            <dd class="fs-sm fw-medium fs-sm fw-medium text-muted mb-0">
+                                {{ __('Total In Process') }}</dd>
+                        </dl>
+                        <div class="item item-rounded-lg bg-body-light">
+                            <i class="far fa-gem fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="bg-body-light rounded-bottom">
+                        <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
+                            href="{{ route('showCampaignProductDetailsDaily',['id'=>'1.10','channel'=>'ConnectCC']) }}">
+                            <span>{{ __('View Leads') }}</span>
+                            <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- END Pending Orders -->
+            </div>
+ </div>
                           <h2 class="text-left display-10 mt-4">
                     Monthly Summary
                 </h2>
-                <div id="MonthlySummaryLead">
-
+ <div class="row items-push">
+            <div class="col-sm-3 col-xxl-3">
+                <!-- Pending Orders -->
+                <div class="block block-rounded d-flex flex-column h-100 mb-0">
+                    <div
+                        class="block-content block-content-full flex-grow-1 d-flex justify-content-between align-items-center">
+                        <dl class="mb-0">
+                            <dt class="fs-3 fw-bold">
+                                {{$k = $HomeCount::total_active_monthly('1.02','postpaid','ConnectCC')}}
+                            <dd class="fs-sm fw-medium fs-sm fw-medium text-muted mb-0">
+                                {{ __('Total Activated Leads') }}</dd>
+                        </dl>
+                        <div class="item item-rounded-lg bg-body-light">
+                            <i class="far fa-gem fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="bg-body-light rounded-bottom">
+                        <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
+                            href="{{ route('showCampaignProductDetails',['id'=>'1.02','channel'=>'ConnectCC']) }}">
+                            <span>{{ __('View Leads') }}</span>
+                            <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
+                        </a>
+                    </div>
                 </div>
-          </div>
+                <!-- END Pending Orders -->
+            </div>
+ </div>
           <!-- END Overview -->
 
         </div>
@@ -53,64 +280,7 @@
   @section('js')
   {{-- {{auth()->user()->role}}
    --}}
-@if(auth()->user()->role == 'MainCoordinator')
-<script>
-    //
-window.ShowCordDashboard = function(url, Month, loadingUrl) {
-  $.ajax({
-    type: 'POST',
-    url: url,
-    headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-    data: {
-      Month: Month,
-    },
-    beforeSend: function () {
-      // alert(Month);
-      if (Month == 'Daily') {
-        $("#DailySummaryLead").html('<img src="' + loadingUrl + '" class="img-fluid text-center offset-md-6" style="width:35px;"></img>');
-      } else if (Month == 'Monthly') {
-        $("#MonthlySummaryLead").html('<img src="' + loadingUrl + '" class="img-fluid text-center offset-md-6" style="width:35px;"></img>');
-      } else if (Month == 'CallCenter') {
-        $("#CallCenterSummaryLead").html('<img src="' + loadingUrl + '" class="img-fluid text-center offset-md-6" style="width:35px;"></img>');
-      } else if (Month == 'ActivationAgent') {
-        $("#ActivationAgentSummaryLead").html('<img src="' + loadingUrl + '" class="img-fluid text-center offset-md-6" style="width:35px;"></img>');
-      }
-      // $("#DailySummaryLead").show();
-      // $("#loading_num3").html('<p> Loading </p>');
-    },
-    success: function (data) {
-      // alert(data);
-      // $("#loading_num3").hide();
-      if (Month == 'Daily') {
-        $("#DailySummaryLead").html(data);
-      } else if (Month == 'Monthly') {
-        $("#MonthlySummaryLead").html(data);
-      } else if (Month == 'CallCenter') {
-        $("#CallCenterSummaryLead").html(data);
-      } else if (Month == 'ActivationAgent') {
-        $("#ActivationAgentSummaryLead").html(data);
-      }
-    }
-  });
-}
-//
 
-    // alert("ok");
-ShowCordDashboard('{{route('admin.LoadMainCordData')}}','Daily','{{asset('assets/images/loader.gif')}}');
-ShowCordDashboard('{{route('admin.LoadMainCordData')}}','Monthly','{{asset('assets/images/loader.gif')}}');
-ShowCordDashboard('{{route('admin.LoadMainCordData')}}','CallCenter','{{asset('assets/images/loader.gif')}}');
-ShowCordDashboard('{{route('admin.LoadMainCordData')}}','ActivationAgent','{{asset('assets/images/loader.gif')}}');
-setInterval(() => {
-ShowCordDashboard('{{route('admin.LoadMainCordData')}}','Daily','{{asset('assets/images/loader.gif')}}');
-ShowCordDashboard('{{route('admin.LoadMainCordData')}}','Monthly','{{asset('assets/images/loader.gif')}}');
-ShowCordDashboard('{{route('admin.LoadMainCordData')}}','CallCenter','{{asset('assets/images/loader.gif')}}');
-ShowCordDashboard('{{route('admin.LoadMainCordData')}}','ActivationAgent','{{asset('assets/images/loader.gif')}}');
-}, 10000);
-
-</script>
-@endrole
 @endsection
 {{-- @endrole --}}
 @endsection

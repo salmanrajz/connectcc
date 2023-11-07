@@ -50,6 +50,7 @@
                     <th >ID</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Role</th>
                     <th>Password</th>
                     <th>Call Center</th>
                     <th>Status</th>
@@ -70,6 +71,9 @@
                         </td>
                         <td>
                             {{$item->email}}
+                        </td>
+                        <td>
+                            {{$item->role}}
                         </td>
                         <td>
                             {{$item->sl}}

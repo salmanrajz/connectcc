@@ -62,7 +62,7 @@ class HomeController extends Controller
     //
     public function test(){
         // return "Test";
-        $salesData = \App\Models\lead_sale::selectRaw("COUNT(*) as count, lead_sales.saler_id")
+       $salesData = \App\Models\lead_sale::selectRaw("COUNT(*) as count, lead_sales.saler_id")
             ->LeftJoin(
                 'users',
                 'users.id',
@@ -75,7 +75,7 @@ class HomeController extends Controller
             ->groupBy('users.id')
             ->get()->pluck('saler_id');
         $a = array();
-       return $data =  \App\Models\User::where('role', 'Sale')
+       $data =  \App\Models\User::where('role', 'Sale')
         ->whereNotIn('id',[$salesData])
         ->get();
         foreach ($data as $k => $v) {
@@ -4769,6 +4769,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
 
+        // return "Ho";
         Session::put('call_center', auth()->user()->call_center);
         // return auth()->user()->role;
         if(auth()->user()->role == 'Emirate Coordinator'){
@@ -5383,7 +5384,7 @@ class HomeController extends Controller
                 $activation_users = User::role('activation')->get();
             $channel_partner = channel_partner::where('status', '1')->get();
 
-                return view('dashboard.cordination-dashboard', compact('cordination_complete', 'cordination_pending','emirates', 'activation_users','channel_partner'));
+                return view('coordination.coordination-dashboard', compact('cordination_complete', 'cordination_pending','emirates', 'activation_users','channel_partner'));
         }
         else if(auth()->user()->role == 'MainCoordinator'){
             // $cordination_pending = \App\Models\User::select("users.id")
@@ -5420,7 +5421,8 @@ class HomeController extends Controller
             //     ->count();
             //     $emirates = emirate::wherestatus('1')->get();
             //     $activation_users = User::role('activation')->get();
-                return view('coordination.coordination-dashboard');
+            // return "Zoom";
+                return view('coordination.main-coordination-dashboard');
         }
         else if(auth()->user()->role == 'Activation' || auth()->user()->role == 'Elife Active'){
             // $cordination_pending = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name")
@@ -6131,7 +6133,7 @@ class HomeController extends Controller
             ->Join(
                 'users','users.id','lead_sales.saler_id'
             )
-            ->where('verification_forms.status', '1.10')
+            ->where('lead_sales.status', '1.10')
             ->where('lead_locations.assign_to', '=', 136)
             ->whereDate('lead_sales.updated_at', Carbon::today())
             // ->where('lead_sales.lead_type', $lead_type)

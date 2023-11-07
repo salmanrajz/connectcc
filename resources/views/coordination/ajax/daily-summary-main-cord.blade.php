@@ -19,7 +19,7 @@
                     </div>
                     <div class="bg-body-light rounded-bottom">
                         <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
-                            href="{{ route('pending.lead','ConnectCC') }}">
+                            href="{{ route('time.out') }}">
                             <span>{{ __('View all Leads') }}</span>
                             <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                         </a>
@@ -132,8 +132,8 @@
                     </div>
                     <div class="bg-body-light rounded-bottom">
                         <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
-                            href="{{ route('pending.lead','ConnectCC') }}">
-                            <span>{{ __('Later Lead') }}</span>
+                            href="{{ route('my.proceed.daily') }}">
+                            <span>{{ __('View Lead') }}</span>
                             <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                         </a>
                     </div>

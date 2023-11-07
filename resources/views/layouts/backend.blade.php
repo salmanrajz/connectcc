@@ -29,6 +29,8 @@
   <script src="{{asset('js/plugins/select2/js/select2.min.js')}}"></script>
 
   @vite(['resources/sass/main.scss', 'resources/js/oneui/app.js','resources/js/main.js'])
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/oneui/app.js','resources/js/main.js']) --}}
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 
   <!-- Alternatively, you can also include a specific color theme after the main stylesheet to alter the default color theme of the template -->
   {{-- @vite(['resources/sass/main.scss', 'resources/sass/oneui/themes/amethyst.scss', 'resources/js/oneui/app.js']) --}}

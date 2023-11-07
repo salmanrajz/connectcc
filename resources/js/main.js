@@ -1063,7 +1063,7 @@ window.SavingActivationLead = function(url, form, redirect) {
           $("#loading_num3").hide();
           $('.btn').prop('disabled', false);
           // window.location.href = 'https://soft.riuman.com/admin/activation'
-          window.location.href = redirect;
+          // window.location.href = redirect;
         } else {
           $('.btn').prop('disabled', false);
           // alert("S");
@@ -1610,11 +1610,11 @@ window.VerifyLead = function (url, form, redirect) {
         // window.location.href = data.success;
         // // window.open = data.success;
         // window.open(data.success, '_blank');
-        setTimeout(() => {
-          // alert(data.success);
-          alert("wait meanwhile we are redirecting you...");
-          window.location.href = redirect;
-        }, 3000);
+        // setTimeout(() => {
+        //   // alert(data.success);
+        //   alert("wait meanwhile we are redirecting you...");
+        //   window.location.href = redirect;
+        // }, 3000);
       } else {
         $('.btn').prop('disabled', false);
         // alert("S");
@@ -1695,3 +1695,50 @@ window.CallLogForm = function(id, form, url) {
   });
 
 }
+
+$('#add_audio').click(function () {
+            var numItems = $('.audio_action').length;
+
+            // alert(numItems);
+
+            // var salman_ahmed = $(".jackson_action").length();
+            // var l = salman_ahmed.length;
+            // alert(salman_ahmed);
+            if (numItems < 8) {
+
+
+
+
+
+
+                // get the last DIV which ID starts with ^= "klon"
+                var $div = $('div[id^="klon_audio"]:last');
+
+                // Read the Number from that DIV's ID (i.e: 3 from "klon3")
+                // And increment that number by 1
+                var num = parseInt($div.prop("id").match(/\d+/g), 10) + 1;
+
+                // Clone it and assign the new ID (i.e: from num 4 to ID "klon4")
+                var $klon = $div.clone(true).prop('id', 'klon_audio' + num);
+                var jackson_action = $(".audio_action").html();
+                var salmanahmed = 'salmanahmed';
+
+
+                // Finally insert $klon wherever you want
+                $div.after($klon.html(jackson_action));
+            }
+
+        });
+
+        window.close_modal = function() {
+          console.log("modal");
+
+          // $(".close").click(function () {
+          $("#call_back_at_elifee").val('');
+          $("#call_back_new").val('');
+          $("#call_back_mnp").val('');
+          $("#later_date").val('');
+          $("#reject_comment").val('');
+          // })
+
+        }

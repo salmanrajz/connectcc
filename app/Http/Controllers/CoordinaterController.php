@@ -70,6 +70,7 @@ class CoordinaterController extends Controller
         //     )
         //     ->groupBy('verification_forms.lead_no')
         //     ->get();
+        // return auth()->user()->id;
         $mychannel = AssignChannel::select('name')->where('userid', auth()->user()->id)->pluck('name');
         $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name", "lead_locations.assign_to", 'lead_sales.appointment_to', 'appointment_from')
             // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -119,7 +120,7 @@ class CoordinaterController extends Controller
             ->get();
         // ->count();
         // $operation = verification_form::wherestatus('1.10')->get();
-        return view('dashboard.view-proceed-request-only', compact('operation'));
+        return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -178,7 +179,7 @@ class CoordinaterController extends Controller
             ->get();
         // ->count();
         // $operation = verification_form::wherestatus('1.10')->get();
-        return view('dashboard.view-proceed-request-only', compact('operation'));
+        return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -254,7 +255,7 @@ class CoordinaterController extends Controller
             ->groupBy('verification_forms.lead_no')
             ->get();
         // $operation = verification_form::wherestatus('1.10')->get();
-        return view('dashboard.view-proceed-request-only', compact('operation'));
+        return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -331,7 +332,7 @@ class CoordinaterController extends Controller
             ->groupBy('verification_forms.lead_no')
             ->get();
         // $operation = verification_form::wherestatus('1.10')->get();
-        return view('dashboard.view-proceed-request-only', compact('operation'));
+        return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -404,7 +405,7 @@ class CoordinaterController extends Controller
             ->groupBy('verification_forms.lead_no')
             ->get();
         // $operation = verification_form::wherestatus('1.10')->get();
-        return view('dashboard.view-proceed-request-only', compact('operation'));
+        return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -463,7 +464,7 @@ class CoordinaterController extends Controller
             ->get()
             ->count();
         // $operation = verification_form::wherestatus('1.10')->get();
-        // return view('dashboard.view-proceed-request-only', compact('operation'));
+        // return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -499,7 +500,7 @@ class CoordinaterController extends Controller
             ->get()
             ->count();
         // $operation = verification_form::wherestatus('1.10')->get();
-        // return view('dashboard.view-proceed-request-only', compact('operation'));
+        // return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -630,7 +631,7 @@ class CoordinaterController extends Controller
         //     ->groupBy('verification_forms.lead_no')
         //     ->get()->count();
         // $operation = verification_form::wherestatus('1.10')->get();
-        // return view('dashboard.view-proceed-request-only', compact('operation'));
+        // return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -804,7 +805,7 @@ class CoordinaterController extends Controller
             ->groupBy('verification_forms.lead_no')
             ->get()->count();
         // $operation = verification_form::wherestatus('1.10')->get();
-        // return view('dashboard.view-proceed-request-only', compact('operation'));
+        // return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -869,7 +870,7 @@ class CoordinaterController extends Controller
             ->groupBy('verification_forms.lead_no')
             ->get()->count();
         // $operation = verification_form::wherestatus('1.10')->get();
-        // return view('dashboard.view-proceed-request-only', compact('operation'));
+        // return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -933,11 +934,11 @@ class CoordinaterController extends Controller
         //     )
         //     ->groupBy('verification_forms.lead_no')
         //     ->get();
-        // return view('dashboard.view-proceed-request-only', compact('operation'));
+        // return view('coordination.view-proceed-request-only', compact('operation'));
 
         // ->count();
         // $operation = verification_form::wherestatus('1.10')->get();
-        // return view('dashboard.view-proceed-request-only', compact('operation'));
+        // return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -1002,11 +1003,11 @@ class CoordinaterController extends Controller
         //     )
         //     ->groupBy('verification_forms.lead_no')
         //     ->get();
-        // return view('dashboard.view-proceed-request-only', compact('operation'));
+        // return view('coordination.view-proceed-request-only', compact('operation'));
 
         // ->count();
         // $operation = verification_form::wherestatus('1.10')->get();
-        // return view('dashboard.view-proceed-request-only', compact('operation'));
+        // return view('coordination.view-proceed-request-only', compact('operation'));
         // return $data = lead_sale::where('appointment_to','>=',Carbon::now())->get();
         // return            ->whereTime('session_start_date', '>=', Carbon::create($request->start, $request->user()->timezone)->toTimeString())
         // return "TimeOut";
@@ -1810,7 +1811,7 @@ class CoordinaterController extends Controller
             ->whereDate('activation_forms.created_at', Carbon::today())
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     public  static function emirate_active_lead_count_daily()
     {
@@ -1824,7 +1825,7 @@ class CoordinaterController extends Controller
             ->whereDate('activation_forms.created_at', Carbon::today())
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     public  static function active_lead_count()
     {
@@ -1838,7 +1839,7 @@ class CoordinaterController extends Controller
 
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     //
     public function reprocess_CordinationLead($id)
@@ -1847,7 +1848,7 @@ class CoordinaterController extends Controller
         $users = \App\Models\User::role('Elife Active')->get();
         $audios = audio_recording::wherelead_no($id)->get();
 
-        $operation = verification_form::select('lead_sales.additional_document', "timing_durations.lead_generate_time", "verification_forms.*", "lead_sales.saler_id")
+        $data = verification_form::select('lead_sales.additional_document', "timing_durations.lead_generate_time", "verification_forms.*", "lead_sales.saler_id",'lead_sales.area')
             // $user =  DB::table("subjects")->select('subject_name', 'id')
             ->Join(
                 'timing_durations',
@@ -1867,7 +1868,10 @@ class CoordinaterController extends Controller
             // ->where("remarks.user_agent_id", auth()->user()->id)
             ->where("remarks.lead_id", $id)
             ->get();
-        return view('dashboard.add-reprocess-lead', compact('operation', 'users', 'remarks', 'audios'));
+        $countries = \App\Models\country_phone_code::select('name')->get();
+        $emirates = \App\Models\emirate::select('name')->get();
+        $countries = \App\Models\country_phone_code::select('name')->get();
+        return view('coordination.add-reprocess-lead', compact('data', 'users', 'remarks', 'audios', 'countries', 'emirates'));
     }
     public function CordinationLead($id)
     {
@@ -1875,7 +1879,7 @@ class CoordinaterController extends Controller
         $users = \App\Models\User::role('Elife Active')->get();
         $audios = audio_recording::wherelead_no($id)->get();
 
-        $operation = verification_form::select('lead_sales.emirates as emirate_location', 'lead_sales.additional_document', "timing_durations.lead_generate_time", "verification_forms.*", "lead_sales.saler_id", 'lead_sales.channel_type', 'lead_sales.eti_lead_id')
+        $data = verification_form::select('lead_sales.emirates as emirate_location', 'lead_sales.additional_document', "timing_durations.lead_generate_time", "verification_forms.*", "lead_sales.saler_id", 'lead_sales.channel_type', 'lead_sales.eti_lead_id')
             // $user =  DB::table("subjects")->select('subject_name', 'id')
             ->Join(
                 'timing_durations',
@@ -1895,7 +1899,11 @@ class CoordinaterController extends Controller
             // ->where("remarks.user_agent_id", auth()->user()->id)
             ->where("remarks.lead_id", $id)
             ->get();
-        return view('dashboard.add-location-lead', compact('operation', 'users', 'remarks', 'audios'));
+
+                $countries = \App\Models\country_phone_code::select('name')->get();
+        $emirates = \App\Models\emirate::select('name')->get();
+
+        return view('coordination.add-location-lead', compact('data', 'users', 'remarks', 'audios','countries','emirates'));
     }
     //
     public function p2p_proceed()
@@ -1979,7 +1987,7 @@ class CoordinaterController extends Controller
                 // ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         }
     }
     //
@@ -2100,7 +2108,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -2142,7 +2150,7 @@ class CoordinaterController extends Controller
             ->orderBy('lead_sales.updated_at', 'desc')
             ->get();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        return view('dashboard.manager.mygrplead', compact('operation'));
+        return view('manager.mygrplead', compact('operation'));
     }
     public function myproceedleaddaily()
     {
@@ -2206,7 +2214,7 @@ class CoordinaterController extends Controller
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
             // return view('number.number-list-activation', compact('operation'));
-            return view('dashboard.my-lead-junaid', compact('operation'));
+            return view('coordination.my-lead-junaid', compact('operation'));
         } else {
             $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                 // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -2259,7 +2267,7 @@ class CoordinaterController extends Controller
                 ->orderBy('lead_sales.updated_at', 'desc')
                 ->get();
             // $operation = lead_sale::wherestatus('1.01')->get();
-            return view('dashboard.manager.mygrplead', compact('operation'));
+            return view('manager.mygrplead', compact('operation'));
             // $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name","lead_locations.assign_to", "users.name as agent_name")
             // // $user =  DB::table("subjects")->select('subject_name', 'id')
             // ->LeftJoin(
@@ -2313,7 +2321,7 @@ class CoordinaterController extends Controller
             //     ->groupBy('verification_forms.lead_no')
             //     ->get();
             // // $operation = verification_form::wherestatus('1.10')->get();
-            // return view('dashboard.view-proceed-request-only', compact('operation'));
+            // return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -2493,7 +2501,7 @@ class CoordinaterController extends Controller
                 ->orderBy('lead_sales.updated_at', 'desc')
                 ->get();
             // $operation = lead_sale::wherestatus('1.01')->get();
-            return view('dashboard.manager.mygrplead', compact('operation'));
+            return view('manager.mygrplead', compact('operation'));
             // $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name","lead_locations.assign_to", "users.name as agent_name")
             // // $user =  DB::table("subjects")->select('subject_name', 'id')
             // ->LeftJoin(
@@ -2547,7 +2555,7 @@ class CoordinaterController extends Controller
             //     ->groupBy('verification_forms.lead_no')
             //     ->get();
             // // $operation = verification_form::wherestatus('1.10')->get();
-            // return view('dashboard.view-proceed-request-only', compact('operation'));
+            // return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -2742,7 +2750,7 @@ class CoordinaterController extends Controller
                 ->orderBy('lead_sales.updated_at', 'desc')
                 ->get();
             // $operation = lead_sale::wherestatus('1.01')->get();
-            return view('dashboard.manager.mygrplead', compact('operation'));
+            return view('manager.mygrplead', compact('operation'));
             // $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name","lead_locations.assign_to", "users.name as agent_name")
             // // $user =  DB::table("subjects")->select('subject_name', 'id')
             // ->LeftJoin(
@@ -2796,7 +2804,7 @@ class CoordinaterController extends Controller
             //     ->groupBy('verification_forms.lead_no')
             //     ->get();
             // // $operation = verification_form::wherestatus('1.10')->get();
-            // return view('dashboard.view-proceed-request-only', compact('operation'));
+            // return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -2915,7 +2923,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -3085,7 +3093,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -3211,7 +3219,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         } else {
             $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name", "lead_locations.assign_to", 'users.name as agent_name')
                 // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -3269,7 +3277,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -3329,7 +3337,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         } else {
             $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name", "lead_locations.assign_to", 'users.name as agent_name')
                 // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -3400,7 +3408,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -3459,7 +3467,7 @@ class CoordinaterController extends Controller
             ->groupBy('verification_forms.lead_no')
             ->get();
         // $operation = verification_form::wherestatus('1.10')->get();
-        return view('dashboard.view-proceed-request-only', compact('operation'));
+        return view('coordination.view-proceed-request-only', compact('operation'));
 
         // })->name('activation.proceed');
     }
@@ -3519,7 +3527,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         } else {
             $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name", "lead_locations.assign_to", 'users.name as agent_name', 'lead_sales.emirates')
                 // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -3663,7 +3671,7 @@ class CoordinaterController extends Controller
             ->groupBy('verification_forms.lead_no')
             ->get();
         // $operation = verification_form::wherestatus('1.10')->get();
-        return view('dashboard.view-proceed-request-only', compact('operation'));
+        return view('coordination.view-proceed-request-only', compact('operation'));
     }
     public function agent_proceed_lead_daily()
     {
@@ -3737,7 +3745,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         } else {
             $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name", "lead_locations.assign_to")
                 // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -3807,7 +3815,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -3883,7 +3891,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         } else {
             // return "all";
             $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name", "lead_locations.assign_to")
@@ -3956,7 +3964,7 @@ class CoordinaterController extends Controller
                 ->groupBy('verification_forms.lead_no')
                 ->get();
             // $operation = verification_form::wherestatus('1.10')->get();
-            return view('dashboard.view-proceed-request-only', compact('operation'));
+            return view('coordination.view-proceed-request-only', compact('operation'));
         }
         // })->name('activation.proceed');
     }
@@ -4028,7 +4036,7 @@ class CoordinaterController extends Controller
             ->groupBy('verification_forms.lead_no')
             ->get();
         // $operation = verification_form::wherestatus('1.10')->get();
-        return view('dashboard.view-proceed-request-only', compact('operation'));
+        return view('coordination.view-proceed-request-only', compact('operation'));
 
         // })->name('activation.proceed');
     }
@@ -4065,6 +4073,8 @@ class CoordinaterController extends Controller
     }
     public static function mycount_daily()
     {
+        // return auth()->user()->id;
+
         $mychannel = \App\Models\AssignChannel::select('name')->where('userid', auth()->user()->id)->pluck('name');
 
         return $operation = verification_form::select("verification_forms.lead_no")
@@ -4479,7 +4489,7 @@ class CoordinaterController extends Controller
             ->whereDate('activation_forms.created_at', Carbon::today())
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     public static function followup_daily()
     {
@@ -4493,7 +4503,7 @@ class CoordinaterController extends Controller
             ->whereDate('lead_sales.updated_at', Carbon::today())
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     public static function emirate_followup_daily()
     {
@@ -4507,7 +4517,7 @@ class CoordinaterController extends Controller
             ->whereDate('lead_sales.updated_at', Carbon::today())
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     public static function followup_monthly()
     {
@@ -4520,7 +4530,7 @@ class CoordinaterController extends Controller
 
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     public static function paidlead_monthly()
     {
@@ -4533,7 +4543,7 @@ class CoordinaterController extends Controller
 
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     public static function freelead_daily()
     {
@@ -4545,7 +4555,7 @@ class CoordinaterController extends Controller
 
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     public static function freelead_monthly()
     {
@@ -4558,7 +4568,7 @@ class CoordinaterController extends Controller
 
             ->get()->count();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        // return view('dashboard.view-all-active', compact('operation', 'id'));
+        // return view('manager.view-all-active', compact('operation', 'id'));
     }
     public static function activation_amount()
     {
@@ -5014,4 +5024,256 @@ class CoordinaterController extends Controller
             // ->where('users.id', $id)
             ->count();
     }
+    //
+        public function leadlocationstore(Request $request){
+        //
+        // return $request;
+        // return salman
+        if ($request->reverify_remarks != '') {
+            $validatedData = Validator::make($request->all(), [
+                'reverify_remarks' => 'required|string',
+            ]);
+            // return "s";
+            if ($validatedData->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatedData)
+                    ->withInput();
+            }
+            // return "b";
+            // return $request->lead_id;
+            $d = lead_sale::findOrFail($request->lead_id);
+            $d->update([
+                'status' => '1.01',
+                'remarks' => $request->reverify_remarks,
+                'date_time_follow' => $request->call_back_at_new,
+                'emirates' => $request->emirates,
+            ]);
+            $dd = verification_form::findOrFail($request->ver_id);
+            $dd->update([
+                'status' => '1.01',
+                'emirate_location' => $request->emirates,
+            ]);
+            // remark::create([
+            //     'remarks' => $request->reverify_remarks,
+            //     'lead_status' => '1.01',
+            //     'source' => 'Lead Forward to Reviewe'
+            //     'lead_id' => $request->lead_id,
+            //     'lead_no' => $request->lead_id, 'date_time' => $current_date_time = Carbon::now()->toDateTimeString(), // Produces something like "2019-03-11 12:25:00"
+            //     'user_agent' => auth()->user()->name,
+            //     'user_agent_id' => auth()->user()->id,
+            // ]);
+            return response()->json(['success' => 'lead has been forwarded to reverify']);
+            // return "Boom Reverify";
+            // notify()->success('Lead has been forward to re verification');
+
+            // return redirect()->back()->withInput();
+            // return redirect(route('verification.final-cord-lead'));
+        }
+        if ($request->call_back_at_new != '') {
+            $validatedData = Validator::make($request->all(), [
+                'remarks_for_cordination' => 'required|string',
+            ]);
+            // return "s";
+            if ($validatedData->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatedData)
+                    ->withInput();
+            }
+            // return "b";
+            // return $request->lead_id;
+            $lead_data = $d = lead_sale::findOrFail($request->lead_id);
+            $d->update([
+                'status' => '1.19',
+                'remarks' => $request->remarks_for_cordination,
+                'date_time_follow' => $request->call_back_at_new,
+                'emirates' => $request->emirates,
+            ]);
+            $dd = verification_form::findOrFail($request->ver_id);
+            $dd->update([
+                'status' => '1.19',
+                'emirate_location' => $request->emirates,
+            ]);
+            // remark::create([
+            //     'remarks' => $request->call_back_at_new,
+            //     'lead_status' => '1.03',
+            //     'lead_id' => $request->lead_id,
+            //     'lead_no' => $request->lead_id, 'date_time' => $current_date_time = Carbon::now()->toDateTimeString(), // Produces something like "2019-03-11 12:25:00"
+            //     'user_agent' => auth()->user()->name,
+            //     'user_agent_id' => auth()->user()->id,
+            // ]);
+            // return
+            // notify()->success('Lead has been follow up now');
+            // return "Boom CallBack";
+            $a = "whatsapp://send?text=🔃   %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a Number Selected: $lead_data->selected_number %0a Plan selected: FE125 %0a Data : 4GB %0a  Activation: $lead_data->pay_status  %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name  %0a Follow Up";
+            return response()->json(['success' => $a]);
+            // return redirect()->back()->withInput();
+            // return redirect(route('verification.final-cord-lead'));
+        } else {
+            // return $request;
+            $ldate = date('h:i A');
+            $validatedData = Validator::make($request->all(), [
+                'add_location' => 'required|string',
+                // 'add_lat_lng' => 'required',
+                'assing_to' => 'required',
+                'start_date' => 'required',
+                'start_time' => 'required|after:' . $ldate,
+                // 'end_date' => 'required',
+                // 'end_time' => 'required|after:start_time',
+                // 'lng' => 'required|numeric',
+            ]);
+            if ($validatedData->fails()) {
+                // return redirect()->back()
+                //     ->withErrors($validatedData)
+                //     ->withInput();
+                return response()->json(['error' => $validatedData->errors()->all()]);
+            }
+            if (!empty($request->add_lat_lng)) {
+
+                $name = explode(',', $request->add_lat_lng);
+                $lat = $name[0];
+                $lng = $name[1];
+            } else {
+                $lat = '';
+                $lng = '';
+            }
+            $lead_data = $d = lead_sale::findOrFail($request->lead_id);
+            if ($lead_data->status == '1.15') {
+                return response()->json(['error' => ['Documents' => ['Rejected leads cannot be proceed, Please make new lead']]], 200);
+            }
+            $ld = lead_location::where('lead_id', $request->lead_id)->first();
+            if ($ld) {
+                $ld->update([
+                    'assign_to' => $request->assing_to,
+                    'location_url' => $request->add_location,
+                    'lat' => $lat,
+                    'lng' => $lng,
+                ]);
+            } else {
+                lead_location::create([
+                    'lead_id' => $request->lead_id,
+                    'location_url' => $request->add_location,
+                    'lat' => $lat,
+                    'lng' => $lng,
+                    'assign_to' => $request->assing_to,
+                    // 'number_allowed' => $request->num_allowed,
+                    // 'duration' => $request->duration,
+                    // 'revenue' => $request->revenue,
+                    // 'free_minutes' => $request->free_min,
+                    'status' => 1,
+                ]);
+            }
+            // $start_date = Carbon::today()->toDateString();
+            // $choosen_date = strtr($choosen_date, '/', '-');
+            // $choosen_date =  date('Y-d-m H:i:s', strtotime($choosen_date));
+            $choosen_date = $request->start_time;
+            $carbon_date = Carbon::parse($choosen_date);
+            $second_date  = $carbon_date->addHours(2);
+            // return "choosen date: ". $choosen_date . ' Return Date' . $second_date->toTimeString;
+            $lead_data = $d = lead_sale::findOrFail($request->lead_id);
+            $d->update([
+                'status' => '1.10',
+                'appointment_from' => date('H:i:s', strtotime($choosen_date)),
+                'appointment_to' => date('H:i:s', strtotime($second_date)),
+            ]);
+            $dd = verification_form::findOrFail($request->ver_id);
+            $dd->update([
+                'status' => '1.10',
+                'assing_to' => '1',
+                'cordination_by' => auth()->user()->id,
+                'emirate_location' => $request->emirates,
+            ]);
+            $planName = $lead_data->select_plan;
+            $SelNumber = $lead_data->selected_number;
+            $activation_charge = $lead_data->pay_status;
+            // return "LocationLead";
+            // var encodedURL = encodeURIComponent(some_url);
+            //
+            // $a = "whatsapp://send?text=New  %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a Number Selected: $lead_data->selected_number %0a Plan selected: FE125 %0a Data : 4GB %0a  Activation: $lead_data->pay_status  %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a Lead Location https://maps.google.com?q=$lng,$lat %0a %0a Customer Location";
+            // $a = "https://api.whatsapp.com/send?text= *Verified at Location*  %0a Lead No: $lead_data->lead_no %0a Date: $lead_data->date_time %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a %0a %0a *Sim Type $lead_data->sim_type* %0a";
+            // for ($i = 0; $i < $count; $i++) {
+            //     $a .= "Number Selected: *$selected_number[$i]*  %0a PassCode = *$passcode[$i]* %0a Plan selected: *$plan_name[$i]* %0a  Activation: $ac[$i] %0a";
+            // }
+            // $a .= "%0a %0a %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a Verified %0a &phone=$wp_num";
+            if (strpos($planName, ",") !== false) {
+                // list($d, $l) = explode('.', $dm, 2);
+                foreach (explode(',', $planName) as $key => $k) {
+                    // $plan = \App\plan::where('id',$k)->first();
+                    $plan = \App\plan::findorfail($k);
+                    //  return $SelNumber[$key];
+                    $plan_name[] = $plan->plan_name;
+                    $data_gb[] = $plan->data;
+                    // $plan_name = $plan->plan_name;
+                    // $plan_name[] = $plan->plan_name;
+                    // }
+                    // foreach(explode(',', $SelNumber) as $k){
+                    // $plan = \App\plan::where('id',$k)->first();
+                }
+                foreach (explode(',', $SelNumber) as $key => $k) {
+                    // $plan = \App\plan::where('id',$k)->first();
+                    //  $plan = \App\plan::findorfail($k);
+                    //  return $SelNumber[$key];
+                    // $plan_name[] = $plan->plan_name;
+                    // $data_gb[] = $plan->data;
+                    // $plan_name = $plan->plan_name;
+                    // $plan_name[] = $plan->plan_name;
+                    // }
+                    // foreach(explode(',', $SelNumber) as $k){
+                    // $plan = \App\plan::where('id',$k)->first();
+                    $numberd = \App\numberdetail::where('number', $k)->first();
+                    $selected_number[] = $numberd->number;
+                    $passcode[] = $numberd->passcode;
+                }
+                foreach (explode(',', $activation_charge) as $key => $k) {
+                    // $plan = \App\plan::where('id',$k)->first();
+                    //  $plan = \App\plan::findorfail($k);
+                    //  return $SelNumber[$key];
+                    // $plan_name[] = $plan->plan_name;
+                    // $data_gb[] = $plan->data;
+                    // $plan_name = $plan->plan_name;
+                    // $plan_name[] = $plan->plan_name;
+                    // }
+                    // foreach(explode(',', $SelNumber) as $k){
+                    // $plan = \App\plan::where('id',$k)->first();
+                    // $numberd = \App\numberdetail::where('number', $k)->first();
+                    // $selected_number[] = $numberd->number;
+                    $ac[] = $k;
+                }
+                $tag = explode(',', $SelNumber);
+                $count = count($tag);
+                // $pay_status[] = $activation_rate_new[$key];
+                // $plan_name['0'];
+                // return $activation_charge;
+                $a = "https://api.whatsapp.com/send?text= *New Verified Lead*  %0a Lead No: $lead_data->lead_no %0a Date: $lead_data->date_time %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a %0a %0a *Sim Type $lead_data->sim_type* %0a";
+                for ($i = 0; $i < $count; $i++) {
+                    $a .= "Number Selected: *$selected_number[$i]*  %0a PassCode = *$passcode[$i]* %0a Plan selected: *$plan_name[$i]* %0a  Activation: $ac[$i] %0a";
+                }
+                $a .= "%0a %0a %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a Lead Location https://maps.google.com?q=$lng,$lat %0a &phone=971556323867";
+                return response()->json(['success' => $a]);
+            } else {
+                // return $SelNumber;
+                $plan = \App\plan::findorfail($planName);
+                $numberd = numberdetail::where('number', $SelNumber)->first();
+
+                $plan_name = $plan->plan_name;
+                $data_gb = $plan->data;
+                if ($numberd) {
+                    $selected_number = $numberd->number;
+                    $passcode = $numberd->passcode;
+                } else {
+                    $selected_number = $lead_data->customer_number;
+                    $passcode = 'MNP';
+                }
+                $pay_status = $activation_charge;
+                $a = "https://api.whatsapp.com/send?text= **New Verified Lead*  %0a Lead No: $lead_data->lead_no %0a Date: $lead_data->date_time %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a %0a %0a *Sim Type $lead_data->sim_type* %0a Number Selected: *$selected_number*  %0a PassCode = *$passcode* %0a Plan selected: *$plan_name* %0a Activation: $pay_status  %0a %0a %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a Lead Location https://maps.google.com?q=$lng,$lat %0a &phone=971556323867";
+                return response()->json(['success' => $a]);
+            }
+            // return response()->json(['success' => $a]);
+            // notify()->success('Location Added succesfully');
+
+            // return redirect()->back()->withInput();
+            // return redirect(route('verification.final-cord-lead'));
+
+
+    }
+        }
 }

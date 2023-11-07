@@ -60,6 +60,7 @@ class UserController extends Controller
     //
     public function viewusers()
     {
+        // return "DOom";
         $data = User::withTrashed()
             // ->where('role', '!=','Customer')
             // ->whereIn('users.role', ['NumberAdmin', 'Sale'])
