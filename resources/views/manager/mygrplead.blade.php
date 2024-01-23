@@ -51,7 +51,7 @@
                         {{-- <a class="btn btn-success" href="{{route('plan.create')}}">Add New Plan</a> --}}
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration"
-                                style="font-weight:300">
+                                style="font-weight:300" id="MyTable">
                                 {{-- <table s id="pdf"> --}}
                                 <thead>
                                     <tr>
@@ -117,12 +117,12 @@
                                                 <i class="fa fa-eye display-6" style="color:green;"></i>
                                             </a>
 
-                                        @if($item->status == '1.19')
-                                        <a href="{{route('lead.re-follow-process',$item->id)}}" data-toggle="tooltip"
-                                                title="Attend As Agent">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        @elseif($item->status == '1.20' || $item->status == '1.07' || $item->status == '1.09')
+                                        @if($item->status == '1.199')
+                                        {{-- <a href="{{route('lead.re-follow-process',$item->id)}}" data-toggle="tooltip" --}}
+                                                {{-- title="Attend As Agent"> --}}
+                                            {{-- <i class="fa fa-edit"></i> --}}
+                                        {{-- </a> --}}
+                                        @elseif($item->status == '1.20' || $item->status == '1.07' || $item->status == '1.09' || $item->status == '1.19')
                                         <a href="{{route('cord.add-location-lead',$item->id)}}" data-toggle="tooltip"
                                                 title="Attend As Coordinator">
                                             <i class="fa fa-check-circle display-6" style="color:green;"></i>

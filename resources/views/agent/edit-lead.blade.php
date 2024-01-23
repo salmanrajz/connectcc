@@ -79,7 +79,8 @@
                                 <select name="nation" id="c_select" class="form-control select2" required>
 
                                     @foreach($countries as $country)
-                                        <option value="{{ $country->name }}">{{ $country->name }}</option>
+                                        <option value="{{ $country->name }}" @if ($data->nationality==$country->name)
+                                            {{ 'selected' }} @endif>{{ $country->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -146,10 +147,10 @@
                                         {{ $data->additional_document == 'No Additional Document Required' ? 'selected' : '' }}>
                                         No Additional Document Required</option>
                                     <option value="Golden Visa" id="" class="hideonelife"
-                                        {{ $data->additional_document == 'Golden Visa ' ? 'selected' : '' }}>
+                                        {{ $data->additional_document == 'Golden Visa' ? 'selected' : '' }}>
                                         Golden Visa</option>
                                     <option value="Salary Certificate" id="" class="hideonelife"
-                                        {{ $data->additional_document == 'Salary Certificate ' ? 'selected' : '' }}>
+                                        {{ $data->additional_document == 'Salary Certificate' ? 'selected' : '' }}>
                                         Salary Certificate</option>
                                     <option value="Tenancy Contract" id=""
                                         {{ $data->additional_document == 'Renancy Contract' ? 'selected' : '' }}>
@@ -214,86 +215,10 @@
 
                                 </select>
                         </div>
-                        <div class="form-group">
-                  <label for="customer_provider" style="color:red;">Customer Will Provide Location to Agent</label>
-                  <input type="checkbox" name="customer_provider" id="customer_provider" checked>
-              </div>
-              <div class="container-fluid" style="border:1px solid black; padding:20px 30px;">
+                                @include('agent.ajax.edit-new')
 
-                                <div class="container-fluid">
-                                    <div class="row">
-                                    <div id="location_error"></div>
-                                </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="input-group mb-3">
-                                        @php $leadlocation = \App\Models\lead_location::where('lead_id',$data->id)->first() @endphp
-                                        @if($leadlocation)
-                                        <a href="{{$leadlocation->location_url}}" class="btn btn-success" target="_blank">View
-                                        Location URL</a>
-                                            <input type="text" class="form-control" placeholder="Customer Location Url" name="add_location" id="add_location"  onkeyup="check_location_url()" value="https://maps.google.com?q={{$leadlocation->lat}},{{$leadlocation->lng}}">
-                                            <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" onclick="check_location_url()" id="checker">Fetch Location</button>
-                                        @endif
-                                        </div>
-                                    </div>
-                                    </div>
 
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="fom-group">
-                                            <label for="add_location">Add Latitude and Langitude</label>
-                                            <input type="text" class="form-control" id="add_lat_lng" name="add_lat_lng" value="0,0">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                        <div class="col-md-12">
-                            <span class="red" style="color:green" onclick="ConfirmLocationURL()">Confirm Location URL</span>
-                        </div>
-                    </div>
-                                <h6>Choose Schedule Time </h6>
-                                {{--  --}}
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="fom-group">
-                                            <label for="add_location">Start Date</label>
-                                            <input type="text" class="form-control" name="start_date" id="start_date" readonly value="{{date('d/m/Y')}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="fom-group">
-                                            <label for="add_location">Start Time </label>
-                                            <input type="time" class="form-control" name="start_time" id="start_date"  value="{{$data->appointment_from}}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="red" style="color:red;text-center">System Automatically Add 2 Hrs from choosen time</span>
 
-                                <div class="row hidden d-none">
-                                    <div class="col-md-6">
-                                        <div class="fom-group">
-                                            <label for="add_location">Allocate To:</label>
-
-                                            <select name="assing_to" id="assing_to" class="form-control">
-                                                <option value="">Allocate to</option>
-                                                    <option value="136" {{ old('assign_to') == '136' ? 'selected' : 'selected' }}>Hassan</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                {{-- <div class="row">
-                                    <div class="container-fluid">
-                                        <button class="btn btn-success" type="button" name="submit" onclick="VerifyLead('{{route('lead-location.store')}}','pre-verification-form','{{route('all.pending','AllCord')}}')">Proceed</button>
-                                        <button class="btn btn-success" type="button" name="follow" id="follow_up" data-toggle="modal" data-target="#myModal">Follow</button>
-                                        <button class="btn btn-success" type="button" name="follow" id="follow_up" data-toggle="modal" data-target="#myModalVer">Re Verification</button>
-                                        <button class="btn btn-info" type="button" data-toggle="modal" data-target="#RejectModalNew">Reject</button>
-                                    </div>
-                                </div> --}}
-                            </div>
                                 {{-- @include('agent.ajax.new') --}}
 
                                  <div class="alert alert-danger print-error-msg mt-4eb." style="display:none">

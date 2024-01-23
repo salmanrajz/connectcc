@@ -153,7 +153,7 @@ class ChatController extends Controller
 
         // \Mail::to($to)
         // ->cc(['salmanahmed334@gmail.com'])
-        // ->queue(new \App\Models\Mail\RemarksUpdate($details, $subject));
+        // ->queue(new \App\Mail\RemarksUpdate($details, $subject));
         // ChatController::EmailToVerification($lead->id,$details);
         // ChatController::EmailToNewCord($lead->id,$details,$lead->emirates);
         ChatController::SendToWhatsApp($details);
@@ -254,7 +254,7 @@ class ChatController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://graph.facebook.com/v14.0/104929992273131/messages',
+                CURLOPT_URL => 'https://graph.facebook.com/v14.0/166626349870802/messages',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -320,6 +320,8 @@ class ChatController extends Controller
     public static function SendNewLeadMessage($details)
     {
 
+        // return $details;
+
         $token = env('FACEBOOK_TOKEN');
 
 
@@ -331,7 +333,7 @@ class ChatController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://graph.facebook.com/v14.0/104929992273131/messages',
+                CURLOPT_URL => 'https://graph.facebook.com/v14.0/166626349870802/messages',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -394,7 +396,7 @@ class ChatController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://graph.facebook.com/v14.0/104929992273131/messages',
+            CURLOPT_URL => 'https://graph.facebook.com/v14.0/166626349870802/messages',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -421,7 +423,7 @@ class ChatController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        // echo $response;
     }
     //
     public static function SendToWhatsAppFunction($details, $number)
@@ -439,7 +441,7 @@ class ChatController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://graph.facebook.com/v14.0/104929992273131/messages',
+                CURLOPT_URL => 'https://graph.facebook.com/v14.0/166626349870802/messages',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -513,7 +515,7 @@ class ChatController extends Controller
         $Second = \Carbon\Carbon::createFromFormat('H:i a', '04:00 PM');
         $SecondEnd = \Carbon\Carbon::createFromFormat('H:i a', '11:59 PM');
         $currentTime = \Carbon\Carbon::now();
-        if ($lead->channel_type == 'ExpressDial') {
+        if ($lead->channel_type == 'ConnectCC') {
             if ($lead->status != '1.01' || $lead->status != '1.04' || $lead->status != '1.15' || $lead->status != '1.03'  || $lead->status != '1.07' || $lead->status != '1.09') {
                 // if ($currentTime->between($startTime, $endTime, true)) {
                 //     // $number = '923245082322', '923249660466', '923367335361'
@@ -530,66 +532,40 @@ class ChatController extends Controller
                 //     $number = array('923249660466', '923027520611', '97143032014', '97143789200');
                 //     ChatController::SendToWhatsAppFunction($details,$number);
                 // }
-                $user_panel = \App\Models\User::select('users.phone', 'users.email')->Join(
-                    'assign_channels',
-                    'assign_channels.userid',
-                    'users.id'
-                )
-                    ->whereRaw("find_in_set('" . $lead->emirates . "',users.emirate)")
-                    ->where('role', 'Emirate Coordinator')
-                    ->where('assign_channels.name', 'ExpressDial')
-                    ->where('users.id', auth()->user()->id)
-                    ->first();
-                if ($user_panel) {
-                    $number = array($user_panel->phone, '97143032014', '97143789200', '923490673199', '923367335361');
+                // $user_panel = \App\Models\User::select('users.phone', 'users.email')->Join(
+                //     'assign_channels',
+                //     'assign_channels.userid',
+                //     'users.id'
+                // )
+                //     // ->whereRaw("find_in_set('" . $lead->emirates . "',users.emirate)")
+                //     ->where('role', 'Emirate Coordinator')
+                //     ->where('assign_channels.name', 'ConnectCC')
+                //     ->where('users.id', auth()->user()->id)
+                //     ->first();
+                // if ($user_panel) {
+                    $number = array('97167142777', '97167142705','97167142706','97167142707');
                     // $number = array('923416712998', '923245082322', '97143032014', '97143789200');
                     ChatController::SendToWhatsAppFunction($details, $number);
-                } else {
+                // } else {
 
-                    $user = \App\Models\User::select('users.phone', 'users.email')->Join(
-                        'assign_channels',
-                        'assign_channels.userid',
-                        'users.id'
-                    )
-                        ->whereRaw("find_in_set('" . $lead->emirates . "',users.emirate)")
-                        ->where('role', 'Emirate Coordinator')
-                        ->where('assign_channels.name', 'ExpressDial')
-                        ->get();
-                    foreach ($user as $u) {
-                        $number = array(
-                            $u->phone, '97143032014', '97143789200', '923490673199', '923367335361'
-                        );
-                        // $number = array('923416712998', '923245082322', '97143032014', '97143789200');
-                        ChatController::SendToWhatsAppFunction($details, $number);
-                    }
-                }
-            }
-        } else if ($lead->channel_type == 'MWH') {
-            if ($lead->status != '1.01' || $lead->status != '1.04' || $lead->status != '1.15' || $lead->status != '1.03'  || $lead->status != '1.07' || $lead->status != '1.09') {
-                if ($currentTime->between($startTime, $endTime, true)) {
-                    // $number = '923245082322', '923249660466', '923367335361'
-                    $nz = array('923021720006', '923451115328', '97143032014', '97143789200');
-
-                    ChatController::SendToWhatsAppFunction($details, $nz);
-                } else if ($currentTime->between($Second, $SecondEnd, true)) {
-                    $nz = array('923021720006', '923256194347', '97143032014', '97143789200');
-                    ChatController::SendToWhatsAppFunction($details, $nz);
-                }
-            }
-        } else {
-            if ($lead->status != '1.01' || $lead->status != '1.04' || $lead->status != '1.15' || $lead->status != '1.03'  || $lead->status != '1.07' || $lead->status != '1.09') {
-                if ($currentTime->between($startTime, $endTime, true)) {
-                    // $number = '923245082322', '923249660466', '923367335361'
-                    $number = array('923367335361', '97143032014', '97143789200');
-
-                    // $number = array('923245082322', '923249660466', '923367335361');
-                    ChatController::SendToWhatsAppFunction($details, $number);
-                } else if ($currentTime->between($Second, $SecondEnd, true)) {
-                    $number = array('923367335361', '923221377230', '97143032014', '97143789200');
-
-                    // $number = array('923245082322', '923249660466', '923367335361');
-                    ChatController::SendToWhatsAppFunction($details, $number);
-                }
+                //     $user = \App\Models\User::select('users.phone', 'users.email')->Join(
+                //         'assign_channels',
+                //         'assign_channels.userid',
+                //         'users.id'
+                //     )
+                //         // ->whereRaw("find_in_set('" . $lead->emirates . "',users.emirate)")
+                //         ->where('role', 'Emirate Coordinator')
+                //         ->where('assign_channels.name', 'ExpressDial')
+                //         ->get();
+                //     foreach ($user as $u) {
+                //         $number = array(
+                //             $u->phone,
+                //             '97167142705', '97167142706', '97167142707'
+                //         );
+                //         // $number = array('923416712998', '923245082322', '97143032014', '97143789200');
+                //         ChatController::SendToWhatsAppFunction($details, $number);
+                //     }
+                // }
             }
         }
     }
@@ -609,7 +585,7 @@ class ChatController extends Controller
             ];
             \Mail::to($to)
                 // ->cc(['salmanahmed334@gmail.com'])
-                ->send(new \App\Models\Mail\RemarksUpdate($details, $subject));
+                ->send(new \App\Mail\RemarksUpdate($details, $subject));
         }
     }
     //
@@ -649,7 +625,7 @@ class ChatController extends Controller
 
                     ];
                     \Mail::to($to)
-                        ->send(new \App\Models\Mail\RemarksUpdate($details, $subject));
+                        ->send(new \App\Mail\RemarksUpdate($details, $subject));
                 } else if ($currentTime->between($Second, $SecondEnd, true)) {
                     $subject = "";
                     $to = [
@@ -665,7 +641,7 @@ class ChatController extends Controller
                         ],
                     ];
                     \Mail::to($to)
-                        ->send(new \App\Models\Mail\RemarksUpdate($details, $subject));
+                        ->send(new \App\Mail\RemarksUpdate($details, $subject));
                 }
             }
         } else if ($lead->channel_type == 'MWH') {
@@ -680,7 +656,7 @@ class ChatController extends Controller
                         ]
                     ];
                     \Mail::to($to)
-                        ->send(new \App\Models\Mail\RemarksUpdate($details, $subject));
+                        ->send(new \App\Mail\RemarksUpdate($details, $subject));
                 } else if ($currentTime->between($Second, $SecondEnd, true)) {
                     $subject = "";
                     $to = [
@@ -692,7 +668,7 @@ class ChatController extends Controller
                         ],
                     ];
                     \Mail::to($to)
-                        ->send(new \App\Models\Mail\RemarksUpdate($details, $subject));
+                        ->send(new \App\Mail\RemarksUpdate($details, $subject));
                 }
             }
         } else {
@@ -714,7 +690,7 @@ class ChatController extends Controller
                         ],
                     ];
                     \Mail::to($to)
-                        ->send(new \App\Models\Mail\RemarksUpdate($details, $subject));
+                        ->send(new \App\Mail\RemarksUpdate($details, $subject));
                     //
                 } else if ($currentTime->between($Second, $SecondEnd, true)) {
                     //
@@ -729,7 +705,7 @@ class ChatController extends Controller
 
                     ];
                     \Mail::to($to)
-                        ->send(new \App\Models\Mail\RemarksUpdate($details, $subject));
+                        ->send(new \App\Mail\RemarksUpdate($details, $subject));
                     //
 
 
@@ -884,7 +860,7 @@ class ChatController extends Controller
     // ];
     // \Mail::to($to)
     //     // ->cc(['salmanahmed334@gmail.com'])
-    // ->send(new \App\Models\Mail\RemarksUpdate($details, $subject));
+    // ->send(new \App\Mail\RemarksUpdate($details, $subject));
 
 
     //

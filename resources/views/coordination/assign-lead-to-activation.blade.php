@@ -81,7 +81,8 @@
                                 <select name="nation" id="c_select" class="form-control select2" required>
 
                                     @foreach($countries as $country)
-                                        <option value="{{ $country->name }}">{{ $country->name }}</option>
+                                        <option value="{{ $country->name }}" @if ($data->nationality==$country->name)
+                                            {{ 'selected' }} @endif>{{ $country->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -216,6 +217,13 @@
 
                                 </select>
                         </div>
+                        @if($data->sim_type == 'Elife' || $data->sim_type == 'HomeWifi')
+                            @include('coordination.ajax.active-elife')
+                            @elseif($data->sim_type == 'MNP')
+                            @include('coordination.ajax.active-mnp')
+                            @elseif($data->sim_type == 'New')
+                            @include('coordination.ajax.active-new')
+                            @endif
                         <div class="form-group">
                   <label for="customer_provider" style="color:red;">Customer Will Provide Location to Agent</label>
                   <input type="checkbox" name="customer_provider" id="customer_provider" checked>
@@ -296,6 +304,13 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="fom-group">
+                                            <label for="add_location">Etisalat Portal ID:</label>
+
+                                            <input type="text" name="eti_lead_id" id="eti_lead_id" class="form-control">
+                                        </div>
+                                    </div>
                                 </div>
                                 <br>
                                 {{-- <div class="row">
@@ -308,7 +323,7 @@
                                 </div> --}}
                                 <div class="row">
                                     <div class="container-fluid">
-                                        <button class="btn btn-success" type="button" name="submit" onclick="VerifyLead('{{route('reprocess.group')}}', 'pre-verification-form','{{route('home')}}')">Proceed</button>
+                                        <button class="btn btn-success" type="button" name="submit" onclick="VerifyLead('{{route('emirate.proceed.lead')}}', 'pre-verification-form','{{route('home')}}')">Proceed</button>
                                         <button class="btn btn-success" type="button" name="follow" id="follow_up" data-bs-toggle="modal" data-bs-target="#myModal">Follow</button>
                                         <button class="btn btn-success" type="button" name="follow" id="follow_up" data-bs-toggle="modal" data-bs-target="#myModalVer">Re Verification</button>
                                         <button class="btn btn-info" type="button" data-toggle="modal" data-target="#RejectModalNew">Reject</button>
@@ -397,8 +412,8 @@
               <div class="modal-dialog">
         {{-- <form  method="POST" onsubmit="return false;" id="ActiveForm" action='{{route('lead.')}}'> --}}
     {{ Form::open([ 'method'  => 'POST', 'route' => [ 'lead.rejected', $data->lead_no ], 'files' => true, 'id' => 'RejectMyLead' ]) }}
-                <input type="hidden" name="lead_id" value="{{$data->lead_no}}">
-                <input type="hidden" name="ver_id" id="ver_id" value="{{$data->id}}" class="dont_hide">
+                <input type="hidden" name="lead_id" value="{{$data->id}}">
+                <input type="hidden" name="ver_id" id="ver_id" value="{{$data->ver_id}}" class="dont_hide">
 
                 <!-- Modal content-->
                 <div class="modal-content">

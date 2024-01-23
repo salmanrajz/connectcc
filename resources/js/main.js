@@ -1063,7 +1063,7 @@ window.SavingActivationLead = function(url, form, redirect) {
           $("#loading_num3").hide();
           $('.btn').prop('disabled', false);
           // window.location.href = 'https://soft.riuman.com/admin/activation'
-          // window.location.href = redirect;
+          window.location.href = redirect;
         } else {
           $('.btn').prop('disabled', false);
           // alert("S");
@@ -1613,8 +1613,13 @@ window.VerifyLead = function (url, form, redirect) {
         // setTimeout(() => {
         //   // alert(data.success);
         //   alert("wait meanwhile we are redirecting you...");
-        //   window.location.href = redirect;
+          // window.location.href = redirect;
         // }, 3000);
+        setTimeout(() => {
+          // alert(data.success);
+          alert("wait meanwhile we are redirecting you...");
+          window.location.href = redirect;
+        }, 3000);
       } else {
         $('.btn').prop('disabled', false);
         // alert("S");
@@ -1742,3 +1747,535 @@ $('#add_audio').click(function () {
           // })
 
         }
+
+        window.imageIsLoaded = function(e) {
+          $('#myImg').attr('src', e.target.result);
+        };
+        $(function () {
+          $("#profile_pic").change(function () {
+            if (this.files && this.files[0]) {
+              var reader = new FileReader();
+              reader.onload = imageIsLoaded;
+              reader.readAsDataURL(this.files[0]);
+            }
+          });
+        });
+
+
+        window.imageIsLoaded1 = function(e) {
+          $('#myImg1').attr('src', e.target.result);
+        };
+        $(function () {
+          $("#cnic_front").change(function () {
+            if (this.files && this.files[0]) {
+              var reader = new FileReader();
+              reader.onload = imageIsLoaded1;
+              reader.readAsDataURL(this.files[0]);
+            }
+          });
+        });
+
+
+        window.imageIsLoaded2 = function(e) {
+          $('#myImg2').attr('src', e.target.result);
+        };
+        $(function () {
+          $("#cnic_backedi").change(function () {
+            if (this.files && this.files[0]) {
+              var reader = new FileReader();
+              reader.onload = imageIsLoaded2;
+              reader.readAsDataURL(this.files[0]);
+            }
+          });
+        });
+//
+window.BookNum = function(id, url, Channel, number, redirect_url, e) {
+  Swal.fire({
+    title: 'Do you want to resever this number?',
+    // showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: `Confirm`,
+    // denyButtonText: `Don't save`,
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      // Swal.fire('Saved!', '', 'success')
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+          id: id,
+          Channel: Channel,
+        },
+        success: function (data) {
+          // alert(data);
+          // location.reload();
+          if (data == 1) {
+            // window.location.href = redirect_url;
+            // alert(data.success);
+            location.reload();
+          } else if (data == 2) {
+            alert("You already crossed Limit");
+          } else {
+            alert(data.success);
+            // alert("Number Already Booked");
+          }
+
+          // $("#ReportingData").html(data);
+        }
+      });
+    }
+  });
+
+}
+//
+window.ShowReserved = function(simtype, url, partner) {
+  $.ajax({
+    type: 'POST',
+    url: url,
+    data: {
+      simtype: simtype,
+      partner: partner,
+    },
+    success: function (data) {
+      // alert(data);
+      $("#broom").html(data);
+    }
+  });
+}
+
+window.ShowReservedCallCenter = function(url, agent_code, channel, status) {
+  $.ajax({
+    type: 'POST',
+    url: url,
+    data: {
+      agent_code: agent_code,
+      channel: channel,
+      status: status,
+    },
+    beforeSend: function () {
+      $("#loading_num3").show();
+      // $("#loading_num3").html('<p> Loading </p>');
+    },
+    success: function (data) {
+      // alert(data);
+      $("#loading_num3").hide();
+      $("#broom").html(data);
+    }
+  });
+}
+//
+window.RevNum = function(id, url, cid, e) {
+
+  Swal.fire({
+    title: 'Do you want to Revive this number?',
+    // showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: `Confirm`,
+    // denyButtonText: `Don't save`,
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      // Swal.fire('Saved!', '', 'success')
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+          id: id,
+          cid: cid,
+        },
+        success: function (data) {
+          // alert(data);
+          location.reload();
+
+          // $("#ReportingData").html(data);
+        }
+      });
+    }
+  });
+}
+
+
+window.HoldNum = function(id, url, cid, e) {
+
+  Swal.fire({
+    title: 'Do you want to Lead this number?',
+    // showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: `Confirm`,
+    // denyButtonText: `Don't save`,
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      // Swal.fire('Saved!', '', 'success')
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+          id: id,
+          cid: cid,
+        },
+        success: function (data) {
+          // alert(data);
+          location.reload();
+
+          // $("#ReportingData").html(data);
+        }
+      });
+    }
+  });
+}
+
+//
+window.ApprovedAccount = function(userid, url, status) {
+  $.ajax({
+    type: 'POST',
+    url: url,
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    data: {
+      userid: userid,
+      status: status,
+    },
+    success: function (data) {
+      if (data == 1) {
+        alert("Account Approved Succesfully");
+        location.reload();
+      } else if (data == 2) {
+        alert("Account Reject Succesfully");
+        location.reload();
+      } else {
+        alert("Something wrong");
+      }
+      // alert(data);
+      // $("#saledata").hide();
+      // $("#saledata2").hide();
+      // $("#data").html(data);
+    }
+  });
+}
+//
+window.RejectLeadVer = function(url, form, redirect) {
+  var rizwan = document.getElementById(form);
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: new FormData(rizwan), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+    contentType: false, // The content type used when sending data to the server.
+    cache: false, // To unable request pages to be cached
+    processData: false,
+    beforeSend: function () {
+      $("#loading_num3").show();
+      // // $(".request_call").hide();
+      $('.btn').prop('disabled', true);
+      // $('#' + btn).prop('disabled', true);
+
+    },
+    success: function (data) {
+      // alert(data);
+      if ($.isEmptyObject(data.error)) {
+        $("#loading_num3").hide();
+        $('.btn').prop('disabled', false);
+        // alert(data.success);
+        // window.location.href = data.success;
+        // // window.open = data.success;
+        // window.open(data.success, '_blank');
+        setTimeout(() => {
+          // alert(data.success);
+          alert("wait meanwhile we are redirecting you...");
+          window.location.href = redirect;
+        }, 1000);
+      } else {
+        $('.btn').prop('disabled', false);
+        // alert("S");
+        $("#loading_num3").hide();
+
+        printErrorMsg(data.error);
+      }
+    }
+
+  });
+}
+
+
+//
+window.AssignJunaid = function(url, id, form) {
+  // alert(form);
+
+
+  var rizwan = document.getElementById(form);
+
+
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: new FormData(rizwan), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+    contentType: false, // The content type used when sending data to the server.
+    cache: false, // To unable request pages to be cached
+    processData: false,
+    beforeSend: function () {
+      $("#loading_num2").show();
+      // // $(".request_call").hide();
+      // $('#' + btn).prop('disabled', true);
+    },
+    success: function (data) {
+      if ($.isEmptyObject(data.error)) {
+        $("#loading_num3").hide();
+        $('.btn').prop('disabled', false);
+        // alert(data.success);
+        // window.location.href = data.success;
+        // // window.open = data.success;
+        window.open(data.success, '_blank');
+        setTimeout(() => {
+          // alert(data.success);
+          alert("wait meanwhile we are redirecting you...");
+          // window.location.href = redirect;
+          window.location.href = "https://crm.connectcc.ae/";
+
+        }, 4000);
+      } else {
+        // $('.btn').prop('disabled', false);
+        alert("Pleae coordinate with IT TEAM =>" + data);
+        // $("#loading_num3").hide();
+
+        // printErrorMsg(data.error);
+      }
+      //    alert(msg);
+      //  if (msg == 1) {
+      //      Swal.fire(
+      //          'Good job!',
+      //          'You succesfully assigned lead!',
+      //          'success'
+      //      )
+      //      setTimeout(() => {
+      //         // window.location.href =
+      //         window.location.href = "https://soft.riuman.com/home";
+      //      }, 3000);
+      //         // alert("Thank you for assign lead");
+      //     }else{
+      //         alert("Something wrong Kindly contact IT Team");
+      //     }
+      // $("#loading_num2").hide();
+      // var k = msg.split('###');
+      // $("#dob").val(k[1]);
+      // $("#expiry").val(k[2]);
+      // $("#activation_emirate_expiry").val(k[2]);
+    }
+    // }
+  });
+  // $.ajax({
+  //     type: 'POST',
+  //     url: url,
+  //     data: {
+  //         id: id,
+  //         // partner:partner,
+  //     },
+  //     beforeSend: function () {
+  //         $("#loading_num").show();
+  //         // // $(".request_call").hide();
+  //         // $('#' + btn).prop('disabled', true);
+  //     },
+  //     success: function (data) {
+  //         // alert(data);
+  //         if(data == 1){
+  //             alert("Thank you for assign lead");
+  //         }else{
+  //             alert("Something wrong Kindly contact IT Team");
+  //         }
+
+  //         // $("#loading_num").hide();
+  //         // $("#broom").html(data);
+  //     }
+  // });
+}
+//
+//
+window.test_reject = function(e) {
+  // e.preventDefault();
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Reject it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Swal.fire(
+      //     'Deleted!',
+      //     'Your lead has been rejected.',
+      //     'success'
+      // )
+      $("#RejectMyLead")[0].submit();
+    } else {
+      e.preventDefault();
+    }
+  })
+}
+
+window.search_number_id = function(number) {
+  // alert(form);
+  var url = $("#number_search_url").val();
+  // var number = $("#check").val();
+  // var rizwan = document.getElementById(form);
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: {
+      number,
+      number
+    }, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+    // contentType: false, // The content type used when sending data to the server.
+    // cache: false, // To unable request pages to be cached
+    // processData: false,
+    beforeSend: function () {
+      // $("#request_login" + id).show();
+      // // $(".request_call").hide();
+      // $('#' + btn).prop('disabled', true);
+      $("#loading_num").show();
+    },
+    success: function (msg) {
+      //    alert(msg);
+      $("#mylead").html(msg);
+      // if (msg == 1) {
+      //     $("#loading_num").hide();
+      //     location.reload();
+      // } else {
+      //     alert("Something wrong");
+      // }
+      //  var k = msg.split('###');
+      // // console.log(k[3] + ' ' + $k[4]);
+      //  $("#name").val(k[1]);
+      //  $("#CustomerNameAct").val(k[1]);
+      //  $("#emirate_id").val(k[2]);
+      //  $("#activation_emirate_expiry").val(k[2]);
+      //  $("#application_date").val(k[3] + ' ' + k[4]);
+    }
+    // }
+  });
+  // }
+  // }));
+}
+
+//
+    $('#check').select2({
+      placeholder: 'Please Search Numbers',
+      // dropdownParent: $('#AddSkill'),
+      // tags: true,
+      minimumInputLength: 2,
+      ajax: {
+        url: '/search-number?id=' + $("#check").val(),
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+          return {
+            results: $.map(data, function (item) {
+              return {
+                text: item.number,
+                id: item.number
+              }
+              // alert(item.number);
+            })
+          };
+        }
+      }
+    });
+    $('#checkMailNumber').select2({
+      placeholder: 'Please Search Numbers',
+      // dropdownParent: $('#AddSkill'),
+      // tags: true,
+      minimumInputLength: 2,
+      ajax: {
+        url: '/number-search-mail?id=' + $("#checkMailNumber").val(),
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+          return {
+            results: $.map(data, function (item) {
+              return {
+                text: item.number,
+                id: item.number
+              }
+              // alert(item.number);
+            })
+          };
+        }
+      }
+    });
+    $("#check").on("change", function () {
+      // console.log($(this).val());
+      // console.log()
+      // console.log()
+      search_number_id($(this).val());
+      // console.log($(this).val());
+    });
+    $("#checkMailNumber").on("change", function () {
+      // console.log($(this).val());
+      // console.log()
+      // console.log()
+      search_number_id($(this).val());
+      // console.log($(this).val());
+    });
+    $('#checkleadno').select2({
+      placeholder: 'Please Search Numbers',
+      // dropdownParent: $('#AddSkill'),
+      // tags: true,
+      minimumInputLength: 2,
+      ajax: {
+        url: '/search-lead-number?id=' + $("#check").val(),
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+          return {
+            results: $.map(data, function (item) {
+              return {
+                text: item.number,
+                id: item.number
+              }
+              // alert(item.number);
+            })
+          };
+        }
+      }
+    });
+    $("#checkleadno").on("change", function () {
+      // console.log($(this).val());
+      // console.log()
+      // console.log()
+      search_number_id($(this).val());
+      // console.log($(this).val());
+    });
+    $('#check_customer_number').select2({
+      placeholder: 'Please Search Numbers',
+      // dropdownParent: $('#AddSkill'),
+      // tags: true,
+      minimumInputLength: 2,
+      ajax: {
+        url: '/search-customer-number?id=' + $("#check_customer_number").val(),
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+          return {
+            results: $.map(data, function (item) {
+              return {
+                text: item.number,
+                id: item.number
+              }
+              // alert(item.number);
+            })
+          };
+        }
+      }
+    });
+    $("#check_customer_number").on("change", function () {
+      // console.log($(this).val());
+      // console.log()
+      // console.log()
+      search_number_id($(this).val());
+      // console.log($(this).val());
+    });
+    $('.js-example-basic-single').select2({
+      theme: 'bootstrap4',
+    });

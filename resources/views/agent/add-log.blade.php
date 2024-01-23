@@ -167,9 +167,11 @@
 
                                 <label for="localminutes" class="control-label col-md-3 col-sm-12 col-xs-12">
                                     Call Log Number</label>
-                                    <label for="localminutes" class="control-label col-md-3 col-sm-12 col-xs-12">
+                                <label for="localminutes" class="control-label col-md-3 col-sm-12 col-xs-12">
+                                    Pitch Number</label>
+                                    <label for="localminutes" class="control-label col-md-2 col-sm-12 col-xs-12">
                                         Language</label>
-                                    <label for="localminutes" class="control-label col-md-4 col-sm-12 col-xs-12">
+                                    <label for="localminutes" class="control-label col-md-2 col-sm-12 col-xs-12">
                                         Remarks</label>
                                     </div>
                             {{-- @for($i = 0; $i<=300 ; $i++) --}}
@@ -178,11 +180,26 @@
                              <form class="form-horizontal form-label-left input_mask" method="post"
                                 autocomplete="off" id="call_log_{{$i}}" onsubmit="return false">
                             @csrf
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
 
 
                                 <div class="col-md-3 col-sm-4 col-xs-12 form-group has-feedback">
-                                    <p>
+                                    <p style="margin:0px;">
+                                        {{$item->number}}
+                                        {{-- {{substr_replace($item->number,"0",0,3)}} --}}
+                                    </p>
+                                    <small style="color:red;">Num Gen QTY:                                 {{$provider::MyTotalCount($item->number)}}</small>
+                                    {{-- <p>
+                                        <div class="fa fa-whatsapp" onclick="window.location.href='https://wa.me/923121337222?text=Hello'"> Click WhatsApp</div>
+                                    </p> --}}
+                                    <input class="form-control hidden d-none" placeholder="Customer Number i.e 0551234567" name="number"
+                                maxlength="10" required type="tel"
+                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                onkeypress="return isNumberKey(event)" id="number"
+                                value="{{substr_replace($item->number,"0",0,3)}}" />
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <p style="color:red;">
                                         {{$item->number}}
                                         {{-- {{substr_replace($item->number,"0",0,3)}} --}}
                                     </p>
@@ -197,7 +214,7 @@
                                 </div>
                                 <input type="hidden" name="number_id" value="{{$item->id}}">
                                 <input type="hidden" name="userid" value="{{auth()->user()->id}}">
-                                    <div class="col-md-3"  id="language">
+                                    <div class="col-md-2"  id="language">
 
 
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" >
@@ -209,7 +226,7 @@
                                         </div>
 
                                     </div>
-                                    <div class=" col-md-3" id="remarks_{{$i}}">
+                                    <div class=" col-md-2" id="remarks_{{$i}}">
 
                                         {{-- <label for="localminutes" class="control-label col-md-12 col-sm-12 col-xs-12">
                                             Remarks</label> --}}
@@ -242,7 +259,7 @@
                                     <!--  #7-->
                                     {{-- <div class="ln_solid"></div> --}}
                                     {{-- <div class="form-group"> --}}
-                                    <div class="col-md-3 col-sm-12 col-xs-12 col-md-offset-3">
+                                    <div class="col-md-2 col-sm-12 col-xs-12 col-md-offset-3">
                                     <!-- <button type="button" class="btn btn-primary">Can cel</button> -->
                                     {{-- <button class="btn btn-primary" type="reset">Reset</button> --}}
                                     @if ($item->status != '')

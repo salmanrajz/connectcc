@@ -33,8 +33,8 @@
             <label for="mytypeval">Select Number</label>
 
             <select name="selnumber[]" id="selcnumber" class="form-control NumberDropDown">
-                <option value="1">1</option>
-                <option value="2">2</option>
+                {{-- <option value="1">1</option> --}}
+                {{-- <option value="2">2</option> --}}
             </select>
         </div>
 
@@ -131,11 +131,6 @@
             <input type="button" value="Submit" class="btn btn-success submit_button_new submit_button_on_no"
                 name="upload" id="submit_button"
                 onclick="SavingActivationLead('{{ route('leadstorenew') }}','ActiveForm','{{ route('home') }}')">
-            {{-- <input value="Follow Up" class="btn btn-success follow_up_new" data-toggle="modal" data-target="#myModal" id="follow_up_new" type="button"> --}}
-
-            {{-- <input type="submit" value="Submit" class="btn btn-success  submit_mnp submit_button_on_no" name="upload" id="submit_button">
-                          <input value="Follow Up" class="btn btn-success follow_up_mnp follow_up_new" data-toggle="modal" data-target="#myModalMNP" id="follow_up_new" >
-                          <input type="reset" value="Reset" class="btn btn-primary reset" name="reset" id="reset"> --}}
 
 
         </div>

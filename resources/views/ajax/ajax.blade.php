@@ -72,7 +72,7 @@
 
                     </a>
                     @elseif($item->status == '1.03')
-                    <a href="{{route('lead.edit',$item->id)}}">
+                    <a href="{{route('edit.lead',$item->id)}}">
                         <i class="fa fa-edit"></i>
                     </a>
                     @elseif($item->status == '1.13')

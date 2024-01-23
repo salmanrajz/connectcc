@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\numberdetail;
+use App\Models\numberdetail;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;

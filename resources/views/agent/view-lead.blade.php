@@ -99,8 +99,22 @@
                             {{$item->status}}
                         </td>
                         <td>
-                            <i class="fa fa-pencil red" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"></i>
-                            <i class="fa fa-eye green"></i>
+                            @if($item->status == 'Non Verified')
+                                                <a href="{{route('edit.lead',$item->id)}}">
+                                                <i class="fa fa-edit"></i>
+                                                </a>
+                                                @elseif($item->status == '1.13')
+                                                 <a href="{{route('re-verification.lead_generate',$item->id)}}">
+                                                <i class="fa fa-edit"></i>
+                                                </a>
+                                                @else
+                                                {{-- <td> --}}
+                                                    <a href="{{route('view.lead',$item->id)}}" data-toggle="tooltip" title="View Lead Details">
+                                                        {{-- View remarks --}}
+                                                            <i class="fa fa-eye display-6" style="color:green;"></i>
+                                                    </a>
+                                                {{-- </td> --}}
+                                                @endif
                         </td>
                     </tr>
                     @endforeach

@@ -3,7 +3,7 @@
         <div class="content-side">
           <ul class="nav-main">
             <li class="nav-main-item">
-              <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
+              <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}" href="{{route('home')}}">
                 <i class="nav-main-link-icon si si-cursor"></i>
                 <span class="nav-main-link-name">Dashboard</span>
               </a>
@@ -67,7 +67,7 @@
             </li>
             <li class="nav-main-heading">Number Pool</li>
             <li class="nav-main-item open">
-              <a class="nav-main-link" href="/">
+              <a class="nav-main-link" href="{{route('number-system')}}">
                 <i class="nav-main-link-icon si si-globe"></i>
                 <span class="nav-main-link-name">New Number Pool</span>
               </a>
@@ -84,6 +84,48 @@
               <a class="nav-main-link" href="{{route('view.users')}}">
                 <i class="nav-main-link-icon si si-globe"></i>
                 <span class="nav-main-link-name">Users</span>
+              </a>
+            </li>
+            @endif
+            {{-- {{auth()->user()->role}} --}}
+            @if(auth()->user()->role == 'Cordination')
+            <li class="nav-main-item open">
+              <a class="nav-main-link" href="{{route('request-agent.index')}}">
+                <i class="nav-main-link-icon si si-globe"></i>
+                <span class="nav-main-link-name">Request Agent</span>
+              </a>
+            </li>
+            <li class="nav-main-heading">Number Pool</li>
+            <li class="nav-main-item open">
+              <a class="nav-main-link" href="{{route('number-system')}}">
+                <i class="nav-main-link-icon si si-globe"></i>
+                <span class="nav-main-link-name">New Number Pool</span>
+              </a>
+            </li>
+            <li class="nav-main-item">
+                  <a class="nav-main-link{{ route('admin.ourlead') ? ' active' : '' }}" href="{{route('admin.ourlead')}}">
+                    <span class="nav-main-link-name">View All Leads</span>
+                  </a>
+                </li>
+
+            @endif
+            @if(auth()->user()->role == 'Emirate Coordinator' || auth()->user()->role == 'MainCoordinator' || auth()->user()->role == 'Admin' || auth()->user()->role == 'MainAdmin')
+            <li class="nav-main-item open">
+              <a class="nav-main-link" href="{{route('checknumber.status')}}">
+                <i class="nav-main-link-icon si si-globe"></i>
+                <span class="nav-main-link-name">Check Number</span>
+              </a>
+            </li>
+            <li class="nav-main-item open">
+              <a class="nav-main-link" href="{{route('checkcustomernumber.status')}}">
+                <i class="nav-main-link-icon si si-globe"></i>
+                <span class="nav-main-link-name">Check Customer Number</span>
+              </a>
+            </li>
+            <li class="nav-main-item open">
+              <a class="nav-main-link" href="{{route('checkleadnumber.status')}}">
+                <i class="nav-main-link-icon si si-globe"></i>
+                <span class="nav-main-link-name">Check Lead Status</span>
               </a>
             </li>
             @endif

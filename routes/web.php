@@ -45,6 +45,7 @@ Route::post('CheckPackageName', [App\Http\Controllers\AjaxController::class, 'Ch
 
 // Route::get('/skill-auto-complete', 'AjaxController@dataAjax')->name('skill-auto-complete')->middleware('auth');
 Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
+    Route::get('/add-users', [App\Http\Controllers\UserController::class, 'AddUsers'])->name('add.users');
     Route::get('/view-users', [App\Http\Controllers\UserController::class, 'viewusers'])->name('view.users');
     Route::get('/delete-user', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
     Route::get('/edit-user/{id}', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
@@ -54,6 +55,25 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
     Route::get('/UserLog/{id}', [App\Http\Controllers\ExportController::class, 'UserLog'])->name('UserLog');
     Route::get('/AgentMonthlySale/{id}', [App\Http\Controllers\UserController::class, 'AgentMonthlySale'])->name('AgentMonthlySale');
     Route::post('/AssignUser', [App\Http\Controllers\UserController::class, 'AssignUser'])->name('user.assign.data');
+    Route::post('/UserStore', [App\Http\Controllers\UserController::class, 'UserStore'])->name('admin.user.store');
+
+    //
+    Route::get('MainReport/{channel}', 'App\Http\Controllers\ReportController@DailyReport')->name('daily.report');
+    Route::get('PreviousReport/{channel}', 'App\Http\Controllers\ReportController@PreviousReport')->name('previous.report');
+    Route::get('DailyReport-{slug}', 'App\Http\Controllers\ReportController@DailyReportCallCenter')->name('daily.report.callcenter');
+    Route::get('NewMainReport/{channel}', 'App\Http\Controllers\ReportController@NewDailyReport')->name('NewDailyReport');
+    Route::get('MonthlySummary-{slug}', 'App\Http\Controllers\ReportController@MonthlyReportCallCenter')->name('daily.report.summary');
+    Route::get('/myactivation/{slug}', 'App\Http\Controllers\ReportController@myactivation')->name('myactivation')->middleware('auth');
+    Route::get('pending-agent', '\App\Http\Controllers\AgentController@pendinguser')->name('pending.agent');
+    Route::post('Approved-User', '\App\Http\Controllers\AgentController@approved')->name('approved.user')->middleware('auth');
+    Route::get('/agent-proceed-assigned/{id}', '\App\Http\Controllers\CoordinaterController@agent_assigned')->name('agent_assigned')->middleware('auth');
+    Route::get('available-export', '\App\Http\Controllers\ExportController@available_export')->name('available.export')->middleware('auth');
+
+
+
+
+    //
+
 
     // Route::get('/dnc-checker-number', 'ImportExcelController@dnc_checker_number')->name('dnc_checker_number')->middleware('auth');
     // Route::post('/dnc-checker-number-new', 'ImportExcelController@dnc_checker_number_new')->name('dnc.checker.number.list')->middleware('auth');
@@ -64,6 +84,10 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
 
 });
 Route::group(['prefix' => 'Coordination','middleware'=>'auth'], function () {
+    Route::get('add-request-agent', [App\Http\Controllers\AjaxController::class, 'AddRequestAgent'])->name('request-agent.index');
+    Route::post('RequestAgentStore', [App\Http\Controllers\AjaxController::class, 'RequestAgentStore'])->name('RequestAgentStore');
+});
+Route::group(['prefix' => 'Coordination','middleware'=>'auth'], function () {
     Route::post('LoadMainCordData', [App\Http\Controllers\AjaxController::class, 'LoadMainCordData'])->name('admin.LoadMainCordData');
     Route::get('time-out', [App\Http\Controllers\CoordinaterController::class, 'timeout'])->name('time.out');
     Route::get('appointment', [App\Http\Controllers\CoordinaterController::class, 'appointment_lead'])->name('appointment');
@@ -72,7 +96,7 @@ Route::group(['prefix' => 'Coordination','middleware'=>'auth'], function () {
     Route::get('my-lead-daily', [App\Http\Controllers\CoordinaterController::class, 'myproceedleaddaily'])->name('my.proceed.daily');
     Route::get('follow-up-combine', [App\Http\Controllers\CoordinaterController::class, 'followupcombine'])->name('followup.combine');
     Route::get('follow-up-combine-daily', [App\Http\Controllers\CoordinaterController::class, 'followupcombinedaily'])->name('followup.combine.today');
-    Route::get('total-active-lead', [App\Http\Controllers\CoordinaterController::class, 'totalactivelead'])->name('total-active-lead');
+    Route::get('total-active-lead', [App\Http\Controllers\ActivationController::class, 'totalactivelead'])->name('total-active-lead');
     Route::get('total-active-lead-daily', [App\Http\Controllers\CoordinaterController::class, 'totalactiveleaddaily'])->name('total-active-lead.daily');
     Route::get('total-reject-lead', [App\Http\Controllers\CoordinaterController::class, 'totalrejectlead'])->name('total-reject-daily');
     Route::get('total-reject-lead-daily', [App\Http\Controllers\CoordinaterController::class, 'totalrejectleaddaily'])->name('total-reject-lead-daily');
@@ -91,6 +115,7 @@ Route::group(['prefix' => 'Coordination','middleware'=>'auth'], function () {
     Route::post('update-time', [App\Http\Controllers\AjaxController::class, 'update_time'])->name('update.time');
     Route::get('add-activation/{id}', [App\Http\Controllers\ActivationController::class, 'AddActivation'])->name('activation.edit');
     Route::get('ActivationFollow', [App\Http\Controllers\AjaxController::class, 'ActivationFollow'])->name('activation.follow');
+    Route::post('lead-location-store', [App\Http\Controllers\AjaxController::class, 'leadlocationstore'])->name('lead-location.store');
     // Route::get('ActivationFollow', 'AjaxController@ActivationFollow')->name('activation.follow')->middleware('role:Admin|superAdmin');
     //
 
@@ -103,13 +128,40 @@ Route::group(['prefix' => 'Coordination','middleware'=>'auth'], function () {
     Route::post('LaterLead', [App\Http\Controllers\AjaxController::class, 'LaterLead'])->name('LaterLead');
     // Route::get('/manage-cordination/{id}', 'AjaxController@manage_cordinator')->name('manage-cordination')->middleware('auth');
 
+    Route::get('/emirate-time-out', '\App\Http\Controllers\CoordinaterController@emiratetimeout')->name( 'emirate.time.out')->middleware('auth');
+    Route::get('/emirate-appointment', '\App\Http\Controllers\CoordinaterController@emirate_appointment_lead')->name('emirate.appointment')->middleware('auth');
+    Route::get('/emirate-proceed/{id}', '\App\Http\Controllers\CoordinaterController@emirate')->name('emirate-cordination')->middleware('auth');
+    Route::get('/emirate-proceed-assigned/{id}', '\App\Http\Controllers\CoordinaterController@emirate_assigned')->name('emirate-cordination-proceed')->middleware('auth');
     // Route::post('LaterLead', 'AjaxController@LaterLead')->name('LaterLead')->middleware('auth');
     //
+        Route::get('/emirate-total-active-lead-daily', '\App\Http\Controllers\ActivationController@emiratetotalactiveleaddaily')->name('emirate.total-active-lead.daily')->middleware('auth');
+    Route::get('/emirate-total-reject-lead-daily', '\App\Http\Controllers\ActivationController@emiratetotalrejectleaddaily')->name('emirate.total-reject-lead-daily')->middleware('auth');
+    Route::get('/emirate-total-reverify-lead-daily', '\App\Http\Controllers\ActivationController@emiratetotalreverifyleaddaily')->name('emirate.total-reverify-lead-daily')->middleware('auth');
+    Route::get('/emirate-proceed-lead-daily', '\App\Http\Controllers\CoordinaterController@emirate_agent_proceed_lead_daily')->name('emirate.activation.proceed.daily')->middleware('auth');
+    Route::get('/emirate-later-lead-today', '\App\Http\Controllers\CoordinaterController@emirate_later_lead_today')->name('emirate.laterlead.today')->middleware('auth');
+    Route::get('/emirate-my-lead-daily', '\App\Http\Controllers\CoordinaterController@emiratemyproceedleaddaily')->name('emirate.my.proceed.daily')->middleware('auth');
+    Route::get('/emirate-my-lead-yesterday', '\App\Http\Controllers\CoordinaterController@emiratemyproceedleadyesterday')->name('emirate.my.proceed.yesterday')->middleware('auth');
+    Route::get('/emirate-follow-up-combine-daily', '\App\Http\Controllers\CoordinaterController@emiratefollowupcombinedaily')->name('emirate.followup.combine.today');
     // Route::get('/proceed-lead-daily', 'CoordinaterController@agent_proceed_lead_daily')->name('activation.proceed.daily')->middleware('auth');
 
     //
     // Route::get('/my-lead-yesterday', 'CoordinaterController@myproceedleadyesterday')->name('my.proceed.yesterday')->middleware('auth');
     // Route::get('/later-lead-all', 'CoordinaterController@later_lead_all')->name('laterlead.all')->middleware('auth');
+    Route::get('/checknumber', '\App\Http\Controllers\MainController@checknumber')->name('checknumber.status')->middleware('auth');
+    Route::get('/checkleadnumber', '\App\Http\Controllers\MainController@checkleadnumber')->name('checkleadnumber.status')->middleware('auth');
+    Route::get('/checkreservednumber', '\App\Http\Controllers\MainController@checkreservednumber')->name('checkreservednumber.status')->middleware('auth');
+    Route::get('/checkcustomernumber', '\App\Http\Controllers\MainController@checkcustomernumber')->name('checkcustomernumber.status')->middleware('auth');
+    Route::get('/checknumberoriginal', '\App\Http\Controllers\MainController@checknumberoriginal')->name('checknumberoriginal.status')->middleware('auth');
+
+    Route::post('number-search', '\App\Http\Controllers\AjaxController@number_search_lead')->name('number.search.lead');
+    Route::post('number-search-original', '\App\Http\Controllers\AjaxController@number_original_lead')->name('number.original.lead');
+    Route::post('number-search-original-reserved', '\App\Http\Controllers\AjaxController@number_original_lead_reserved')->name('number.original.lead.reserved');
+    Route::post('number-save-reserved', '\App\Http\Controllers\AjaxController@numbersavereserved')->name('numbersavereserved');
+    Route::post('number-reserved-search', '\App\Http\Controllers\AjaxController@number_reserved_search_lead')->name('number.reserved.search.lead');
+    Route::post('customer-number-search', '\App\Http\Controllers\AjaxController@customer_number_search_lead')->name('customernumber.search.lead');
+
+    //
+
 
 
     //
@@ -199,11 +251,13 @@ Route::group(['prefix' => 'Coordination','middleware'=>'auth'], function () {
     Route::get('ourgroupleads-daily/{id}/channel/{channel}/call_center/{call_center}', [
         'as' => 'OurshowCampaignProductDetailsDaily', 'uses' => 'App\Http\Controllers\AjaxController@OurShowGroupLeadsDaily'
     ]);
-    Route::get('/add-location-lead', [App\Http\Controllers\CoordinaterController::class, 'CordinationLead'])->name('verification.add-location-lead');
+    Route::get('/add-location-lead/{id}', [App\Http\Controllers\CoordinaterController::class, 'CordinationLead'])->name('verification.add-location-lead');
     Route::get('/add-re-process/{id}', [App\Http\Controllers\CoordinaterController::class, 'reprocess_CordinationLead'])->name('cord.add-location-lead');
     Route::post('/reprocess-group', [App\Http\Controllers\AgentController::class, 'reprocessgroup'])->name('reprocess.group');
-    Route::post('/lead-location-store', [App\Http\Controllers\AgentController::class, 'leadlocationstore'])->name('lead-location.store');
+    Route::post('/emirate-proceed-lead', [App\Http\Controllers\AgentController::class, 'emirate_proceed_lead'])->name('emirate.proceed.lead');
+    // Route::post('/lead-location-store', [App\Http\Controllers\AgentController::class, 'leadlocationstore'])->name('lead-location.store');
     Route::post('/leadrejectedAgent', [App\Http\Controllers\AjaxController::class, 'leadreject'])->name('lead.rejected');
+    Route::get('/re-follow-edit/{id}', '\App\Http\Controllers\AgentController@ReFollowEdit')->name('lead.re-follow-process')->middleware('auth');
     // Route::get('/add-location-lead/{id}', 'CoordinaterController@CordinationLead')->name('verification.add-location-lead')->middleware('auth');
     // lead.rejected
     // Route::post('leadrejectedAgent', 'AjaxController@leadreject')->name('lead.rejected');
@@ -219,6 +273,7 @@ Route::group(['prefix' => 'Agent','middleware'=>'auth'], function () {
     Route::post('/customer-number-checker', [App\Http\Controllers\NumberController::class, 'customer_number_checker'])->name('number.tester');
     Route::get('customer-number-dtl/{slug}', [App\Http\Controllers\NumberController::class, 'customer_number_dtl'])->name('customer.number.dtl');
     Route::post('/lead-store-new', [App\Http\Controllers\AjaxController::class, 'leadstorenew'])->name('leadstorenew');
+    Route::post('/lead-update-new', [App\Http\Controllers\AjaxController::class, 'leadupdatenew'])->name('leadupdatenew');
     Route::post('/PlanType', [App\Http\Controllers\AjaxController::class, 'PlanType'])->name('ajaxRequest.PlanType');
 
     Route::get('/view-lead/{id}', [App\Http\Controllers\AgentController::class, 'viewlead'])->name('view.lead');
@@ -246,6 +301,9 @@ Route::group(['prefix' => 'Agent','middleware'=>'auth'], function () {
     Route::post('add-dnc', [App\Http\Controllers\NumberController::class, 'submit_dnc_number'])->name('submit_dnc_number');
     Route::post('ChatRequest', [App\Http\Controllers\ChatController::class, 'ChatPost'])->name('chat.post');
     // Route::post('ChatRequest', 'ChatController@ChatPost')->name('chat.post');
+    Route::get('/ourlead', '\App\Http\Controllers\AgentController@ourlead')->name('admin.ourlead')->middleware('auth');
+    Route::post('/ourlead-ajax', '\App\Http\Controllers\AgentController@our_lead_ajax')->name('ourlead.ajax')->middleware('auth');
+
 
     // Route::get('/add-dnc-number-agent', 'ImportExcelController@dnc_add_number_agent')->name('add.dnc.number.agent')->middleware('auth');
     // Route::post('/add-dnc', 'NumberController@submit_dnc_number')->name('submit_dnc_number')->middleware('auth');
@@ -279,7 +337,7 @@ Route::group(['prefix' => 'Agent','middleware'=>'auth'], function () {
     Route::post('NumberByType2', [App\Http\Controllers\AjaxController::class, 'NumberByType2'])->name('ajaxRequest.NumberByType2');
     Route::post('ReservedNum', [App\Http\Controllers\AjaxController::class, 'ReservedNum'])->name('ajaxRequest.ReservedNum');
     Route::get('guest-res', [App\Http\Controllers\AjaxController::class, 'guest_res'])->name('guest-res');
-    Route::post('BookNUm', [App\Http\Controllers\AjaxController::class, 'BookNUm'])->name('BookNUm');
+    Route::post('BookNUm', [App\Http\Controllers\AjaxController::class, 'BookNUm'])->name('ajaxRequest.BookNum');
     Route::post('RevNum', [App\Http\Controllers\AjaxController::class, 'RevNum'])->name('ajaxRequest.RevNum');
     Route::post('RemoveRevive', [App\Http\Controllers\AjaxController::class, 'RemoveRevive'])->name('Remove.RevNum');
     Route::post('HoldNum', [App\Http\Controllers\AjaxController::class, 'HoldNum'])->name('ajaxRequest.HoldNum');
@@ -302,7 +360,7 @@ Route::group(['prefix' => 'Agent','middleware'=>'auth'], function () {
 });
 
 
-Route::get('ImportExcel', [App\Http\Controllers\ImportExcelController::class, 'ImportExcel'])->name('ImportExcel');
+Route::get('ImportExcel', [App\Http\Controllers\ImportExcelController::class, 'index'])->name('ImportExcel');
 Route::post('import', [App\Http\Controllers\ImportExcelController::class, 'import'])->name('import.excel');
 Route::get('logout', [App\Http\Controllers\FunctionController::class, 'logout'])->name('logout');
 // Route::get('/logout', 'Auth\LoginController@logout');
@@ -312,3 +370,11 @@ Route::get('logout', [App\Http\Controllers\FunctionController::class, 'logout'])
 
 //     return Redirect::to('/');
 // })->name('logout');
+Route::get('/search-number', '\App\Http\Controllers\AjaxController@search_number')->name('search-number')->middleware('auth');
+Route::get('/search-customer-number', '\App\Http\Controllers\AjaxController@search_customer_number')->name('search-number')->middleware('auth');
+Route::get('/search-lead-number', '\App\Http\Controllers\AjaxController@search_lead_number')->name('search-number')->middleware('auth');
+Route::post('lead-search', '\App\Http\Controllers\AjaxController@lead_search')->name('lead.no.search')->middleware('auth');
+Route::post('ManagerReject', '\App\Http\Controllers\AjaxController@ManagerReject')->name('ajaxRequest.ManagerReject')->middleware('auth');
+Route::post('numbersystemstore', '\App\Http\Controllers\AjaxController@numbersystemstore')->name('number-system.store')->middleware('auth');
+Route::post('NumberEdit', '\App\Http\Controllers\AjaxController@NumberEdit')->name('NumberEdit');
+

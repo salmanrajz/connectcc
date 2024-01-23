@@ -583,16 +583,16 @@ class ActivationController extends Controller
                 }
                 $k = activation_form::create([
                     'cust_id' => $request->lead_id,
-                    'lead_no' => $request->lead_no,
+                    'lead_no' => $request->lead_id,
                     'lead_id' => $request->lead_id,
-                    'verification_id' => $request->verification_id,
+                    'verification_id' => $request->ver_id,
                     'customer_name' => $request->cname,
                     'customer_number' => $request->cnumber,
                     'age' => $request->age,
                     'gender' => $request->gender,
                     'nationality' => $request->nation,
                     'language' => $request->language,
-                    'original_emirate_id' => $request->emirate_id,
+                    'original_emirate_id' => 'Yes',
                     // 'emirate_number' => $request->customer_name,
                     'additional_documents' => $request->additional_document,
                     'sim_type' => $request->simtype,
@@ -624,7 +624,7 @@ class ActivationController extends Controller
                     'activation_screenshot' => $name,
 
                     'saler_id' => $request->saler_id,
-                    'channel_type' => $request->channel_type,
+                    'channel_type' => 'ConnectCC',
                     // 'later' => $request->customer_name,
                     // 'recording' => $request->customer_name,
                     // 'assing_to' => $request->customer_name,
@@ -679,7 +679,7 @@ class ActivationController extends Controller
 
                 $details = [
                     'lead_id' => $request->lead_id,
-                    'lead_no' => $request->lead_no,
+                    'lead_no' => $request->lead_id,
                     'customer_name' =>  $request->cname,
                     'customer_number' => $request->cnumber,
                     'selected_number' => $request['activation_selected_no'][$key],
@@ -702,8 +702,8 @@ class ActivationController extends Controller
                 \Mail::to($to)
                     ->cc(['salmanahmed334@gmail.com'])
                     // ->queue(new App\Models\Mail\ActivationMail($details));
-                    ->queue(new \App\Models\Mail\ActivationMail($details, $subject));
-                \App\Models\Http\Controllers\WhatsAppController::ActivationWhatsApp($details);
+                    ->queue(new \App\Mail\ActivationMail($details, $subject));
+                \App\Http\Controllers\WhatsAppController::ActivationWhatsApp($details);
             }
 
 
@@ -977,16 +977,16 @@ class ActivationController extends Controller
             }
             $k = activation_form::create([
                 'cust_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'lead_id' => $request->lead_id,
-                'verification_id' => $request->verification_id,
+                'verification_id' => $request->ver_id,
                 'customer_name' => $request->cname,
                 'customer_number' => $request->cnumber,
                 'age' => $request->age,
                 'gender' => $request->gender,
                 'nationality' => $request->nation,
                 'language' => $request->language,
-                'original_emirate_id' => $request->emirate_id,
+                'original_emirate_id' => 'Yes',
                 // 'emirate_number' => $request->customer_name,
                 'additional_documents' => $request->additional_document,
                 'sim_type' => $request->simtype,
@@ -1016,7 +1016,7 @@ class ActivationController extends Controller
                 'emirate_id_back' => $back_id,
                 'activation_screenshot' => $name,
                 'saler_id' => $request->saler_id,
-                'channel_type' => $request->channel_type,
+                'channel_type' => 'ConnectCC',
                 // 'later' => $request->customer_name,
                 // 'recording' => $request->customer_name,
                 // 'assing_to' => $request->customer_name,
@@ -1032,16 +1032,16 @@ class ActivationController extends Controller
 
             // $k = activation_form::create([
             //     'cust_id' => $request->lead_id,
-            //     'lead_no' => $request->lead_no,
+            //     'lead_no' => $request->lead_id,
             //     'lead_id' => $request->lead_id,
-            //     'verification_id' => $request->verification_id,
+            //     'verification_id' => $request->ver_id,
             //     'customer_name' => $request->cname,
             //     'customer_number' => $request->cnumber,
             //     'age' => $request->age,
             //     'gender' => $request->gender,
             //     'nationality' => $request->nation,
             //     'language' => $request->language,
-            //     'original_emirate_id' => $request->emirate_id,
+            //     'original_emirate_id' => 'Yes',
             //     // 'emirate_number' => $request->customer_name,
             //     'additional_documents' => $request->additional_document_activation,
             //     'sim_type' => $request->simtype,
@@ -1200,7 +1200,7 @@ class ActivationController extends Controller
             //
             $details = [
                 'lead_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'customer_name' =>  $request->cname,
                 'customer_number' => $request->cnumber,
                 'selected_number' => $request->activation_selected_no,
@@ -1413,16 +1413,16 @@ class ActivationController extends Controller
             }
             $k = activation_form::create([
                 'cust_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'lead_id' => $request->lead_id,
-                'verification_id' => $request->verification_id,
+                'verification_id' => $request->ver_id,
                 'customer_name' => $request->cname,
                 'customer_number' => $request->cnumber,
                 'age' => $request->age,
                 'gender' => $request->gender,
                 'nationality' => $request->nation,
                 'language' => $request->language,
-                'original_emirate_id' => $request->emirate_id,
+                'original_emirate_id' => 'Yes',
                 // 'emirate_number' => $request->customer_name,
                 'additional_documents' => $request->additional_document,
                 'sim_type' => $request->simtype,
@@ -1452,7 +1452,7 @@ class ActivationController extends Controller
                 'emirate_id_back' => $back_id,
                 'activation_screenshot' => $name,
                 'saler_id' => $request->saler_id,
-                'channel_type' => $request->channel_type,
+                'channel_type' => 'ConnectCC',
                 // 'later' => $request->customer_name,
                 // 'recording' => $request->customer_name,
                 // 'assing_to' => $request->customer_name,
@@ -1468,16 +1468,16 @@ class ActivationController extends Controller
 
             // $k = activation_form::create([
             //     'cust_id' => $request->lead_id,
-            //     'lead_no' => $request->lead_no,
+            //     'lead_no' => $request->lead_id,
             //     'lead_id' => $request->lead_id,
-            //     'verification_id' => $request->verification_id,
+            //     'verification_id' => $request->ver_id,
             //     'customer_name' => $request->cname,
             //     'customer_number' => $request->cnumber,
             //     'age' => $request->age,
             //     'gender' => $request->gender,
             //     'nationality' => $request->nation,
             //     'language' => $request->language,
-            //     'original_emirate_id' => $request->emirate_id,
+            //     'original_emirate_id' => 'Yes',
             //     // 'emirate_number' => $request->customer_name,
             //     'additional_documents' => $request->additional_document_activation,
             //     'sim_type' => $request->simtype,
@@ -1620,7 +1620,7 @@ class ActivationController extends Controller
             Session::forget('sr_no');
             $details = [
                 'lead_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'customer_name' =>  $request->cname,
                 'customer_number' => $request->cnumber,
                 'selected_number' => $request->cnumber,
@@ -1767,16 +1767,16 @@ class ActivationController extends Controller
                 }
                 $k = activation_form::create([
                     'cust_id' => $request->lead_id,
-                    'lead_no' => $request->lead_no,
+                    'lead_no' => $request->lead_id,
                     'lead_id' => $request->lead_id,
-                    'verification_id' => $request->verification_id,
+                    'verification_id' => $request->ver_id,
                     'customer_name' => $request->cname,
                     'customer_number' => $request->cnumber,
                     'age' => $request->age,
                     'gender' => $request->gender,
                     'nationality' => $request->nation,
                     'language' => $request->language,
-                    'original_emirate_id' => $request->emirate_id,
+                    'original_emirate_id' => 'Yes',
                     // 'emirate_number' => $request->customer_name,
                     'additional_documents' => $request->additional_document,
                     'sim_type' => $request->simtype,
@@ -1808,7 +1808,7 @@ class ActivationController extends Controller
                     'activation_screenshot' => $name,
 
                     'saler_id' => $request->saler_id,
-                    'channel_type' => $request->channel_type,
+                    'channel_type' => 'ConnectCC',
                     // 'later' => $request->customer_name,
                     // 'recording' => $request->customer_name,
                     // 'assing_to' => $request->customer_name,
@@ -1863,7 +1863,7 @@ class ActivationController extends Controller
 
                 $details = [
                     'lead_id' => $request->lead_id,
-                    'lead_no' => $request->lead_no,
+                    'lead_no' => $request->lead_id,
                     'customer_name' =>  $request->cname,
                     'customer_number' => $request->cnumber,
                     'selected_number' => $request->cnumber,
@@ -1886,8 +1886,8 @@ class ActivationController extends Controller
                 \Mail::to($to)
                     ->cc(['salmanahmed334@gmail.com'])
                     // ->queue(new App\Models\Mail\ActivationMail($details));
-                    ->queue(new \App\Models\Mail\ActivationMail($details, $subject));
-                            \App\Models\Http\Controllers\WhatsAppController::ActivationWhatsApp($details);
+                    ->queue(new \App\Mail\ActivationMail($details, $subject));
+                            \App\Http\Controllers\WhatsAppController::ActivationWhatsApp($details);
             }
 
             // return "zom";
@@ -2159,16 +2159,16 @@ class ActivationController extends Controller
             }
             $k = activation_form::create([
                 'cust_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'lead_id' => $request->lead_id,
-                'verification_id' => $request->verification_id,
+                'verification_id' => $request->ver_id,
                 'customer_name' => $request->cname,
                 'customer_number' => $request->cnumber,
                 'age' => $request->age,
                 'gender' => $request->gender,
                 'nationality' => $request->nation,
                 'language' => $request->language,
-                'original_emirate_id' => $request->emirate_id,
+                'original_emirate_id' => 'Yes',
                 // 'emirate_number' => $request->customer_name,
                 'additional_documents' => $request->additional_document,
                 'sim_type' => $request->simtype,
@@ -2198,7 +2198,7 @@ class ActivationController extends Controller
                 'emirate_id_back' => $back_id,
                 'activation_screenshot' => $name,
                 'saler_id' => $request->saler_id,
-                'channel_type' => $request->channel_type,
+                'channel_type' => 'ConnectCC',
                 // 'later' => $request->customer_name,
                 // 'recording' => $request->customer_name,
                 // 'assing_to' => $request->customer_name,
@@ -2214,16 +2214,16 @@ class ActivationController extends Controller
 
             // $k = activation_form::create([
             //     'cust_id' => $request->lead_id,
-            //     'lead_no' => $request->lead_no,
+            //     'lead_no' => $request->lead_id,
             //     'lead_id' => $request->lead_id,
-            //     'verification_id' => $request->verification_id,
+            //     'verification_id' => $request->ver_id,
             //     'customer_name' => $request->cname,
             //     'customer_number' => $request->cnumber,
             //     'age' => $request->age,
             //     'gender' => $request->gender,
             //     'nationality' => $request->nation,
             //     'language' => $request->language,
-            //     'original_emirate_id' => $request->emirate_id,
+            //     'original_emirate_id' => 'Yes',
             //     // 'emirate_number' => $request->customer_name,
             //     'additional_documents' => $request->additional_document_activation,
             //     'sim_type' => $request->simtype,
@@ -2382,7 +2382,7 @@ class ActivationController extends Controller
             //
             $details = [
                 'lead_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'customer_name' =>  $request->cname,
                 'customer_number' => $request->cnumber,
                 'selected_number' => $request->cnumber,
@@ -2598,16 +2598,16 @@ class ActivationController extends Controller
             // return $name;
             $k = activation_form::create([
                 'cust_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'lead_id' => $request->lead_id,
-                'verification_id' => $request->verification_id,
+                'verification_id' => $request->ver_id,
                 'customer_name' => $request->cname,
                 'customer_number' => $request->cnumber,
                 'age' => $request->age,
                 'gender' => $request->gender,
                 'nationality' => $request->nation,
                 'language' => $request->language,
-                'original_emirate_id' => $request->emirate_id,
+                'original_emirate_id' => 'Yes',
                 // 'emirate_number' => $request->customer_name,
                 'additional_documents' => $request->additional_document,
                 'sim_type' => $request->simtype,
@@ -2637,7 +2637,7 @@ class ActivationController extends Controller
                 'emirate_id_back' => $back_id,
                 'activation_screenshot' => $name,
                 'saler_id' => $request->saler_id,
-                'channel_type' => $request->channel_type,
+                'channel_type' => 'ConnectCC',
                 // 'later' => $request->customer_name,
                 // 'recording' => $request->customer_name,
                 // 'assing_to' => $request->customer_name,
@@ -2653,16 +2653,16 @@ class ActivationController extends Controller
 
             // $k = activation_form::create([
             //     'cust_id' => $request->lead_id,
-            //     'lead_no' => $request->lead_no,
+            //     'lead_no' => $request->lead_id,
             //     'lead_id' => $request->lead_id,
-            //     'verification_id' => $request->verification_id,
+            //     'verification_id' => $request->ver_id,
             //     'customer_name' => $request->cname,
             //     'customer_number' => $request->cnumber,
             //     'age' => $request->age,
             //     'gender' => $request->gender,
             //     'nationality' => $request->nation,
             //     'language' => $request->language,
-            //     'original_emirate_id' => $request->emirate_id,
+            //     'original_emirate_id' => 'Yes',
             //     // 'emirate_number' => $request->customer_name,
             //     'additional_documents' => $request->additional_document_activation,
             //     'sim_type' => $request->simtype,
@@ -2821,7 +2821,7 @@ class ActivationController extends Controller
             Session::forget('sr_no');
             // $details = [
             //     'lead_id' => $request->lead_id,
-            //     'lead_no' => $request->lead_no,
+            //     'lead_no' => $request->lead_id,
             //     'customer_name' =>  $request->cname,
             //     'customer_number' => $request->cnumber,
             //     'selected_number' => $request->cnumber,
@@ -2873,7 +2873,7 @@ class ActivationController extends Controller
             //
             $details = [
                 'lead_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'customer_name' =>  $request->cname,
                 'customer_number' => $request->cnumber,
                 'selected_number' => $request->cnumber,
@@ -3004,16 +3004,16 @@ class ActivationController extends Controller
         }
         $k = activation_form::create([
             'cust_id' => $request->lead_id,
-            'lead_no' => $request->lead_no,
+            'lead_no' => $request->lead_id,
             'lead_id' => $request->lead_id,
-            'verification_id' => $request->verification_id,
+            'verification_id' => $request->ver_id,
             'customer_name' => $request->cname,
             'customer_number' => $request->cnumber,
             'age' => $request->age,
             'gender' => $request->gender,
             'nationality' => $request->nation,
             'language' => $request->language,
-            'original_emirate_id' => $request->emirate_id,
+            'original_emirate_id' => 'Yes',
             // 'emirate_number' => $request->customer_name,
             'additional_documents' => $request->additional_document,
             'sim_type' => $request->simtype,
@@ -3194,7 +3194,7 @@ class ActivationController extends Controller
     //
     public function AddActivation(activation_form $plan, $id)
     {
-        return phpinfo();
+        // return phpinfo();
         //
         // return $plan;
 
@@ -3259,7 +3259,7 @@ class ActivationController extends Controller
     public function ActivationStore(Request $request)
     {
         //
-        return $request;
+        // return $request;
         if ($request->reverify_remarks != '') {
             // return $request;
             $d = lead_sale::findOrFail($request->lead_id);
@@ -3491,16 +3491,16 @@ class ActivationController extends Controller
             }
             $k = activation_form::create([
                 'cust_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'lead_id' => $request->lead_id,
-                'verification_id' => $request->verification_id,
+                'verification_id' => $request->ver_id,
                 'customer_name' => $request->cname,
                 'customer_number' => $request->cnumber,
                 'age' => $request->age,
                 'gender' => $request->gender,
                 'nationality' => $request->nation,
                 'language' => $request->language,
-                'original_emirate_id' => $request->emirate_id,
+                'original_emirate_id' => 'Yes',
                 // 'emirate_number' => $request->customer_name,
                 'additional_documents' => $request->additional_document,
                 'sim_type' => $request->simtype,
@@ -3636,16 +3636,16 @@ class ActivationController extends Controller
 
             $k = activation_form::create([
                 'cust_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'lead_id' => $request->lead_id,
-                'verification_id' => $request->verification_id,
+                'verification_id' => $request->ver_id,
                 'customer_name' => $request->cname,
                 'customer_number' => $request->cnumber,
                 'age' => $request->age,
                 'gender' => $request->gender,
                 'nationality' => $request->nation,
                 'language' => $request->language,
-                'original_emirate_id' => $request->emirate_id,
+                'original_emirate_id' => 'Yes',
                 // 'emirate_number' => $request->customer_name,
                 'additional_documents' => $request->additional_document,
                 'sim_type' => $request->simtype,
@@ -3876,16 +3876,16 @@ class ActivationController extends Controller
             );
             $k = activation_form::create([
                 'cust_id' => $request->lead_id,
-                'lead_no' => $request->lead_no,
+                'lead_no' => $request->lead_id,
                 'lead_id' => $request->lead_id,
-                'verification_id' => $request->verification_id,
+                'verification_id' => $request->ver_id,
                 'customer_name' => $request->cname,
                 'customer_number' => $request->cnumber,
                 'age' => $request->age,
                 'gender' => $request->gender,
                 'nationality' => $request->nation,
                 'language' => $request->language,
-                'original_emirate_id' => $request->emirate_id,
+                'original_emirate_id' => 'Yes',
                 // 'emirate_number' => $request->customer_name,
                 'additional_documents' => $request->additional_document,
                 'sim_type' => $request->simtype,

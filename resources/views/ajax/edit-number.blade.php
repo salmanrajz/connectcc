@@ -64,10 +64,7 @@
                                 <label for="localminutes" class="control-label col-md-12 col-sm-12 col-xs-12">Channel Partner</label>
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <select name="channel_partner" id="channel_partner" class="form-control">
-                                       <option value="TTF" {{$operation->channel_type == 'TTF' ? 'selected' : ''}}>TTF</option>
-                                        <option value="ExpressDial" {{$operation->channel_type == 'ExpressDial' ? 'selected' : ''}}>ExpressDial</option>
-                                        <option value="MWH" {{$operation->channel_type == 'MWH' ? 'selected' : ''}}>MWH</option>
-                                        <option value="Ideacorp" {{$operation->channel_type == 'Ideacorp' ? 'selected' : ''}}>Idea Corp</option>
+                                        <option value="ConnectCC" {{$operation->channel_type == 'ConnectCC' ? 'selected' : ''}}>Connect</option>
                                     </select>
                                 </div>
                                 {{--  --}}

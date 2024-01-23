@@ -48,6 +48,19 @@ class UserController extends Controller
         }
         return view('ajax.requestajaxpendinguser', compact('plan'));
     }
+    //
+    public function AddUsers(Request $request){
+        $CallCenter = call_center::wherestatus('1')->get();
+        $role = Role::all();
+        $permissions = Permission::all();
+        $emirates = emirate::all();
+        $leaders = User::where('role', 'TeamLeader')->get();
+        // $role = Role::findById(2);
+
+        return view('admin.add-users', compact('CallCenter', 'role', 'permissions', 'emirates', 'leaders'));
+    }
+    //
+
     public function loadusers(Request $request)
     {
         $data = User::withTrashed()
@@ -305,7 +318,7 @@ class UserController extends Controller
         return redirect(route('active.agent'));
     }
     //
-    public function store(Request $request)
+    public function UserStore(Request $request)
     {
         // return $request;
         // return
@@ -435,7 +448,7 @@ class UserController extends Controller
         // notify()->success('Call Center has been created succesfully');
 
         // // return redirect()->back()->withInput();
-        return redirect(route('user-index'));
+        return redirect(route('add.users'));
     }
     public function AssignUser(Request $request)
     {

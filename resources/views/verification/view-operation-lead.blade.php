@@ -84,7 +84,7 @@
                                                 <td style="color:black;font-weight:1000;">{{$item->selected_number}}</td>
                                                 <td>
 
-                                               Plan Name
+                                               {{-- Plan Name --}}
                                                 </td>
 
                                                 <td>{{$item->sim_type}}</td>
@@ -130,6 +130,8 @@
 
     <!-- Page JS Code -->
     <script src="{{asset('js/pages/be_tables_datatables.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <script>
         $(document).ready( function () {    $('#MyTable').DataTable();} );
 

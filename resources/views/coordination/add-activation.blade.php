@@ -43,6 +43,9 @@
 
                     <!-- Form Labels on top - Default Style -->
     <form onsubmit="return false" method="post" id="ActiveForm" enctype="multipart/form-data">
+         <input type="hidden" name="lead_id" value="{{$data->lead_id}}">
+                                <input type="hidden" name="ver_id" id="ver_id" value="{{$data->ver_id}}"
+                                    class="dont_hide">
 
         <div class="form-group row">
                             <div class="col-md-6 col-sm-6 col-xs-12 mb-2">
@@ -92,7 +95,7 @@
                         </div>
                     {{-- <form  method="POST" onsubmit="return false;" id="ActiveForm"> --}}
                         <div class="container row mt-5">
-                            <input type="hidden" name="leadid" value="{{$data->id}}" id="leadid">
+                            <input type="hidden" name="leadid" value="{{$data->lead_id}}" id="leadid">
                             <div class="mb-4 col-lg-4">
                                 <label class="form-label"
                                     for="example-ltf-email">{{ __('Customer Name') }}</label>
@@ -288,54 +291,44 @@
                                 class="img-fluid text-center offset-md-6" style="width:35px;">
                         </h3>
 
-                        <div class="form-group">
-                            <div id="myModal" class="modal fade" role="dialog" style="margin-top:10%;">
-                                <div class="modal-dialog">
+                        <div id="myModal" class="modal fade" role="dialog" style="margin-top:10%;">
+                         <div class="modal-dialog">
 
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-bs-dismiss="modal"
-                                                onclick="close_modal()">&times;</button>
-                                            <h4 class="modal-title">Follow Back</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <!-- <p>Some text in the modal.</p> -->
-                                            <div class="form-group" style="display:block;" id="call_back_at_new">
-                                                {{-- <div class="col-md-12 col-md-5">
-                                                    <label for="">
-                                                        <h5>Call Back At</h5>
-                                                    </label>
-                                                </div>
-                                                <div class="col-md-12 col-sm-12 col-xs-12 form-group ">
-                                                    <input type="datetime-local" name="call_back_at_new"
-                                                        class="form-control " id="myDatepicker"
-                                                        placeholder="Add Later time"
-                                                        aria-describedby="inputSuccess2Status2">
-                                                </div> --}}
-                                                <div class="col-md-12 col-md-5">
-                                                    <label for="remarks_new">Remarks</label>
-                                                </div>
-                                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                                                    <textarea name="remarks_for_cordination"
-                                                        id="remarks_for_cordination" cols="30" rows="10"
-                                                        class="form-control">{{old('remarks_for_cordination')}}</textarea>
-                                                </div>
+                             <!-- Modal content-->
+                             <div class="modal-content">
+                                 <div class="modal-header">
+                                     <button type="button" class="close" data-bs-dismiss="modal" operation-dismiss="modal">&times;</button>
+                                     <h4 class="modal-title">Follow Back</h4>
+                                 </div>
+                                 <div class="modal-body">
+                                     <!-- <p>Some text in the modal.</p> -->
+                                     <div class="form-group" style="display:block;" id="call_back_at_new">
+                                         <div class="col-md-12 col-md-5">
+                                             <label for="">
+                                                 <h5>Call Back At</h5>
+                                             </label>
+                                         </div>
+                                         <div class="col-md-12 col-sm-12 col-xs-12 form-group ">
+                                             <input type="datetime-local" name="call_back_at_new" class="form-control myDatepicker" id="myDatepicker" placeholder="Add Later time" aria-describedby="inputSuccess2Status2">
+                                         </div>
+                                         <div class="col-md-12 col-md-5">
+                                         <label for="remarks_new">Remarks</label>
+                                         </div>
+                                         <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                             <textarea name="remarks_for_cordination" id="remarks_for_cordination" cols="30" rows="10" class="form-control">{{old('remarks_for_cordination')}}</textarea>
+                                         </div>
 
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" value="Follow Up New" class="btn btn-success"
-                                                name="follow_up_new" id="follow_up_new" style="display:;"
-                                                onclick="SavingActivationLead('{{route('activation.store')}}','ActiveForm','{{route('home')}}')">
+                                     </div>
+                                 </div>
+                                 <div class="modal-footer">
+                                     <input type="button" value="Follow Up New" class="btn btn-success" name="follow_up_new" id="follow_up_new" style="display:;" onclick="VerifyLead('{{route('lead-location.store')}}','ActiveForm','{{route('home')}}')">
 
-                                            <!-- <button type="button" class="btn btn-default" operation-dismiss="modal">Close</button> -->
-                                        </div>
-                                    </div>
+                                     <!-- <button type="button" class="btn btn-default" operation-dismiss="modal">Close</button> -->
+                                 </div>
+                             </div>
 
-                                </div>
-                            </div>
-                        </div>
+                         </div>
+                     </div>
                         <div class="form-group">
                             <div id="myModalVer" class="modal fade" role="dialog" style="margin-top:10%;">
                                 <div class="modal-dialog">
@@ -441,8 +434,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="fom-group">
-                                                            <h6 class="text-left">
-                                                            </h6>
+
                                                             <label for="add_location">Allocate
                                                                 To:</label>
 
@@ -459,6 +451,13 @@
                                                             </select>
                                                         </div>
                                                     </div>
+                                                     <div class="col-md-6">
+                                        <div class="fom-group">
+                                            <label for="add_location">Etisalat Lead #:</label>
+
+                                            <input type="text" name="eti_lead_id" id="eti_lead_id" class="form-control" value="{{$data->eti_lead_id}}">
+                                        </div>
+                                    </div>
                                                 </div>
                                                 {!! Form::hidden('lead_id', $data->id) !!}
                                                 {!! Form::hidden('ver_id', $data->ver_id) !!}

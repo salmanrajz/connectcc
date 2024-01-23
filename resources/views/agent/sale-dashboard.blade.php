@@ -16,7 +16,7 @@
         <nav class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3" aria-label="breadcrumb">
           <ol class="breadcrumb breadcrumb-alt">
             <li class="breadcrumb-item">
-              <a class="link-fx" href="javascript:void(0)">App</a>
+              <a class="link-fx" href="{{route('mylead')}}">App</a>
             </li>
             <li class="breadcrumb-item" aria-current="page">
               Dashboard
@@ -51,7 +51,7 @@
                   </div>
                 </div>
                 <div class="bg-body-light rounded-bottom">
-                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="{{route('mylead')}}">
                     <span>{{__('View all Leads')}}</span>
                     <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                   </a>
@@ -75,7 +75,7 @@
                   </div>
                 </div>
                 <div class="bg-body-light rounded-bottom">
-                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="{{route('mylead')}}">
                     <span>{{__('View all Leads')}}</span>
                     <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                   </a>
@@ -99,7 +99,7 @@
                   </div>
                 </div>
                 <div class="bg-body-light rounded-bottom">
-                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="{{route('mylead')}}">
                     <span>{{__('View all Leads')}}</span>
                     <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                   </a>
@@ -123,7 +123,7 @@
                   </div>
                 </div>
                 <div class="bg-body-light rounded-bottom">
-                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="{{route('mylead')}}">
                     <span>{{__('View all Leads')}}</span>
                     <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                   </a>
@@ -146,7 +146,7 @@
                   </div>
                 </div>
                 <div class="bg-body-light rounded-bottom">
-                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="{{route('mylead')}}">
                     <span>{{__('View all Leads')}}</span>
                     <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                   </a>
@@ -169,7 +169,7 @@
                   </div>
                 </div>
                 <div class="bg-body-light rounded-bottom">
-                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="{{route('mylead')}}">
                     <span>{{__('View all Leads')}}</span>
                     <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                   </a>
@@ -193,7 +193,7 @@
                   </div>
                 </div>
                 <div class="bg-body-light rounded-bottom">
-                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                  <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between" href="{{route('mylead')}}">
                     <span>View statistics</span>
                     <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                   </a>

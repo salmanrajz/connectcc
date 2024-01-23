@@ -37,7 +37,7 @@
    <div class="content">
 
           <!-- Overview -->
-                    <form method="post" id="pre-verification-form">
+                    <form method="post" id="pre-verification-form" onsubmit="return false" enctype="multipart/form-data">
             <input type="hidden" name="cust_id" value="">
             <input class="form-control " id="leadid" value="{{$operation->id}}" placeholder="Lead Number" type="hidden" disabled>
             <input type="hidden" name="lead_id" id="lead_id" value="{{$operation->id}}">
@@ -538,8 +538,8 @@
 
 
                       </div>
-                      <label for="remarks">Remarks: </label>
-                      <input type="text" name="remarks_process_new" id="remarks_process_new" value="{{$operation->remarks}}" class="form-control">
+                      {{-- <label for="remarks">Remarks: </label>
+                      <input type="text" name="remarks_process_new" id="remarks_process_new" value="{{$operation->remarks}}" class="form-control"> --}}
 
                   </div>
                 </div>
@@ -550,7 +550,7 @@
               <!-- end of table -->
               <!-- pika booo -->
                @if($operation->sim_type == 'Elife' || $operation->sim_type == 'HomeWifi')
-                <input type="button" value="Non Verified" class="btn btn-danger" name="follow_up" id="follow_up" data-toggle="modal" data-target="#myModalF">
+                <input type="button" value="Non Verified" class="btn btn-danger" name="follow_up" id="follow_up" data-bs-toggle="modal" data-bs-target="#myModalF">
                 <div class="btn btn-group">
                     <input type="button" value="Save Changes" class="btn btn-success" name="upload" onclick="VerifyLead('{{route('SaveChanges')}}','pre-verification-form','{{route('home')}}')">
                 </div>
@@ -572,7 +572,7 @@
                   {{-- <button type="button" class="btn btn-info" onclick="VerifyLead('{{route('verified.today')}}','pre-verification-form','{{route('home')}}')">Verified Need Today</button> --}}
                   {{-- <button type="button" class="btn btn-danger" onclick="VerifyLead('{{route('not.answer')}}','pre-verification-form','{{route('home')}}')">Not Answer</button> --}}
                 <input type="button" value="Verified" class="btn btn-success" name="upload" onclick="VerifyLead('{{route('verification.store')}}','pre-verification-form','{{route('home')}}')">
-                <input type="button" value="Non Verified" class="btn btn-danger" name="follow_up" id="follow_up" data-toggle="modal" data-target="#myModalF">
+                <input type="button" value="Non Verified" class="btn btn-danger" name="follow_up" id="follow_up" data-bs-toggle="modal" data-bs-target="#myModalF">
                 <div class="btn btn-group">
                     <input type="button" value="Save Changes" class="btn btn-success" name="upload" onclick="VerifyLead('{{route('SaveChanges')}}','pre-verification-form','{{route('home')}}')">
                 </div>
@@ -693,7 +693,7 @@
                             Non Verified Remarks
                         </h3>
                         <div class="form-group">
-                            <textarea name="remarks_for_cordination" id="remarks_for_cordination" cols="30" rows="10" class="form-control">{{old('remarks_for_cordination')}}</textarea>
+                            <textarea name="remarks_for_cordination" id="remarks_for_cordination" cols="10" rows="2" class="form-control">{{old('remarks_for_cordination')}}</textarea>
                         </div>
                       </div>
                     </div>

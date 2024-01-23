@@ -1143,7 +1143,7 @@ class WhatsAppController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://graph.facebook.com/v14.0/104929992273131/messages',
+                CURLOPT_URL => 'https://graph.facebook.com/v14.0/166626349870802/messages',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -1209,6 +1209,91 @@ class WhatsAppController extends Controller
         }
     }
     //
+    public static function CoordinationWhatsApp($details)
+    {
+        // return $details;
+        $token = env('FACEBOOK_TOKEN');
+
+        // return $details['lead_no'];
+
+        foreach (explode(',', $details['numbers']) as $nm) {
+
+
+            //
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://graph.facebook.com/v14.0/166626349870802/messages',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => '{
+        "messaging_product": "whatsapp",
+        "to": "' . $nm . '",
+        "type": "template",
+        "template": {
+            "name": "assign_to_act",
+            "language": {
+                "code": "en_US"
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {
+                            "type": "text",
+                            "text": "' . $details['lead_no'] . '"
+                        },
+                        {
+                            "type": "text",
+                            "text": "' . $details['customer_name'] . '"
+                        },
+                        {
+                            "type": "text",
+                            "text": "' . $details['customer_number'] . '"
+                        },
+                        {
+                            "type": "text",
+                            "text": "' . $details['selected_number'] . '"
+                        },
+                        {
+                            "type": "text",
+                            "text": "' . $details['sim_type'] . '"
+                        },
+                        {
+                            "type": "text",
+                            "text": "' . $details['eti_lead_id'] . '"
+                        },
+                        {
+                            "type": "text",
+                            "text": "' . $details['link'] . '"
+                        },
+
+
+                    ]
+                }
+            ]
+        }
+        }',
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' . $token
+
+                ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            // echo $response;
+        }
+    }
+    //
     public static function DNCWhatsApp($details)
     {
         // return $details;
@@ -1224,7 +1309,7 @@ class WhatsAppController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://graph.facebook.com/v14.0/104929992273131/messages',
+                CURLOPT_URL => 'https://graph.facebook.com/v14.0/166626349870802/messages',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -1288,7 +1373,7 @@ class WhatsAppController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://graph.facebook.com/v14.0/104929992273131/messages',
+                CURLOPT_URL => 'https://graph.facebook.com/v14.0/166626349870802/messages',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -1356,7 +1441,7 @@ class WhatsAppController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://graph.facebook.com/v14.0/104929992273131/messages',
+            CURLOPT_URL => 'https://graph.facebook.com/v14.0/166626349870802/messages',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

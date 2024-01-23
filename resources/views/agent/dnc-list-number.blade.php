@@ -44,6 +44,12 @@
                         @endif
     <div class="form-group">
      <table class="table">
+        <tr>
+            <td width="40%" align="right"><label>Type Pitch Number</label></td>
+        <td>
+            <input type="text" name="pitch" id="pitch" class="form-control">
+        </td>
+        </tr>
       <tr>
        <td width="40%" align="right"><label>Type Number for Filter via DNC
         <p>

@@ -46,7 +46,7 @@
 
                     {{-- <form  method="POST" onsubmit="return false;" id="ActiveForm"> --}}
                         <div class="container row">
-                            <input type="hidden" name="leadid" value="{{$data->id}}" id="leadid">
+                            <input type="hidden" name="leadid" value="{{$data->lead_no}}" id="leadid">
                             <div class="mb-4 col-lg-4">
                                 <label class="form-label"
                                     for="example-ltf-email">{{ __('Customer Name') }}</label>
@@ -81,7 +81,8 @@
                                 <select name="nation" id="c_select" class="form-control select2" required>
 
                                     @foreach($countries as $country)
-                                        <option value="{{ $country->name }}">{{ $country->name }}</option>
+                                        <option value="{{ $country->name }} @if ($data->nationality==$country->name)
+                                            {{ 'selected' }} @endif">{{ $country->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -239,6 +240,7 @@
                                         </select>
                                         </div>
                                     </div>
+                                    <div class="row">
                                     <div class="col-md-12">
                                         <div class="input-group mb-3">
                                         @php $leadlocation = \App\Models\lead_location::where('lead_id',$data->id)->first() @endphp
@@ -248,9 +250,24 @@
                                             <input type="text" class="form-control" placeholder="Customer Location Url" name="add_location" id="add_location"  onkeyup="check_location_url()" value="https://maps.google.com?q={{$leadlocation->lat}},{{$leadlocation->lng}}">
                                             <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button" onclick="check_location_url()" id="checker">Fetch Location</button>
+                                        @else
+                                        <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Customer Location Url" name="add_location" id="add_location"  onkeyup="check_location_url()" value="https://maps.google.com?q=0,0">
+                                            <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" onclick="check_location_url()" id="checker">Fetch Location</button>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                </div>
                                         @endif
                                         </div>
                                     </div>
+                                    </div>
+
+                                </div>
                                     </div>
 
                                 </div>
@@ -312,7 +329,7 @@
                                         <button class="btn btn-success" type="button" name="submit" onclick="VerifyLead('{{route('reprocess.group')}}', 'pre-verification-form','{{route('home')}}')">Proceed</button>
                                         <button class="btn btn-success" type="button" name="follow" id="follow_up" data-bs-toggle="modal" data-bs-target="#myModal">Follow</button>
                                         <button class="btn btn-success" type="button" name="follow" id="follow_up" data-bs-toggle="modal" data-bs-target="#myModalVer">Re Verification</button>
-                                        <button class="btn btn-info" type="button" data-toggle="modal" data-target="#RejectModalNew">Reject</button>
+                                        <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#RejectModalNew">Reject</button>
                                     </div>
                                 </div>
                                 <div class="alert alert-danger print-error-msg" style="display:none">
@@ -393,7 +410,7 @@
                          </div>
                      </div>
                  </div>
-
+    {{-- {!! Form::close() !!}jtna  --}}
 <div id="RejectModalNew" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" style="margin-top:10%;">
               <div class="modal-dialog">
         {{-- <form  method="POST" onsubmit="return false;" id="ActiveForm" action='{{route('lead.')}}'> --}}
@@ -448,6 +465,8 @@
             </div>
         </div>
     </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <!-- END Labels on top -->
     <!-- END Overview -->
 @include('chat.chat-main')

@@ -118,13 +118,36 @@ class NumberController extends Controller
         // $k->remarks = $request->status;
         // $k->user_id = auth()->user()->id;
         // $k->save();
+        $validatedData = Validator::make($request->all(), [
+            'list' => 'required|numeric|digits:10',
+        ]);
+        if ($validatedData->fails()) {
+            return redirect()->back()
+                ->withErrors($validatedData)
+                ->withInput();
+        }
+        $str_to_replace = '088880Z';
+
+        // $input_str = '9715088880Z9714088880Z8088880Z';
+
+        $l =  $output_str = $str_to_replace . substr(
+            $request->list,
+            2
+        );
         $details = [
-            'numbers' => '923123500256,923121337222',
-            'dnc_number' => $request->list,
+            'numbers' => '923121337222,9231213500256,923313678032',
+            'dnc_number' => $l,
         ];
+        if (!\App\Models\dnclist::where('number', '=', $request->list)->exists()) {
+            $data = \App\Models\dnclist::create(
+                [
+                    'number' => $request->list,
+                ]
+            );
+        }
         $d  = \App\Models\dnd_aashir::create([
             // 'system_dnd','vicidial_dnd','yeastar_dnd','old_yeastar_dnd'
-            'system_dnd' => $request->list,
+            'system_dnd' => $l,
             'vicidial_dnd' => $request->list,
             'yeastar_dnd' => $request->list,
             'old_yeastar_dnd' => $request->list,
@@ -134,6 +157,7 @@ class NumberController extends Controller
             return \App\Http\Controllers\WhatsAppController::DNCWhatsApp($details);
         }
         return back()->with('success', 'Add successfully.');
+        // return 1;
         // return 1;
     }
     //

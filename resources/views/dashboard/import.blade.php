@@ -29,6 +29,17 @@
            <strong>{{ $message }}</strong>
    </div>
    @endif
+    @if($errors->any())
+                        <div class="alert alert-danger" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+
+                            @foreach($errors->all() as $error)
+                            {{ $error }}<br />
+                            @endforeach
+                        </div>
+                        @endif
    <form method="post" enctype="multipart/form-data" action="{{route('import.excel')}}">
     {{ csrf_field() }}
     <div class="form-group">
@@ -36,7 +47,7 @@
       <tr>
        <td width="40%" align="right"><label>Select File for Upload</label></td>
        <td width="30">
-        <input type="file" name="select_file[]" multiple/>
+        <input type="file" name="select_file" />
         <input type="text" name="salman" id="salman" class="form-control" value="salmanahmed">
         {{-- <input type="file" name="select_file2" /> --}}
         {{-- <input type="file" name="select_file3" /> --}}

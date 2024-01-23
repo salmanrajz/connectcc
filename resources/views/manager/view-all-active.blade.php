@@ -90,7 +90,7 @@
                                                             {{$plan->plan_name}}
                                                         @endif
                                                 @else
-                                                @php $plan = \App\plan::whereId($item->select_plan)->first(); @endphp
+                                                @php $plan = \App\Models\plan::whereId($item->select_plan)->first(); @endphp
                                                 @if($plan)
                                                 {{$plan->plan_name}}
                                                 @endif

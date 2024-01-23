@@ -49,7 +49,7 @@ class AgentController extends Controller
         } else {
             $plan = request_agent::where('agent_code', auth()->user()->agent_code)->where('status', 0)->get();
         }
-        return view('dashboard.view-request-user-admin', compact('plan'));
+        return view('users.view-request-user-admin', compact('plan'));
     }
     public function approved(Request $request)
     {
@@ -323,7 +323,7 @@ class AgentController extends Controller
             ->get();
         // $status = status_code::select('status_name','status_code')->get();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        return view('dashboard.ourlead', compact('operation'));
+        return view('agent.view-manager-lead', compact('operation'));
         // });
     }
     public function agent_lead_ajax(Request $request)
@@ -471,14 +471,14 @@ class AgentController extends Controller
             })
             // ->where('lead_sales.status', '1.06')
             // ->where('users.agent_code', auth()->user()->agent_code)
-            ->whereYear('lead_sales.created_at', Carbon::now()->year)
+            // ->whereYear('lead_sales.created_at', Carbon::now()->year)
 
             ->orderby('lead_sales.updated_at', 'desc')
             // ->whereMonth('lead_sales.updated_at', Carbon::now()->month)
             ->get();
         // $status = status_code::select('status_name','status_code')->get();
         // $operation = lead_sale::wherestatus('1.01')->get();
-        return view('dashboard.ajax.ourlead', compact('operation'));
+        return view('ajax.ourlead', compact('operation'));
         // });
     }
     public function mysharedlead()
@@ -2708,8 +2708,17 @@ class AgentController extends Controller
                 // ->where("remarks.user_agent_id", auth()->user()->id)
                 ->where("remarks.lead_id", $id)
                 ->get();
-            // return "1";
-            return view('agent.edit-lead', compact('countries', 'emirates', 'plans', 'elifes', 'addons', 'users', 'data', 'itproducts', 'remarks', 'audios'));
+        // return "1";
+        $q = numberdetail::select("numberdetails.type")
+        ->where("numberdetails.status",
+            "Available"
+        )
+            // ->whereIn("numberdetails.channel_type", ['TTF','ExpressDial'])
+            ->whereIn("numberdetails.channel_type", ['ConnectCC'])
+            ->groupBy('numberdetails.type')
+
+            ->get();
+            return view('agent.edit-lead', compact('countries', 'emirates', 'plans', 'elifes', 'addons', 'users', 'data', 'itproducts', 'remarks', 'audios','q'));
 
         // })->name('view.lead');
     }
@@ -3493,6 +3502,7 @@ class AgentController extends Controller
         $second_date  = $carbon_date->addHours(2);
         $lead_data = $d = lead_sale::findOrFail($request->lead_id);
         $d->update([
+            'eti_lead_id' => NULL,
             'status' => '1.10',
             'appointment_from' => date('H:i:s', strtotime($choosen_date)),
             'appointment_to' => date('H:i:s', strtotime($second_date)),
@@ -3513,11 +3523,11 @@ class AgentController extends Controller
             $lat = '';
             $lng = '';
         }
-        $kp = lead_location::where('lead_id', $request->lead_id)->first();
+        // $kp = lead_location::where('lead_id', $request->lead_id)->first();
         $kp = lead_location::where('lead_id', $request->lead_id)->first();
         if ($kp) {
             $kp->update([
-                'assign_to' => '136',
+                'assign_to' => $request->assing_to,
                 'location_url' => $request->add_location,
                 'lat' => $lat,
                 'lng' => $lng,
@@ -3528,7 +3538,7 @@ class AgentController extends Controller
                 'location_url' => $request->add_location,
                 'lat' => $lat,
                 'lng' => $lng,
-                'assign_to' => '136',
+                'assign_to' =>$request->assing_to,
                 // 'number_allowed' => $request->num_allowed,
                 // 'duration' => $request->duration,
                 // 'revenue' => $request->revenue,
@@ -3537,6 +3547,118 @@ class AgentController extends Controller
             ]);
         }
         // return "LocationLead";
+        // var encodedURL = encodeURIComponent(some_url);
+        //
+        $a = "whatsapp://send?text=New  %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a Number Selected: $lead_data->selected_number %0a Plan selected: FE125 %0a Data : 4GB %0a  Activation: $lead_data->pay_status  %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a New Lead Location https://maps.google.com?q=$lng,$lat %0a New Customer Location Re Process Follow up";
+        return response()->json(['success' => $a]);
+    }
+    public function emirate_proceed_lead(Request $request)
+    {
+        // return $request;
+        $ldate = date('h:i A');
+
+        $validatedData = Validator::make($request->all(), [
+            'add_location' => 'required|string',
+            'eti_lead_id' => 'required|string',
+            'start_date' => 'required',
+            'start_time' => 'required|after:' . $ldate,
+
+            // 'add_lat_lng' => 'required',
+            // 'assing_to' => 'required'
+            // 'lng' => 'required|numeric',
+        ]);
+        if ($validatedData->fails()) {
+            // return redirect()->back()
+            //     ->withErrors($validatedData)
+            //     ->withInput();
+            return response()->json(['error' => $validatedData->errors()->all()]);
+        }
+        //
+        $choosen_date = $request->start_time;
+        $carbon_date = Carbon::parse($choosen_date);
+        $second_date  = $carbon_date->addHours(2);
+        $lead_data = $d = lead_sale::findOrFail($request->lead_id);
+        // $lead
+        $d->update([
+            'status' => '1.10',
+            'eti_lead_id' => $request->eti_lead_id,
+            'appointment_from' => date('H:i:s', strtotime($choosen_date)),
+            'appointment_to' => date('H:i:s', strtotime($second_date)),
+        ]);
+        // return $d;
+        $dd = verification_form::findOrFail($request->ver_id);
+        $dd->update([
+            'status' => '1.21',
+            // 'assing_to' => '1',
+            // 'cordination_by' => auth()->user()->id,
+            // 'emirate_location' => $request->emirates,
+        ]);
+        if (!empty($request->add_lat_lng)) {
+
+            $name = explode(',', $request->add_lat_lng);
+            $lat = $name[0];
+            $lng = $name[1];
+        } else {
+            $lat = '';
+            $lng = '';
+        }
+        // $kp = lead_location::where('lead_id', $request->lead_id)->first();
+        $kp = lead_location::where('lead_id', $request->lead_id)->first();
+        if ($kp) {
+            $kp->update([
+                'assign_to' => $request->assing_to,
+                'location_url' => $request->add_location,
+                'lat' => $lat,
+                'lng' => $lng,
+            ]);
+        } else {
+            $kkk = lead_location::create([
+                'lead_id' => $request->lead_id,
+                'location_url' => $request->add_location,
+                'lat' => $lat,
+                'lng' => $lng,
+                'assign_to' =>$request->assing_to,
+                // 'number_allowed' => $request->num_allowed,
+                // 'duration' => $request->duration,
+                // 'revenue' => $request->revenue,
+                // 'free_minutes' => $request->free_min,
+                'status' => 1,
+            ]);
+        }
+
+         $ntc = lead_sale::select('call_centers.notify_email', 'call_centers.numbers')
+                    ->Join(
+                        'users',
+                        'users.id',
+                        'lead_sales.saler_id'
+                    )
+                    ->Join(
+                        'call_centers',
+                        'call_centers.call_center_code',
+                        'users.agent_code'
+                    )
+                    ->where('lead_sales.id', $request->lead_id)->first();
+                //
+
+
+                $link = route('view.lead', $request->lead_id);
+
+                $details = [
+                    'lead_id' => $lead_data->id,
+                    'lead_no' => $lead_data->lead_no,
+                    'customer_name' =>  $lead_data->customer_name,
+                    'customer_number' => $lead_data->customer_number,
+                    'selected_number' => $lead_data->selected_number,
+                    'sim_type' => $lead_data->sim_type,
+                    'numbers' => $ntc->numbers,
+                    'link' => $link,
+                    'eti_lead_id' => $lead_data->eti_lead_id,
+                    // 'Plan' => $number,
+                    // 'AlternativeNumber' => $alternativeNumber,
+                ];
+        // return "LocationLead";
+       \App\Http\Controllers\WhatsAppController::CoordinationWhatsApp($details);
+
         // var encodedURL = encodeURIComponent(some_url);
         //
         $a = "whatsapp://send?text=New  %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a Number Selected: $lead_data->selected_number %0a Plan selected: FE125 %0a Data : 4GB %0a  Activation: $lead_data->pay_status  %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a New Lead Location https://maps.google.com?q=$lng,$lat %0a New Customer Location Re Process Follow up";

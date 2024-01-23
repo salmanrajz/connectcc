@@ -47,6 +47,6 @@ class lead_sale extends Model
         'pre_check_agent',
         'lead_type',
         'verify_agent',
-        'channel_type', 'email','appointment_from','appointment_to','sr_number'
+        'channel_type', 'email','appointment_from','appointment_to','sr_number','eti_lead_id'
     ];
 }

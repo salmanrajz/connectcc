@@ -220,7 +220,7 @@ class AjaxController extends Controller
                 ->get();
             //
             // $data = numberdetail::;
-            return view('number.number-dtl', compact('q', 'slug'));
+            return view('number.number-dtl', compact('q'));
         } else {
             return redirect(route('home'));
         }
@@ -1301,6 +1301,7 @@ class AjaxController extends Controller
             'passcode' => $request->number_passcode,
             'call_center' => $request->call_center,
             'identity' => $request->number_status,
+            'region' => 'Default',
             'channel_type' => $request->channel_partner,
             // 'channel_type' => 'TTF',
         ]);
@@ -1539,7 +1540,7 @@ class AjaxController extends Controller
         } else {
 
 
-            $dataNum = choosen_number::select("choosen_numbers.id")
+          $dataNum = choosen_number::select("choosen_numbers.id")
                 ->Join(
                     'numberdetails',
                     'numberdetails.id',
@@ -1580,6 +1581,7 @@ class AjaxController extends Controller
                             ->get();
                     } else {
                         // return $request;
+                        // return "ZOOZOZOZO";
                         $pid = $request->pid;
                         $data = numberdetail::select("number", "number")
                             // ->Join(
@@ -1593,28 +1595,28 @@ class AjaxController extends Controller
                             // ->where('channel_type', $request->pid)
                             ->where('type', $request->id)
                             ->where('status', 'Available')
-                            ->whereNull('numberdetails.region')
+                            // ->whereNull('numberdetails.region')
                             ->where(function ($query) use ($agent_code) {
                                 $query->where('call_center', $agent_code)
                                     ->orWhere('call_center', 'default');
                                 // ->where('region', auth()->user()->region);
                             })
-                            ->when($agent_code, function ($q) use ($agent_code, $pid) {
-                                if ($agent_code == 'Salman') {
-                                    return $q->whereNotIn('numberdetails.identity', ['SLPJUN1ED', 'GLDJUN1ED', 'PLTJUN1ED']);
-                                } else   if ($agent_code == 'CC10') {
-                                    return $q->where('numberdetails.identity', '!=', 'EidSpecial');
-                                    // return $q->where('numberdetails.identity', 'EidSpecial');
-                                } else if ($agent_code == 'AAMT') {
-                                    return $q->whereNotIn('numberdetails.identity', ['August Num', 'EidSpecial', 'Sil1Dec22ED', 'NYJAN1GLD22', 'NYJAN1SILV22'])
-                                        // $q->whereNotIn('numberdetails.identity', ['August Num', 'EidSpecial'])
-                                        ->where('numberdetails.channel_type', 'ExpressDial');
-                                    // return $q->where('numberdetails.identity', '!=', 'EidSpecial');
-                                    // return $q->where('numberdetails.identity', 'EidSpecial');
-                                } else {
-                                    // return $q->where('channel_type', $pid);
-                                }
-                            })
+                            // ->when($agent_code, function ($q) use ($agent_code, $pid) {
+                            //     if ($agent_code == 'Salman') {
+                            //         return $q->whereNotIn('numberdetails.identity', ['SLPJUN1ED', 'GLDJUN1ED', 'PLTJUN1ED']);
+                            //     } else   if ($agent_code == 'CC10') {
+                            //         return $q->where('numberdetails.identity', '!=', 'EidSpecial');
+                            //         // return $q->where('numberdetails.identity', 'EidSpecial');
+                            //     } else if ($agent_code == 'AAMT') {
+                            //         return $q->whereNotIn('numberdetails.identity', ['August Num', 'EidSpecial', 'Sil1Dec22ED', 'NYJAN1GLD22', 'NYJAN1SILV22'])
+                            //             // $q->whereNotIn('numberdetails.identity', ['August Num', 'EidSpecial'])
+                            //             ->where('numberdetails.channel_type', 'ExpressDial');
+                            //         // return $q->where('numberdetails.identity', '!=', 'EidSpecial');
+                            //         // return $q->where('numberdetails.identity', 'EidSpecial');
+                            //     } else {
+                            //         // return $q->where('channel_type', $pid);
+                            //     }
+                            // })
                             ->get();
                     }
                 }
@@ -1837,7 +1839,7 @@ class AjaxController extends Controller
                 // 'ip_address' => Request::ip(),
                 'date_time' => Carbon::now()->toDateTimeString(),
             ]);
-            $log = choosen_number_log::create([
+            $log = \App\Models\choosen_number_log::create([
                 // 'number'
                 'number_id' => $request->id,
                 'user_id' => auth()->user()->id,
@@ -2200,11 +2202,12 @@ class AjaxController extends Controller
 
             \Mail::to($to)
                 // ->cc(['salmanahmed334@gmail.com'])
-                ->send(new \App\Models\Mail\RejectMail($details, $subject));
+                ->send(new \App\Mail\RejectMail($details, $subject));
             notify()->success('Lead Succesfully rejected');
             // return 1;
             return redirect(route('verification.final-cord-lead'));
-        } else {
+        }
+        else {
 
 
             // return $d->selected_number;
@@ -2228,7 +2231,7 @@ class AjaxController extends Controller
                 if ($dek) {
                     $dej = choosen_number::findorfail($dek->id);
                     // $dej->status = '1';
-                    $de->delete();
+                    $dej->delete();
                     // $dej->save();
                 }
             }
@@ -2294,13 +2297,13 @@ class AjaxController extends Controller
 
             \Mail::to($to)
                 // ->cc(['salmanahmed334@gmail.com'])
-                ->send(new \App\Models\Mail\RejectMail(
+                ->send(new \App\Mail\RejectMail(
                     $details,
                     $subject
                 ));
             notify()->success('Lead Succesfully rejected');
             // return 1;
-            return redirect(route('verification.final-cord-lead'));
+            return redirect(route('home'));
         }
         // $k->id;
         // if ($k) {
@@ -3001,6 +3004,7 @@ class AjaxController extends Controller
         $p4->update([
             'assign_to' => $request->assing_to,
         ]);
+        $lead_data->eti_lead_id = $request->eti_lead_id;
         $lead_data->status = '1.10';
         $lead_data->save();
         $planName = $lead_data->select_plan;
@@ -3008,7 +3012,7 @@ class AjaxController extends Controller
         $activation_charge = $lead_data->pay_charges;
         // $activation_charge = $lead_data->pay_charges;
         $channel_checker = $lead_data->channel_type;
-        if ($channel_checker == 'ExpressDial') {
+        if ($channel_checker == 'ConnectCC') {
 
             if ($audio_file == 'no-audio') {
                 $audio_message = 'Pre-Verification: %0a **Customer need verification at location**';
@@ -3020,6 +3024,8 @@ class AjaxController extends Controller
             } else {
                 $lead_message = 'Lead Location: https://maps.google.com?q=' . $p4->lng . ',' . $p4->lat;
             }
+            $today_date = Carbon::now()->format('d-M-Y');
+
             if (strpos($planName, ",") !== false) {
                 // list($d, $l) = explode('.', $dm, 2);
                 foreach (explode(',', $planName) as $key => $k) {
@@ -3043,13 +3049,14 @@ class AjaxController extends Controller
                 // return $activation_charge;
 
 
-
-                $a = "https://api.whatsapp.com/send?text= *Partner: EXPRESS DIAL*
+                $a = "https://api.whatsapp.com/send?text= *Partner: Connect*
                 %0a
-                *RC-65*
+                *RC-77*
                 %0a
-                *Assigned Lead*  %0a S.No. $lead_data->id
-                %0a $lead_data->date_time
+                *Date*: $today_date %0a
+                %0a
+                %0a *ET ID: $request->eti_lead_id*
+                %0a
                 %0a %0a Name: $lead_data->customer_name
                 %0a Number $lead_data->customer_number %0a %0a
                 %0a *$lead_data->sim_type*
@@ -3058,14 +3065,14 @@ class AjaxController extends Controller
                     $a .= "Selected: *$selected_number[$i]*  %0a Code = *$passcode[$i]*
                     %0a Plan : *$plan_name[$i]* %0a";
                 }
-                $a .= "%0a *APPOINTMENT TIME* %0a *" . date('h:i A', strtotime($lead_data->appointment_from)) . " TO " . date('h:i A', strtotime($lead_data->appointment_to)) . "*%0a";
-                $a .= "%0a %0aGender: $lead_data->gender
-                %0a Emirates: $lead_data->emirates
-                %0a Area: $lead_data->area
-                %0a Nationality: $lead_data->nationality
-                %0a Document: ID $lead_data->additional_document
-                %0a Language: $lead_data->language
+                $a .= "%0a %0a$lead_data->gender
+                %0a$lead_data->emirates
+                %0a$lead_data->area
                 %0a Lead Location: $lead_message %0a %0a
+                %0a Nationality: $lead_data->nationality
+                %0aEmirates ID Available
+                %0aDocument: ID $lead_data->additional_document
+                %0aCustomer wants activation agent to call for location .
                 ";
                 return response()->json(['success' => $a]);
             } else {
@@ -3075,17 +3082,19 @@ class AjaxController extends Controller
                 if ($lead_data->sim_type == 'HomeWifi') {
                     $plan = \App\Models\elife_plan::findorfail($planName);
                     $plan_name = $plan->plan_name;
-                    $a = "https://api.whatsapp.com/send?text= *Partner: EXPRESS DIAL*
+                    $a = "https://api.whatsapp.com/send?text= *Partner: Connect*
                     %0a
-                    *RC-65*
+                    *RC-77*
                     %0a
                     *Assigned Lead*  %0a S.No. $lead_data->id
+                    %0a
+                    %0a *Etisalat CRM ID: $request->eti_lead_id*
+                    %0a
                     %0a $lead_data->date_time
                     %0a %0a Name: $lead_data->customer_name
                     %0a Number $lead_data->customer_number %0a %0a
                     %0a *$lead_data->sim_type*
                     %0a Plan: *$plan_name* %0a
-                    %0a *APPOINTMENT TIME* %0a *" . date('h:i A', strtotime($lead_data->appointment_from)) . " TO " . date('h:i A', strtotime($lead_data->appointment_to)) . "* %0a%0a
                     %0a Gender: $lead_data->gender
                     %0a Emirates: $lead_data->emirates
                     %0a Area: $lead_data->area
@@ -3108,26 +3117,29 @@ class AjaxController extends Controller
                     $selected_number = $selected_number;
                     $passcode = $passcode;
                     $pay_status = $activation_charge;
-                    $a = "https://api.whatsapp.com/send?text= *Partner: EXPRESS DIAL*
+                $a = "https://api.whatsapp.com/send?text=*Partner: Connect*
                 %0a
-                *RC-65*
+                *RC-77*
                 %0a
-                *Assigned Lead*  %0a S.No. $lead_data->id
-                %0a $lead_data->date_time
-                %0a %0a Name: $lead_data->customer_name
-                %0a Number $lead_data->customer_number %0a %0a
-                %0a *$lead_data->sim_type*
-                %0a Selected: *$selected_number*
-                %0a Code = *$passcode*
-                %0a Plan: *$plan_name* %0a
-                %0a *APPOINTMENT TIME* %0a *" . date('h:i A', strtotime($lead_data->appointment_from)) . " TO " . date('h:i A', strtotime($lead_data->appointment_to)) . "* %0a%0a
-                %0a Gender: $lead_data->gender
-                %0a Emirates: $lead_data->emirates
-                %0a Area: $lead_data->area
-                %0a Nationality: $lead_data->nationality
-                %0a Document: ID $lead_data->additional_document
-                %0a Language: $lead_data->language
-                %0a Lead Location: $lead_message
+                %0a
+                %0a$today_date %0a
+                %0a
+                %0a *ET ID: $request->eti_lead_id*
+                %0a
+                %0a%0a Name: $lead_data->customer_name
+                %0aNumber $lead_data->customer_number %0a %0a
+                %0a*$lead_data->sim_type*
+                %0aSelected: *$selected_number*
+                %0aCode = *$passcode*
+                %0aPlan: *$plan_name*
+                %0a%0a$lead_data->gender
+                %0a$lead_data->emirates
+                %0a$lead_data->area
+                %0aLead Location: $lead_message %0a %0a
+                %0aCountry: $lead_data->nationality
+                %0aEmirates ID Available
+                %0a$lead_data->additional_document
+                %0a%0aCustomer wants activation agent to call for location .
                 ";
                 }
                 return response()->json(['success' => $a]);
@@ -3743,7 +3755,7 @@ class AjaxController extends Controller
             } else {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
-                    ->LeftJoin(
+                    ->Join(
                         'timing_durations',
                         'timing_durations.lead_no',
                         '=',
@@ -4091,6 +4103,7 @@ class AjaxController extends Controller
                 return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'verified' || $id == '1.07') {
+            // return $id;
             if (Auth()->user()->role == 'Elife Manager') {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
@@ -4196,7 +4209,7 @@ class AjaxController extends Controller
             if (auth()->user()->role == 'Manager' || auth()->user()->role == 'NumberSuperAdmin' || auth()->user()->role == 'Cordination') {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
-                    ->LeftJoin(
+                    ->Join(
                         'timing_durations',
                         'timing_durations.lead_no',
                         '=',
@@ -4221,6 +4234,7 @@ class AjaxController extends Controller
                     ->whereYear('lead_sales.updated_at', Carbon::now()->year)
                     ->whereMonth('lead_sales.updated_at', Carbon::now()->month)
                     ->orderBy('lead_sales.updated_at', 'desc')
+                    // -> groupBy('lead_sales.id')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
                 return view('manager.mygrplead', compact('operation'));
@@ -4498,10 +4512,11 @@ class AjaxController extends Controller
                 return view('manager.mygrplead', compact('operation'));
             }
         } else if ($id == 'verified' || $id == '1.07') {
+            // return $id;
             if (Auth()->user()->role == 'Elife Manager') {
                 $operation = lead_sale::select("timing_durations.lead_generate_time", "lead_sales.*", "status_codes.status_name", 'users.name as agent_name')
                     // $user =  DB::table("subjects")->select('subject_name', 'id')
-                    ->LeftJoin(
+                    ->Join(
                         'timing_durations',
                         'timing_durations.lead_no',
                         '=',
@@ -4591,6 +4606,8 @@ class AjaxController extends Controller
                     // ->whereIn('lead_sales.status', ['1.05', '1.07', '1.08', '1.09', '1.10', '1.02'])
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->whereDate('verification_forms.created_at', Carbon::today())
+                -> groupBy('verification_forms.lead_no')
+
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
                 return view('manager.mygrplead', compact('operation'));
@@ -4965,6 +4982,8 @@ class AjaxController extends Controller
                     // ->whereIn('lead_sales.status', ['1.05', '1.07', '1.08', '1.09', '1.10', '1.02'])
                     ->orderBy('lead_sales.updated_at', 'desc')
                     ->whereDate('verification_forms.created_at', Carbon::today())
+                    // ->groupBy('verification_forms.lead_no')
+                    // -> groupBy('verification_forms.lead_no')
                     ->get();
                 // $operation = lead_sale::wherestatus('1.01')->get();
                 return view('manager.mygrplead', compact('operation'));
@@ -6252,7 +6271,8 @@ class AjaxController extends Controller
     }
     public function leadstorenew(Request $request)
     {
-        // return $request->simtype;
+        // return $request;
+        // return $request->selnumber;
         $ldate = date('h:i A');
         // return $request->remarks_process_new;
         $validator = Validator::make($request->all(), [ // <---
@@ -6318,6 +6338,10 @@ class AjaxController extends Controller
         // }
         // if($request->nation != 'United Arab ')
         // return $request->nation;
+        if (empty($request->selnumber)) {
+            // return response()->json(['error' => 'Please Choose Documents']);
+            return response()->json(['error' => ['Documents' => ['Please Select Number.']]], 200);
+        }
         if ($request->nation != 'United Arab Emirates') {
             // return $request->additional_document;
             if ($request->additional_document == 'No Additional Document Required') {
@@ -6355,7 +6379,12 @@ class AjaxController extends Controller
         $carbon_date = Carbon::parse($choosen_date);
         $second_date  = $carbon_date->addHours(2);
         $last = \App\Models\lead_sale::latest()->first();
-        $getfirst = $last->id;
+        // $getfirst = $last->id;
+        if(isset($last)){
+            $getfirst = $last->id;
+        }else{
+            $getfirst =0;
+    }
         $lead_no = auth()->user()->agent_code . '-' . $getfirst . '-' . Carbon::now()->format('M') . '-' . now()->year;
         // $lead_no = auth()->user()->agent_code . '-' . $getfirst . '-' . Carbon::now()->format('M') . '-' . now()->year;
         if (auth()->user()->agent_code == 'AAMT') {
@@ -6706,14 +6735,14 @@ class AjaxController extends Controller
             'saler_name' => $data->saler_name,
             'link' => $link,
             'agent_code' => auth()->user()->agent_code,
-            'number' => $ntc->numbers . ',' . '923121337222' . ',' . '97143789365' . ',' . '917827250250',
+            'number' => $ntc->numbers . ',' . '923121337222',
             // 'Plan' => $number,
             // 'AlternativeNumber' => $alternativeNumber,
         ];
 
         // return $details;
 
-        // \App\Models\Http\Controllers\ChatController::SendNewLeadMessage($details);
+        \App\Http\Controllers\ChatController::SendNewLeadMessage($details);
 
         //
         notify()->success('New Sale has been submitted succesfully');
@@ -7617,7 +7646,7 @@ class AjaxController extends Controller
             )
             ->where('lead_sales.id', $d->id)->first();
             //
-            $tl = \App\User::where('id', $ntc->teamleader)->first();
+            $tl = \App\Models\User::where('id', $ntc->teamleader)->first();
             if ($tl) {
                 $wapnumber = $tl->phone . ',' .  $ntc->numbers;
             } else {
@@ -7764,6 +7793,7 @@ class AjaxController extends Controller
         }
         else if ($request->sim_type == 'New' && $request->reject_comment_new == '') {
             // return "s";
+            // return phpinfo();to
             // return $request;
             $validator = Validator::make($request->all(), [ // <---
                 // 'title' => 'required|unique:posts|max:255',
@@ -7800,6 +7830,7 @@ class AjaxController extends Controller
                 // return redirect()->back()
                 //     ->withInput();
             }
+            // return "koo";
             // $planName = $request->plan_name;
             $planName = implode(',', $request->plan_new);
             $SelNumber = implode(",", $request->selnumber);
@@ -7878,7 +7909,7 @@ class AjaxController extends Controller
             // $k->status = 'Reserved';
             // $k->save();
             $lead_data = $d = lead_sale::findOrFail($request->lead_id);
-            $wp = \App\User::select('role')->where('users.id', $lead_data->saler_id)->first();
+            $wp = \App\Models\User::select('role')->where('users.id', $lead_data->saler_id)->first();
             if ($wp->role == 'TTF-SALE') {
                 $status_code = '1.10';
             } else {
@@ -7924,7 +7955,7 @@ class AjaxController extends Controller
                 // if($check_num){
                 //     $channel = 'ExpressDial';
                 // }else{
-                    $channel = 'ExpressDial';
+                    $channel = 'ConnectCC';
                 // }
 
                 $d->update([
@@ -7980,14 +8011,14 @@ class AjaxController extends Controller
                         $multi_filePath = 'audio' . '/' . $originalFileName;
                         \Storage::disk('azure')->put($multi_filePath, $image2);
                         //
-                        $ext = date('d-m-Y-H-i');
-                        $mytime = Carbon::now();
-                        $ext =  $mytime->toDateTimeString();
+                        // $ext = date('d-m-Y-H-i');
+                        // $mytime = Carbon::now();
+                        // $ext =  $mytime->toDateTimeString();
                         // $name = $ext . '-' . $file[$key]->getClientOriginalName();
                         $name = $originalFileName;
 
-                        $file[$key]->move('audio', $name);
-                        $input['path'] = $name;
+                        // $file[$key]->move('audio', $name);
+                        // $input['path'] = $name;
                         // LocalStorageCodeEnd
                         // AzureCodeStart
 
@@ -8002,7 +8033,7 @@ class AjaxController extends Controller
                     // } else {
                     //     echo "boom";
                     // }
-                    $data = audio_recording::create([
+                    $data = \App\Models\audio_recording::create([
                         // 'resource_name' => $request->resource_name,
                         'audio_file' => $name,
                         'username' => 'salman',
@@ -8013,12 +8044,12 @@ class AjaxController extends Controller
                 }
             }
 
-            // $whatsapp = \App\User::select('phone')
+            // $whatsapp = \App\ModelsUser::select('phone')
             // ->where('users.id',$lead_data->agent_code)
             // ->first();
             // if()
             // foreach (explode(',', $planName) as $k) {
-            //     $plan = \App\plan::where('id', $k)->first();
+            //     $plan = \App\Models\plan::where('id', $k)->first();
             // }
             // $plan_name = $plan->plan_name;
             // $data = $plan->data;
@@ -8029,7 +8060,7 @@ class AjaxController extends Controller
             // // return $d->customer_name;
             // $a = "https://api.whatsapp.com/send?text= ** New-Verified **  %0a Lead No: $lead_data->lead_no %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a Number Selected: $lead_data->selected_number %0a Plan selected: $plan_name %0a Data : $data %0a  Activation: $lead_data->pay_status  %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: Salman %0a Verified";
             // return response()->json(['success' => $a]);
-            $wp = \App\User::select('agent_code')->where('users.id',$lead_data->saler_id)->first();
+            $wp = \App\Models\User::select('agent_code')->where('users.id',$lead_data->saler_id)->first();
             $wp->agent_code;
             if($wp->agent_code == 'CC3'){
                 $wp_num = '919599020271';
@@ -8046,8 +8077,8 @@ class AjaxController extends Controller
             if (strpos($planName, ",") !== false) {
                 // list($d, $l) = explode('.', $dm, 2);
                 foreach (explode(',', $planName) as $key => $k) {
-                    // $plan = \App\plan::where('id',$k)->first();
-                    $plan = \App\plan::findorfail($k);
+                    // $plan = \App\Models\plan::where('id',$k)->first();
+                    $plan = \App\Models\plan::findorfail($k);
                     //  return $SelNumber[$key];
                     $plan_name[] = $plan->plan_name;
                     $data_gb[] = $plan->data;
@@ -8055,11 +8086,11 @@ class AjaxController extends Controller
                     // $plan_name[] = $plan->plan_name;
                     // }
                     // foreach(explode(',', $SelNumber) as $k){
-                    // $plan = \App\plan::where('id',$k)->first();
+                    // $plan = \App\Models\plan::where('id',$k)->first();
                 }
                 foreach (explode(',', $SelNumber) as $key => $k) {
-                    // $plan = \App\plan::where('id',$k)->first();
-                    //  $plan = \App\plan::findorfail($k);
+                    // $plan = \App\Models\plan::where('id',$k)->first();
+                    //  $plan = \App\Models\plan::findorfail($k);
                     //  return $SelNumber[$key];
                     // $plan_name[] = $plan->plan_name;
                     // $data_gb[] = $plan->data;
@@ -8067,14 +8098,14 @@ class AjaxController extends Controller
                     // $plan_name[] = $plan->plan_name;
                     // }
                     // foreach(explode(',', $SelNumber) as $k){
-                    // $plan = \App\plan::where('id',$k)->first();
+                    // $plan = \App\Models\plan::where('id',$k)->first();
                     $numberd = \App\numberdetail::where('number', $k)->first();
                     $selected_number[] = $numberd->number;
                     $passcode[] = $numberd->passcode;
                 }
                 foreach (explode(',', $activation_charge) as $key => $k) {
-                    // $plan = \App\plan::where('id',$k)->first();
-                    //  $plan = \App\plan::findorfail($k);
+                    // $plan = \App\Models\plan::where('id',$k)->first();
+                    //  $plan = \App\Models\plan::findorfail($k);
                     //  return $SelNumber[$key];
                     // $plan_name[] = $plan->plan_name;
                     // $data_gb[] = $plan->data;
@@ -8082,7 +8113,7 @@ class AjaxController extends Controller
                     // $plan_name[] = $plan->plan_name;
                     // }
                     // foreach(explode(',', $SelNumber) as $k){
-                    // $plan = \App\plan::where('id',$k)->first();
+                    // $plan = \App\Models\plan::where('id',$k)->first();
                     // $numberd = \App\numberdetail::where('number', $k)->first();
                     // $selected_number[] = $numberd->number;
                     $ac[] = $k;
@@ -8100,7 +8131,7 @@ class AjaxController extends Controller
                 return response()->json(['success' => 'Succesfully Verified']);
             } else {
                 // return $SelNumber;
-                $plan = \App\plan::findorfail($planName);
+                $plan = \App\Models\plan::findorfail($planName);
                 $numberd = numberdetail::where('number', $SelNumber)->first();
                 $plan_name = $plan->plan_name;
                 $data_gb = $plan->data;
@@ -8188,7 +8219,7 @@ class AjaxController extends Controller
             }
             //
             $lead_data = $d = lead_sale::findOrFail($request->lead_id);
-            $wp = \App\User::select('role')->where('users.id', $lead_data->saler_id)->first();
+            $wp = \App\ModelsUser::select('role')->where('users.id', $lead_data->saler_id)->first();
             if ($wp->role == 'TTF-SALE') {
                 $status_code = '1.10';
             } else {
@@ -8365,7 +8396,7 @@ class AjaxController extends Controller
             ]);
             //
             $lead_data = $d = lead_sale::findOrFail($request->lead_id);
-            $wp = \App\User::select('role')->where('users.id', $lead_data->saler_id)->first();
+            $wp = \App\ModelsUser::select('role')->where('users.id', $lead_data->saler_id)->first();
             if ($wp->role == 'TTF-SALE') {
                 $status_code = '1.10';
             } else {
@@ -8576,7 +8607,7 @@ class AjaxController extends Controller
             ]);
             //
             $lead_data = $d = lead_sale::findOrFail($request->lead_id);
-            $wp = \App\User::select('role')->where('users.id', $lead_data->saler_id)->first();
+            $wp = \App\ModelsUser::select('role')->where('users.id', $lead_data->saler_id)->first();
             if ($wp->role == 'TTF-SALE') {
                 $status_code = '1.10';
             } else {
@@ -8669,5 +8700,709 @@ class AjaxController extends Controller
             // return $planName .'<br>'. $SelNumber . '<br>' . $activation_charge . '<br>' . $activation_rate_new;
 
         }
+    }
+    //
+    public function AddRequestAgent(Request $request){
+        return view('coordination.add-request-user');
+
+    }
+    //
+    public function RequestAgentStore(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'phone' => 'required',
+            // 'password' => 'required',
+            'img' => 'required',
+            'cnic_front' => 'required',
+            'cnic_back' => 'required',
+            'email' => 'required|unique:request_agents,email',
+            'cnic' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->all()]);
+        }
+        if ($file = $request->file('cnic_front')) {
+            //convert image to base64
+            $image = base64_encode(file_get_contents($request->file('cnic_front')));
+            $image2 = file_get_contents($request->file('cnic_front'));
+            // AzureCodeStart
+            $originalFileName = time() . $file->getClientOriginalName();
+            $multi_filePath = 'user-cnic' . '/' . $originalFileName;
+            \Storage::disk('azure')->put($multi_filePath, $image2);
+            // AzureCodeEnd
+            //prepare request
+            $mytime = Carbon::now();
+            $ext =  $mytime->toDateTimeString();
+            // $name = $ext . '-' . $file->getClientOriginalName();
+            $cnic_front = $originalFileName;
+            $file->move('user-cnic', $cnic_front);
+        } else {
+            $cnic_front = 'default.png';
+        }
+        if ($file = $request->file('img')) {
+            //convert image to base64
+            $image = base64_encode(file_get_contents($request->file('img')));
+            $image2 = file_get_contents($request->file('img'));
+            // AzureCodeStart
+            $originalFileName = time() . $file->getClientOriginalName();
+            $multi_filePath = 'user-cnic' . '/' . $originalFileName;
+            \Storage::disk('azure')->put($multi_filePath, $image2);
+            // AzureCodeEnd
+            //prepare request
+            $mytime = Carbon::now();
+            $ext =  $mytime->toDateTimeString();
+            // $name = $ext . '-' . $file->getClientOriginalName();
+            $name = $originalFileName;
+            $file->move('user-cnic', $name);
+        } else {
+            $name = 'default.png';
+        }
+        if ($file = $request->file('cnic_back')) {
+            //convert image to base64
+            $image = base64_encode(file_get_contents($request->file('cnic_back')));
+            $image2 = file_get_contents($request->file('cnic_back'));
+            // AzureCodeStart
+            $originalFileName = time() . $file->getClientOriginalName();
+            $multi_filePath = 'user-cnic' . '/' . $originalFileName;
+            \Storage::disk('azure')->put($multi_filePath, $image2);
+            // AzureCodeEnd
+            //prepare request
+            $mytime = Carbon::now();
+            $ext =  $mytime->toDateTimeString();
+            // $name = $ext . '-' . $file->getClientOriginalName();
+            $cnic_back = $originalFileName;
+            $file->move('user-cnic', $name);
+        } else {
+            $cnic_back = 'default.png';
+        }
+        $k = \App\Models\request_agent::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'agent_code' => auth()->user()->agent_code,
+            'password' => $request->password,
+            'status' => '0',
+            'jobtype' => $request->jobtype,
+            'cnic_front' => $cnic_front,
+            'cnic_back' => $cnic_back,
+            'profile' => $name,
+            'cnic_number' => $request->cnic,
+
+        ]);
+        // $ntc = call_center::where('call_center_code', $data->call_center)->first();
+        // if ($ntc) {
+        //     $to = [
+        //             [
+        //                 'email' => $ntc->notify_email, 'name' => 'Coordinator'
+        //             ]
+        //         ];
+        // } else {
+        //     $to = [
+        //             // [
+        //             //     'email' =>
+        //             //     'Aroojmalikam776@gmail.com',
+        //             //     'name' => 'Junaid',
+        //             // ],
+        //             [
+        //                 'email' =>
+        //                 'cc8alert@gmail.com',
+        //                 'name' => 'CC8 Coordinator',
+        //             ]
+        //         ];
+        // }
+        $details = [
+            'name' => $k->name,
+            'email' => $k->email,
+            'password' => $k->password,
+            'profile' => $k->profile,
+            'cnic_front' => $k->cnic_front,
+            'cnic_back' => $k->cnic_back,
+            'call_center' => $k->agent_code,
+        ];
+        $to = 'salmanahmedrajput@outlook.com';
+        \Mail::to($to)
+            ->cc(['salmanahmed334@gmail.com', 'isqintl@gmail.com'])
+            ->send(new \App\Mail\NewUserAlert($details));
+        // return "1";
+        // return $k;
+        return response()->json(['success' => 'User Request has been Generated, Please wait']);
+
+        // return redirect(route('request-agent.index'));
+    }
+    //
+    public function leadlocationstore(Request $request){
+
+        if($request->reverify_remarks != ''){
+            $validatedData = Validator::make($request->all(), [
+                'reverify_remarks' => 'required|string',
+            ]);
+            // return "s";
+            if ($validatedData->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatedData)
+                    ->withInput();
+            }
+            // return "b";
+            // return $request->lead_id;
+            $d = lead_sale::findOrFail($request->lead_id);
+            $d->update([
+                'status' => '1.01',
+                'remarks' => $request->reverify_remarks,
+                'date_time_follow' => $request->call_back_at_new,
+                'emirates' => $request->emirates,
+            ]);
+            $dd = verification_form::findOrFail($request->ver_id);
+            $dd->update([
+                'status' => '1.01',
+                'emirate_location' => $request->emirates,
+            ]);
+            // remark::create([
+            //     'remarks' => $request->reverify_remarks,
+            //     'lead_status' => '1.01',
+            //     'source' => 'Lead Forward to Reviewe'
+            //     'lead_id' => $request->lead_id,
+            //     'lead_no' => $request->lead_id, 'date_time' => $current_date_time = Carbon::now()->toDateTimeString(), // Produces something like "2019-03-11 12:25:00"
+            //     'user_agent' => auth()->user()->name,
+            //     'user_agent_id' => auth()->user()->id,
+            // ]);
+            return response()->json(['success' => 'lead has been forwarded to reverify']);
+            // return "Boom Reverify";
+            // notify()->success('Lead has been forward to re verification');
+
+            // return redirect()->back()->withInput();
+            // return redirect(route('verification.final-cord-lead'));
+        }
+        if($request->call_back_at_new != ''){
+            $validatedData = Validator::make($request->all(), [
+                'remarks_for_cordination' => 'required|string',
+            ]);
+            // return "s";
+            if ($validatedData->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatedData)
+                    ->withInput();
+            }
+            // return "b";
+            // return $request->lead_id;
+            $lead_data = $d = lead_sale::findOrFail($request->lead_id);
+            $d->update([
+                'status' => '1.19',
+                'remarks' => $request->remarks_for_cordination,
+                'date_time_follow' => $request->call_back_at_new,
+                'emirates' => $request->emirates,
+            ]);
+            $dd = verification_form::findOrFail($request->ver_id);
+            $dd->update([
+                'status' => '1.19',
+                'emirate_location' => $request->emirates,
+            ]);
+            // remark::create([
+            //     'remarks' => $request->call_back_at_new,
+            //     'lead_status' => '1.03',
+            //     'lead_id' => $request->lead_id,
+            //     'lead_no' => $request->lead_id, 'date_time' => $current_date_time = Carbon::now()->toDateTimeString(), // Produces something like "2019-03-11 12:25:00"
+            //     'user_agent' => auth()->user()->name,
+            //     'user_agent_id' => auth()->user()->id,
+            // ]);
+            // return
+            // notify()->success('Lead has been follow up now');
+            // return "Boom CallBack";
+            $a = "whatsapp://send?text=🔃   %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a Number Selected: $lead_data->selected_number %0a Plan selected: FE125 %0a Data : 4GB %0a  Activation: $lead_data->pay_status  %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name  %0a Follow Up";
+            return response()->json(['success' => $a]);
+            // return redirect()->back()->withInput();
+            // return redirect(route('verification.final-cord-lead'));
+        }
+        else{
+            // return $request;
+            $ldate = date('h:i A');
+            $validatedData = Validator::make($request->all(), [
+                'add_location' => 'required|string',
+                // 'add_lat_lng' => 'required',
+                'assing_to' => 'required',
+                'start_date' => 'required',
+                'start_time' => 'required|after:' . $ldate,
+                // 'end_date' => 'required',
+                // 'end_time' => 'required|after:start_time',
+                // 'lng' => 'required|numeric',
+            ]);
+            if ($validatedData->fails()) {
+                // return redirect()->back()
+                //     ->withErrors($validatedData)
+                //     ->withInput();
+                return response()->json(['error' => $validatedData->errors()->all()]);
+
+            }
+            if(!empty($request->add_lat_lng)){
+
+                $name = explode(',', $request->add_lat_lng);
+                $lat = $name[0];
+                $lng = $name[1];
+            }else{
+                $lat = '';
+                $lng = '';
+            }
+            $lead_data = $d = lead_sale::findOrFail($request->lead_id);
+            if($lead_data->status == '1.15'){
+                return response()->json(['error' => ['Documents' => ['Rejected leads cannot be proceed, Please make new lead']]], 200);
+            }
+            $ld = lead_location::where('lead_id',$request->lead_id)->first();
+            if($ld){
+                $ld->update([
+                    'assign_to' => $request->assing_to,
+                    'location_url' => $request->add_location,
+                    'lat' => $lat,
+                    'lng' => $lng,
+                ]);
+            }
+            else{
+                lead_location::create([
+                'lead_id' => $request->lead_id,
+                'location_url' => $request->add_location,
+                'lat' => $lat,
+                'lng' => $lng,
+                'assign_to' => $request->assing_to,
+                // 'number_allowed' => $request->num_allowed,
+                // 'duration' => $request->duration,
+                // 'revenue' => $request->revenue,
+                // 'free_minutes' => $request->free_min,
+                'status' => 1,
+                ]);
+            }
+            // $start_date = Carbon::today()->toDateString();
+            // $choosen_date = strtr($choosen_date, '/', '-');
+            // $choosen_date =  date('Y-d-m H:i:s', strtotime($choosen_date));
+            $choosen_date = $request->start_time;
+            $carbon_date = Carbon::parse($choosen_date);
+            $second_date  = $carbon_date->addHours(2);
+            // return "choosen date: ". $choosen_date . ' Return Date' . $second_date->toTimeString;
+            $lead_data = $d = lead_sale::findOrFail($request->lead_id);
+            $d->update([
+                'status' => '1.10',
+                'appointment_from' => date('H:i:s', strtotime($choosen_date)),
+                'appointment_to' => date('H:i:s', strtotime($second_date)),
+            ]);
+            $dd = verification_form::findOrFail($request->ver_id);
+            $dd->update([
+                'status' => '1.10',
+                'assing_to' => '1',
+                'cordination_by' => auth()->user()->id,
+                'emirate_location' => $request->emirates,
+            ]);
+            $planName = $lead_data->select_plan;
+            $SelNumber = $lead_data->selected_number;
+            $activation_charge = $lead_data->pay_status;
+            // return "LocationLead";
+            // var encodedURL = encodeURIComponent(some_url);
+            //
+            // $a = "whatsapp://send?text=New  %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a Number Selected: $lead_data->selected_number %0a Plan selected: FE125 %0a Data : 4GB %0a  Activation: $lead_data->pay_status  %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a Lead Location https://maps.google.com?q=$lng,$lat %0a %0a Customer Location";
+            // $a = "https://api.whatsapp.com/send?text= *Verified at Location*  %0a Lead No: $lead_data->lead_no %0a Date: $lead_data->date_time %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a %0a %0a *Sim Type $lead_data->sim_type* %0a";
+            // for ($i = 0; $i < $count; $i++) {
+            //     $a .= "Number Selected: *$selected_number[$i]*  %0a PassCode = *$passcode[$i]* %0a Plan selected: *$plan_name[$i]* %0a  Activation: $ac[$i] %0a";
+            // }
+            // $a .= "%0a %0a %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a Verified %0a &phone=$wp_num";
+            if (strpos($planName, ",") !== false) {
+                // list($d, $l) = explode('.', $dm, 2);
+                foreach (explode(',', $planName) as $key => $k) {
+                    // $plan = \App\Models\plan::where('id',$k)->first();
+                    $plan = \App\Models\plan::findorfail($k);
+                    //  return $SelNumber[$key];
+                    $plan_name[] = $plan->plan_name;
+                    $data_gb[] = $plan->data;
+                    // $plan_name = $plan->plan_name;
+                    // $plan_name[] = $plan->plan_name;
+                    // }
+                    // foreach(explode(',', $SelNumber) as $k){
+                    // $plan = \App\Models\plan::where('id',$k)->first();
+                }
+                foreach (explode(',', $SelNumber) as $key => $k) {
+                    // $plan = \App\Models\plan::where('id',$k)->first();
+                    //  $plan = \App\Models\plan::findorfail($k);
+                    //  return $SelNumber[$key];
+                    // $plan_name[] = $plan->plan_name;
+                    // $data_gb[] = $plan->data;
+                    // $plan_name = $plan->plan_name;
+                    // $plan_name[] = $plan->plan_name;
+                    // }
+                    // foreach(explode(',', $SelNumber) as $k){
+                    // $plan = \App\Models\plan::where('id',$k)->first();
+                    $numberd = \App\Models\numberdetail::where('number', $k)->first();
+                    $selected_number[] = $numberd->number;
+                    $passcode[] = $numberd->passcode;
+                }
+                foreach (explode(',', $activation_charge) as $key => $k) {
+                    // $plan = \App\Models\plan::where('id',$k)->first();
+                    //  $plan = \App\Models\plan::findorfail($k);
+                    //  return $SelNumber[$key];
+                    // $plan_name[] = $plan->plan_name;
+                    // $data_gb[] = $plan->data;
+                    // $plan_name = $plan->plan_name;
+                    // $plan_name[] = $plan->plan_name;
+                    // }
+                    // foreach(explode(',', $SelNumber) as $k){
+                    // $plan = \App\Models\plan::where('id',$k)->first();
+                    // $numberd = \App\numberdetail::where('number', $k)->first();
+                    // $selected_number[] = $numberd->number;
+                    $ac[] = $k;
+                }
+                $tag = explode(',', $SelNumber);
+                $count = count($tag);
+                // $pay_status[] = $activation_rate_new[$key];
+                // $plan_name['0'];
+                // return $activation_charge;
+                $a = "https://api.whatsapp.com/send?text= *New Verified Lead*  %0a Lead No: $lead_data->lead_no %0a Date: $lead_data->date_time %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a %0a %0a *Sim Type $lead_data->sim_type* %0a";
+                for ($i = 0; $i < $count; $i++) {
+                    $a .= "Number Selected: *$selected_number[$i]*  %0a PassCode = *$passcode[$i]* %0a Plan selected: *$plan_name[$i]* %0a  Activation: $ac[$i] %0a";
+                }
+                $a .= "%0a %0a %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a Lead Location https://maps.google.com?q=$lng,$lat %0a &phone=971556323867";
+                return response()->json(['success' => $a]);
+            } else {
+                // return $SelNumber;
+                $plan = \App\Models\plan::findorfail($planName);
+                $numberd = numberdetail::where('number', $SelNumber)->first();
+
+                $plan_name = $plan->plan_name;
+                $data_gb = $plan->data;
+                if ($numberd) {
+                    $selected_number = $numberd->number;
+                    $passcode = $numberd->passcode;
+                }
+                else{
+                    $selected_number = $lead_data->customer_number;
+                    $passcode = 'MNP';
+                }
+                $pay_status = $activation_charge;
+                $a = "https://api.whatsapp.com/send?text= **New Verified Lead*  %0a Lead No: $lead_data->lead_no %0a Date: $lead_data->date_time %0a Customer Name: $lead_data->customer_name %0a Customer Number $lead_data->customer_number %0a %0a %0a *Sim Type $lead_data->sim_type* %0a Number Selected: *$selected_number*  %0a PassCode = *$passcode* %0a Plan selected: *$plan_name* %0a Activation: $pay_status  %0a %0a %0a Gender: $lead_data->gender  %0a  Emirates location: $lead_data->emirates  %0a Nationality: $lead_data->nationality  %0a Document: ID $lead_data->additional_document %0a  Language: $lead_data->language  %0a Sales person: $lead_data->saler_name %0a Lead Location https://maps.google.com?q=$lng,$lat %0a &phone=971556323867";
+                return response()->json(['success' => $a]);
+            }
+            // return response()->json(['success' => $a]);
+            // notify()->success('Location Added succesfully');
+
+            // return redirect()->back()->withInput();
+            // return redirect(route('verification.final-cord-lead'));
+
+
+        }
+    }
+    //
+    public function leadupdatenew(Request $request){
+        $ldate = date('h:i A');
+        // return $request->remarks_process_new;
+        $validator = Validator::make($request->all(), [ // <---
+            // 'title' => 'required|unique:posts|max:255',
+            // 'body' => 'required',
+            'cname' => 'required|string',
+            'cnumber' => 'required|string',
+            'nation' => 'required',
+            'age' => 'required|numeric|min:20|not_in:20',
+            'simtype' => 'required',
+            'gender' => 'required',
+            'emirates' => 'required',
+            'emirate_id' => 'required',
+            'language' => 'required',
+            'plan_new' => 'required',
+            'area' => 'required',
+            // 'selnumber' => 'required|numeric',
+            'activation_charges_new' => 'required',
+            'activation_rate_new' => 'required',
+            'remarks_process_new' => 'required',
+            // 'mytypeval.*' => 'required',
+            'selnumber.*' => 'required',
+            'plan_new.*' => 'required',
+            'activation_charges_new.*' => 'required',
+            'activation_rate_new.*' => 'required',
+            'assing_to' => 'required',
+            'start_date' => 'required',
+            // 'start_date' => 'required_if',
+            'start_time' => 'required|after:' . $ldate,
+
+        ]);
+        $leadchecker = lead_sale::where('customer_number', $request->cnumber)
+            ->whereIn('status', ['1.05', '1.07', '1.08', '1.09', '1.10', '1.16', '1.17', '1.19', '1.20', '1.21', '1.01', '1.06'])
+            ->Join(
+                'users',
+                'users.id',
+                'lead_sales.saler_id'
+            )
+            ->where('lead_sales.sim_type', 'New')
+            ->where('users.agent_code', auth()->user()->agent_code)
+            // ->whereDate('lead_sales.created_at',Carbon::now()->today())
+            ->first();
+        // return $request->emirates;
+
+        // if($request->emirates != 'Sharjah' || $request->emirates != 'Ajman' || $request->emirates != 'Umm ul Quwain'){
+
+        //     $check_num = \App\Models\numberdetail::whereIn('number', [$request->selnumber])->whereIn('identity', ['STDOCTID1', 'SilOct1ID'])->first();
+        //     if ($check_num) {
+        //         // $channel = 'MWH';
+        //         return response()->json(['error' => ['Documents' => ['Number only For Sharjah, Ajman and Umm Ul Quwain.']]], 200);
+        //     }
+        // }
+        // if($request->emirates != 'Sharjah' && $request->emirates != 'Ajman'){
+
+        //     $check_num2 = \App\Models\numberdetail::whereIn('number', [$request->selnumber])->whereIn('identity', ['MWAJSH22JUL2-22'])->first();
+        //     if ($check_num2) {
+        //         // $channel = 'MWH';
+        //         return response()->json(['error' => ['Documents' => ['Number only For Sharjah or Ajman.']]], 200);
+        //     }
+        // }
+        // if($leadchecker){
+        //     return response()->json(['error' => ['Documents' => ['Same Customer Number Lead Already Exist, Kindly Contact with IT Admin.']]], 200);
+        // }
+        // if($request->nation != 'United Arab ')
+        // return $request->nation;
+        if (empty($request->selnumber)) {
+            // return response()->json(['error' => 'Please Choose Documents']);
+            return response()->json(['error' => ['Documents' => ['Please Select Number.']]], 200);
+        }
+        if ($request->nation != 'United Arab Emirates') {
+            // return $request->additional_document;
+            if ($request->additional_document == 'No Additional Document Required') {
+                // return response()->json(['error' => 'Please Choose Documents']);
+                return response()->json(['error' => ['Documents' => ['Documents invalid.']]], 200);
+            }
+            // if($request->plans == 'Gold Plus'){
+
+            // }
+            if (strpos(implode(',', $request->plan_new), 'Emirati') !== FALSE) { // Yoshi version
+                // echo "Match found";
+                // return true;
+                return response()->json(['error' => ['Documents' => ['Invalid Package Selection, Selected Package only allowed for UAE Citizen']]], 200);
+            }
+        }
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->all()]);
+        }
+        $choosen_date = $request->start_time;
+        $carbon_date = Carbon::parse($choosen_date);
+        $second_date  = $carbon_date->addHours(2);
+        // return $request;
+        $planName = implode(',', $request->plan_new);
+        // return response()->json(['error' => ['Documents' => [$planName]]], 200);
+
+        $SelNumber = implode(",", $request->selnumber);
+        $activation_charge = implode(",", $request->activation_charges_new);
+        $activation_rate_new = implode(",", $request->activation_rate_new);
+
+        $data = lead_sale::updateOrCreate(
+            [
+                'id'   => $request->leadid,
+            ],
+            [
+            'customer_name' => $request->cname,
+            'customer_number' => $request->cnumber,
+            'area' => $request->area,
+            'nationality' => $request->nation,
+            'age' => $request->age,
+            'sim_type' => $request->simtype,
+            'gender' => $request->gender,
+            'lead_type' => 'postpaid',
+            'channel_type' => 'ConnectCC',
+            'emirates' => $request->emirates,
+            'emirate_num' => $request->emirate_number,
+            'etisalat_number' => $request->etisalat_number,
+            'emirate_id' => $request->emirate_id,
+            'language' => $request->language,
+            'share_with' => $request->shared_with,
+            'additional_document' => $request->additional_document,
+            'saler_id' => auth()->user()->id,
+            // main
+            'selected_number' => $SelNumber,
+            'select_plan' => $planName,
+            // 'contract_commitment' => $request->status,
+            'contract_commitment' => $request->contract_comm_mnp,
+            // 'lead_no' => $lead_no,
+            'remarks' => $request->remarks_process_new,
+            'status' => '1.01',
+            'saler_name' => auth()->user()->name,
+            'pay_status' => $activation_charge,
+            'pay_charges' => $activation_rate_new,
+            // 'device' => $request->status,
+            // 'date_time' => $lead_date,
+            // 'date_time_follow' => $lead_date,
+            'appointment_from' => date('H:i:s', strtotime($choosen_date)),
+            'appointment_to' => date('H:i:s', strtotime($second_date)),
+            // 'date_time' => $current_date_time = Carbon::now()->toDateTimeString(), // Produces something like "2019-03-11 12:25:00"
+            // 'date_time_follow' => $current_date_time = Carbon::now()->toDateTimeString(),
+            // 'commitment_period' => $request->status,
+        ]);
+        foreach ($request->selnumber as $key => $val) {
+
+// return auth()->user()->id;
+        $damn = choosen_number::select('numberdetails.id', 'choosen_numbers.id as cid')
+        ->Join(
+            'numberdetails',
+            'numberdetails.id',
+            '=',
+            'choosen_numbers.number_id'
+        )
+            ->where("choosen_numbers.user_id", auth()->user()->id)
+            ->where('numberdetails.non_c', '1')
+            ->where('choosen_numbers.status', '1')
+            // ->Orwhere('choosen_numbers.status', '1')
+            ->where('numberdetails.number', $val)
+            ->first();
+
+        // $lead_test = lead_sale::select('lead_sales.channel_type')->where('selected_number', $val)->first();
+        // if ($lead_test) {
+        //     $mmm = lead_sale::findorfail($data->id);
+        //     $mmm->channel_type = $lead_test->channel_type;
+        //     $mmm->save();
+        // }
+        // if($damn){
+        //     $mycount = $damn->count();
+        // }
+
+
+        $count = numberdetail::select("numberdetails.id")
+        ->where('numberdetails.number', $val)
+        ->where('numberdetails.status', 'Available')
+        ->count();
+        if ($damn) {
+            $d = numberdetail::select("numberdetails.id")
+            ->where('numberdetails.number', $val)
+            ->first();
+            $k = numberdetail::findorfail($d->id);
+            $k->status = 'Reserved';
+            $k->book_type = '1';
+            $k->save();
+            $k = choosen_number::findorfail($damn->cid);
+            $k->status = '2';
+            // $k->book_type = '1';
+            $k->save();
+
+            $m = lead_sale::findorfail($data->id);
+            $m->status = '1.01';
+            $m->save();
+
+                $ntc = lead_sale::select('call_centers.numbers')
+                ->Join(
+                    'users',
+                    'users.id',
+                    'lead_sales.saler_id'
+                )
+                ->Join(
+                    'call_centers',
+                    'call_centers.call_center_code',
+                    'users.agent_code'
+                )
+                ->where('lead_sales.id', $data->id)->first();
+                //
+                $link = route('view.lead', $data->id);
+
+                //
+                $details = [
+                    'language' => $data->language,
+                    'lead_id' => $data->id,
+                    'lead_no' => $data->lead_no,
+                    'customer_name' => $data->customer_name,
+                    'customer_number' => $data->customer_number,
+                    'selected_number' => $data->selected_number,
+                    'remarks' => $request->remarks_process_new . ' ' . ' Remarks By ' . auth()->user()->name . ' (' .  auth()->user()->email . ')',
+                    'remarks_final' => $request->remarks_process_new,
+                    'saler_name' => $data->saler_name,
+                    'link' => $link,
+                    'agent_code' => auth()->user()->agent_code,
+                    'number' => $ntc->numbers . ',' . '923121337222',
+                    // 'Plan' => $number,
+                    // 'AlternativeNumber' => $alternativeNumber,
+                ];
+
+                // return $details;
+
+                \App\Http\Controllers\ChatController::SendNewLeadMessage($details);
+            return response()->json(['success' => 'Sale has been submitted succesfully']);
+        }
+        // if ($count > 0) {
+        //     $d = numberdetail::select("numberdetails.id")
+        //     ->where('numberdetails.number', $val)
+        //     ->first();
+        //     $k = numberdetail::findorfail($d->id);
+        //     $k->status = 'Reserved';
+        //     $k->book_type = '1';
+        //     $k->save();
+
+        //     //
+        //     $k = choosen_number::create([
+        //         'number_id' => $d->id,
+        //         'user_id' => auth()->user()->id,
+        //         'status' => '1',
+        //         'book_type' => '1',
+        //         'agent_group' => auth()->user()->agent_code,
+        //         // 'ip_address' => Request::ip(),
+        //         'date_time' => Carbon::now()->toDateTimeString(),
+        //     ]);
+        //     // return "number has been reserved";
+        //     $log = choosen_number_log::create([
+        //         // 'number'
+        //         'number_id' => $k->id,
+        //         'user_id' => auth()->user()->id,
+        //         'agent_group' => auth()->user()->agent_code,
+        //     ]);
+        //     //
+        // }
+        else {
+            // return "AEMA";
+            // $m = lead_sale::findorfail($data->id);
+            // $m->status = '1.03';
+            // $m->save();
+            // return response()->json(['error' => ['Documents' => ['Documents invalid.']]], 200);
+
+            return response()->json(['error' => ['Documents' => ['Number Already Selected => ' . $val . ', Please Make New Lead.']]], 200);
+            }
+        }
+            // $d = numberdetail::select("numberdetails.id")
+            // ->where('numberdetails.number', $val)
+            // ->first();
+            // $k = numberdetail::findorfail($d->id);
+            // $k->status = 'Reserved';
+            // $k->save();
+            // //
+            // $k = choosen_number::create([
+            //         'number_id' => $k->id,
+            //         'user_id' => auth()->user()->id,
+            //         'status' => '1',
+            //         'agent_group' => auth()->user()->agent_code,
+            //         // 'ip_address' => Request::ip(),
+            //         'date_time' => Carbon::now()->toDateTimeString(),
+            //     ]);
+            // // return "number has been reserved";
+            // $log = choosen_number_log::create([
+            //     // 'number'
+            //     'number_id' => $k->id,
+            //     'user_id' => auth()->user()->id,
+            //     'agent_group' => auth()->user()->agent_code,
+            // ]);
+            // return $ch->id;
+
+    }
+    //
+    public function numbersystemstore(Request $request){
+        $validator = Validator::make($request->all(), [ // <---
+
+            'number' => 'required|numeric|unique:numberdetails,number',
+            'number_category' => 'required',
+            'number_passcode' => 'required|numeric',
+            'call_center' => 'required',
+            'number_status' => 'required',
+            'channel_partner' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $data = numberdetail::create([
+            'number' => $request->number,
+            'type' => $request->number_category,
+            'passcode' => $request->number_passcode,
+            'call_center' => $request->call_center,
+            'identity' => $request->number_status,
+            'channel_type' => $request->channel_partner,
+            // 'channel_type' => 'TTF',
+        ]);
+        notify()->success('New Number has been Added succesfully');
+
+        // return redirect()->back()->withInput();
+        return redirect(route('number-system.create'));
     }
 }

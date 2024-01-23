@@ -79,7 +79,8 @@
                                 <select name="nation" id="c_select" class="form-control select2" required>
 
                                     @foreach($countries as $country)
-                                        <option value="{{ $country->name }}">{{ $country->name }}</option>
+                                        <option value="{{ $country->name }}" @if ($data->nationality==$country->name)
+                                            {{ 'selected' }} @endif>{{ $country->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -214,6 +215,10 @@
 
                                 </select>
                         </div>
+                             <div class="mb-4 col-md-4">
+                                <label for="shared_with">Etisalat Portal ID</label>
+                                <input type="text" name="eti_lead_id" id="eti_lead_id" value="{{$data->eti_lead_id}}" class="form-control">
+                        </div>
                         <div class="form-group">
                   <label for="customer_provider" style="color:red;">Customer Will Provide Location to Agent</label>
                   <input type="checkbox" name="customer_provider" id="customer_provider" checked>
@@ -294,6 +299,12 @@
                                     </div>
                                 </div> --}}
                             </div>
+
+                            @foreach ($audios as $audio)
+                                <audio preload controls src='{{env('CDN_URL')}}/audio/{{$audio->audio_file}}'
+                                    id='audio-player' name='audio-player'></audio>
+                                    <a href="{{env('CDN_URL')}}/audio/{{$audio->audio_file}}" download>Download</a>
+                                @endforeach
                                 {{-- @include('agent.ajax.new') --}}
 
                                  <div class="alert alert-danger print-error-msg mt-4eb." style="display:none">

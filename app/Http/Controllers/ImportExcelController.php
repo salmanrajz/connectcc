@@ -29,6 +29,8 @@ use App\Models\whatsapp_number;
 use App\Models\WhatsAppMnpBank;
 use Maatwebsite\Excel\Facades\Excel;
 use Storage;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class ImportExcelController extends Controller
@@ -164,6 +166,12 @@ class ImportExcelController extends Controller
     //
     public function dnc_checker_list_new(Request $request)
     {
+
+
+
+        // return $request;
+        // return $output_str;
+
 
 
         if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
@@ -350,6 +358,7 @@ class ImportExcelController extends Controller
             // return $k;
             $k =  json_decode($k, true);
             // return $k[''];
+            // return $k;
             if ($k['exists'] == true) {
                 $pr[] = preg_replace('/@s.whatsapp.net/', ',', $k['jid']);
             }
@@ -359,13 +368,24 @@ class ImportExcelController extends Controller
             //  }
             // $l =  preg_replace('/971/', '0', $k, 3);
         }
+        if(!isset($pr)){
+                return redirect()->back()
+                    ->withErrors('Invalid Number, No Numbers found for Calling - ')
+                    ->withInput();
+        }
+        // return $pr;
         foreach ($pr as $p) {
             // return $p;
             // echo $p . '<br>';
             $z = str_replace(',', ' ', $p);
             // $z =
             // echo $z . '<br>';
-            $l =  preg_replace('/971/', '0', $z, 3);
+            $str_to_replace = '0';
+
+            // $input_str = '971509714080';
+
+            $l =  $output_str = $str_to_replace . substr($z, 3);
+            // $l =  preg_replace('/971/', '0', $z, 3);
             // }
 
             // return "Zoom";
@@ -392,6 +412,7 @@ class ImportExcelController extends Controller
                     'country_number' => preg_replace('/0/', '971', $k, 1),
                     'userid' => auth()->user()->id,
                     'session_id' => $session_id,
+                    'pitch' => $request->pitch,
                 ]);
                 // }
             }
@@ -1627,6 +1648,12 @@ class ImportExcelController extends Controller
         // return Excel::download(new whatsapp_export($id, $session_id), '_' . $id . 'whatsapp_export.xlsx');
     }
     //
+    public static function MyTotalCount($number){
+        return $k = whatsapp_number::select('id', 'number', 'country_number')
+            ->where('number', $number)
+            ->get()->count();
+    }
+    //
     public function submit_feedback_number(Request $request)
     {
         // return $request;
@@ -1770,19 +1797,32 @@ class ImportExcelController extends Controller
     //
     function import(Request $request)
     {
-        return $request;
-        $this->validate($request, [
+        // return $request;
+        // $validatedData = validate($request, [
+        //     'select_file'  => 'required|mimes:xls,xlsx'
+        // ]);
+        // if ($validatedData->fails()) {
+        //     return redirect()->back()
+        //     ->withErrors($validatedData)
+        //     ->withInput();
+        // }
+        $validatedData = Validator::make($request->all(), [
             'select_file'  => 'required|mimes:xls,xlsx'
         ]);
-
+        if ($validatedData->fails()) {
+            return redirect()->back()
+                ->withErrors($validatedData)
+                ->withInput();
+        }
         // $path = $request->file('select_file')->getRealPath();
         $path1 = $request->file('select_file')->store('temp');
         $path = storage_path('app') . '/' . $path1;
         // $path = storage_path('app') . '/' . $path1;
         // $data = \Excel::import(new UsersImport, $path);
-
+        // return $path;
         // $data = Excel::Import(new $path);
         // Excel::import(new NumberImport, $path);
+        // return "ZOom";
         Excel::import(new NumberImport, $path);
         return back()->with('success', 'Number Data Imported successfullys.');
         //

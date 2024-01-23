@@ -34,6 +34,8 @@ use App\Models\pageauth;
 use Session;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 
 
 
@@ -61,6 +63,31 @@ class HomeController extends Controller
      */
     //
     public function test(){
+        //
+        $data = DB::table('activation_forms')
+        ->select(\DB::raw('(@count:=@count+1) AS serial'), 'activation_forms.activation_selected_no', 'activation_forms.activation_sr_no', 'plans.plan_name', 'activation_forms.sim_type', 'activation_forms.activation_date')
+            ->LeftJoin(
+                'plans',
+                'plans.id',
+                'activation_forms.select_plan'
+            )
+            ->LeftJoin(
+                'users',
+                'users.id',
+                'activation_forms.saler_id'
+            )
+            // ->where('activation_forms.channel_type', 'ConnectCC')
+            ->where('activation_forms.status', '1.02')
+            ->whereMonth('activation_forms.created_at', Carbon::now()->month)
+            ->whereYear('activation_forms.created_at', Carbon::now()->year);
+        // ->get();
+        // dd($data->toSql());
+
+        $queryString = $data->toSql();
+        // dd($queryString);
+        // Convert query builder instance to string
+        DB::statement(DB::raw('set @count=0 AS serial'));
+        return $result = DB::select(DB::raw($queryString));
         // return "Test";
        $salesData = \App\Models\lead_sale::selectRaw("COUNT(*) as count, lead_sales.saler_id")
             ->LeftJoin(
@@ -4774,7 +4801,7 @@ class HomeController extends Controller
         // return auth()->user()->role;
         if(auth()->user()->role == 'Emirate Coordinator'){
             $channel_partner = channel_partner::where('status', '1')->get();
-            return view('dashboard.emirate-cordination-dashboard',compact('channel_partner'));
+            return view('coordination.emirate-coordination-dashboard',compact('channel_partner'));
         }
         if(auth()->user()->role =='MWHGUEST'){
             // return "Zoom";
@@ -6515,7 +6542,7 @@ class HomeController extends Controller
             //     '=',
             //     'lead_sales.id'
             // )
-        ->whereIn('lead_sales.channel_type', $mychannel)
+        // ->whereIn('lead_sales.channel_type', )
         ->whereIn('lead_sales.status', ['1.10', '1.21'])
         // ->where('lead_locations.assign_to', '!=', auth()->user()->id)
         ->whereDate('lead_sales.updated_at', Carbon::yesterday())

@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class FunctionController extends Controller
 {
     //
     public function logout(){
-        auth()->logout();
-        Session()->flush();
-
-        return \Redirect::to('/');
+        // return "000";
+        Auth::logout();
+        return redirect(route('login'));
     }
     //
     public function AddDncr(Request $request)
@@ -92,5 +92,34 @@ class FunctionController extends Controller
         // return
         // return back()->with('success', 'File Generated successfully.');
 
+    }
+    //
+    public static function MyTotalSale($id)
+    {
+        // return $id;
+       return $active = \App\Models\activation_form::select('activation_forms.created_at')
+        ->LeftJoin(
+            'lead_sales',
+            'lead_sales.id',
+            'activation_forms.lead_id'
+        )
+            ->Join(
+                'users',
+                'users.id',
+                'lead_sales.saler_id'
+            )
+            ->where('activation_forms.status', '1.02')
+            // ->whereIn('lead_sales.lead_type', ['postpaid', 'HomeWifi'])
+            // ->whereIn('lead_sales.channel_type', ['TTF','ExpressDial','MWH','Ideacorp'])
+            ->where('users.id', $id)
+            ->orderBy('activation_forms.created_at', 'desc')
+            ->whereMonth('activation_forms.created_at', Carbon::now()->month)
+            ->whereYear('activation_forms.created_at', Carbon::now()->year)
+            ->get()->count();
+
+        // ->count();
+        // ->whereIn('lead_sales.channel_type', ['TTF','ExpressDial','MWH','Ideacorp'])
+        // ->whereBetween('date_time', [$today->startOfMonth(), $today->endOfMonth])
+        // ->where('users.id', $id)
     }
 }

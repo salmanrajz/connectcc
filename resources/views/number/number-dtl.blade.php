@@ -32,8 +32,26 @@
     Please wait while system loading numbers...
     <img src="{{asset('js/plugins/slick-carousel/ajax-loader.gif')}}" alt="Loading" class="img-fluid text-center offset-md-6">
 </h3>
-<div id="broom">
+<div id="broom" class="container">
 
 </div>
+      <script src="{{asset('js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-responsive-bs5/js/responsive.bootstrap5.min.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-buttons/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-buttons-jszip/jszip.min.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-buttons-pdfmake/pdfmake.min.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-buttons-pdfmake/vfs_fonts.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-buttons/buttons.print.min.js')}}"></script>
+    <script src="{{asset('js/plugins/datatables-buttons/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('js/plugins/sweetalert2/sweetalert2.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('js/plugins/sweetalert2/sweetalert2.css')}}">
+    <!-- Page JS Code -->
+    <script src="{{asset('js/pages/be_tables_datatables.min.js')}}"></script>
+    <script>
+        $(document).ready( function () {    $('#MyTable').DataTable();} );
 
+    </script>
 @endsection

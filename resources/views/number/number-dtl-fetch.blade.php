@@ -30,16 +30,16 @@
     </table>
 </div>
 @else
-<div class="table-responsive" id="broom">
+<div class="table-responsive" >
     {{-- <table class="table "> --}}
 
-    <table class="table table-striped table-bordered zero-configuration">
+    <table class="table table-striped table-bordered zero-configuration" id="MyTable">
         <thead>
             <tr>
                 <th>Number</th>
                 <th>Type</th>
                 <th>Status</th>
-                <th>RS</th>
+                {{-- <th>RS</th> --}}
                 {{-- <th>Number usage count</th> --}}
                 {{-- <th>Channel</th> --}}
             {{-- @role('Manager|NumberSuperAdmin|Cordination') --}}
@@ -65,9 +65,9 @@
                 <td style="font-size:18px;color:red">
                     {{$item->identity}}
                 </td>
-                <td>
+                {{-- <td>
                     {{$item->total}}
-                </td>
+                </td> --}}
                 {{-- <td style="font-size:18px;color:red">
                     @php
                     $cho = \App\choosen_number::select('id')->where('number_id',$item->id)->count();
@@ -81,17 +81,20 @@
                 {{-- <td style="font-size:18px;"> --}}
                     {{-- {{$item->channel_type}} --}}
                 {{-- </td> --}}
+                {{-- {{auth()->user()->role}} --}}
                 @role('Manager|NumberSuperAdmin|Cordination|Emirate Coordinator|FloorManager|TeamLeader|Admin')
                 {{-- @role('Coordinator') --}}
                 <td>
                 <a href="#" onclick="VerifyNum2('{{$item->id}}','{{route('ajaxRequest.VerifyNum2')}}')" class="btn btn-success">Remove</a>
                 </td>
                 @endrole
-                @role('sale|NumberAdmin|Admin')
+                {{-- @role('sale|NumberAdmin|Admin') --}}
+                @if(auth()->user()->role == 'sale' || auth()->user()->role == 'NumberAdmin' || auth()->user()->role == 'Admin')
                 <td>
                     <a href="#" onclick="BookNum('{{$item->id}}','{{route('ajaxRequest.BookNum')}}','{{$item->channel_type}}','{{$item->number}}','{{'home'}}')" class="btn btn-success">Reserved Number</a>
                 </td>
-                @endrole
+                @endif
+                {{-- @endrole --}}
             </tr>
             @endforeach
         </tbody>
@@ -99,5 +102,9 @@
     </table>
 </div>
 @endif
-    <script src="{{asset('js/main.js')}}?id={{time()}}"></script>
+{{-- <script src="{{asset('js/main.js')}}?id={{time()}}"></script> --}}
+<script>
+        $(document).ready( function () {    $('#MyTable').DataTable();} );
+
+</script>
 

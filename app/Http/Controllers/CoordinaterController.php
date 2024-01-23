@@ -115,7 +115,7 @@ class CoordinaterController extends Controller
                 'lead_sales.status',
                 ['1.10', '1.21']
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->groupBy('verification_forms.lead_no')
             ->get();
         // ->count();
@@ -174,7 +174,7 @@ class CoordinaterController extends Controller
                 'lead_sales.status',
                 ['1.10', '1.21']
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->groupBy('verification_forms.lead_no')
             ->get();
         // ->count();
@@ -248,7 +248,7 @@ class CoordinaterController extends Controller
             // ->where('appointment_from', '=<', Carbon::now())
             // ->where('appointment_to', '>=', Carbon::now())
             // ->where('appointment_to', '', Carbon::now())
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->whereIn('lead_sales.status', ['1.10', '1.21'])
             ->whereDate('lead_sales.updated_at', Carbon::today())
             // ->where('lead_sales.updated_at')
@@ -306,7 +306,7 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->where(function ($query) use ($currentTime) {
                 $query->where('appointment_from', '>', Carbon::now())
                     ->where('appointment_to', '<=', Carbon::now());
@@ -459,7 +459,7 @@ class CoordinaterController extends Controller
                 'lead_sales.status',
                 ['1.10', '1.21']
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->groupBy('verification_forms.lead_no')
             ->get()
             ->count();
@@ -489,7 +489,7 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.saler_id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
             ->where('appointment_to', '<', Carbon::now())
             ->whereIn(
@@ -691,7 +691,7 @@ class CoordinaterController extends Controller
             // ->where('appointment_from', '=<', Carbon::now())
             // ->where('appointment_to', '>=', Carbon::now())
             // ->where('appointment_to', '', Carbon::now())
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
 
             ->whereIn('lead_sales.status', ['1.10', '1.21'])
             ->whereDate('lead_sales.updated_at', Carbon::today())
@@ -731,7 +731,7 @@ class CoordinaterController extends Controller
                 $query->where('appointment_from', '>', Carbon::now())
                     ->where('appointment_to', '<=', Carbon::now());
             })
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
             // ->orWhere(function ($query) use ($currentTime) {
 
@@ -1483,7 +1483,7 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->where('lead_locations.assign_to', $userid)
             ->where('lead_sales.status', '1.10')
             // ->where('lead_sales.emirates', $id)
@@ -1509,7 +1509,7 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->where('lead_sales.status', '1.10')
             ->where('lead_locations.assign_to', $id)->get()->count();
         // return $operation = verification_form::select("verification_forms.lead_no")
@@ -1575,7 +1575,7 @@ class CoordinaterController extends Controller
                 '=',
                 'users.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
 
             // ->where('users.id', auth()->user()->id)
             ->where('lead_sales.status', '1.05')
@@ -1597,7 +1597,7 @@ class CoordinaterController extends Controller
                 'users.id'
             )
             // ->where('users.id', auth()->user()->id)
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->where('lead_sales.status', '1.05')
             ->where('lead_sales.lead_type', 'postpaid')
             ->whereDate('lead_sales.updated_at', Carbon::today())
@@ -1617,7 +1617,7 @@ class CoordinaterController extends Controller
                 '=',
                 'users.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
 
             // ->where('users.id', auth()->user()->id)
             ->where('lead_sales.status', '1.21')
@@ -1713,7 +1713,7 @@ class CoordinaterController extends Controller
             //         '=',
             //         'lead_sales.saler_id'
             //     )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
 
             ->where('lead_sales.status', '1.15')
             ->whereDate('lead_sales.updated_at', Carbon::today())
@@ -1754,7 +1754,7 @@ class CoordinaterController extends Controller
             //         '=',
             //         'lead_sales.saler_id'
             //     )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->where('lead_sales.status', '1.15')
             ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
             ->whereDate('lead_sales.updated_at', Carbon::today())
@@ -1806,7 +1806,7 @@ class CoordinaterController extends Controller
         $mychannel = \App\Models\AssignChannel::select('name')->where('userid', auth()->user()->id)->pluck('name');
 
         return $operation = activation_form::where('status', '1.02')
-            ->whereIn('activation_forms.channel_type', $mychannel)
+            ->whereIn('activation_forms.channel_type', ['ConnectCC'])
 
             ->whereDate('activation_forms.created_at', Carbon::today())
             ->get()->count();
@@ -1833,7 +1833,7 @@ class CoordinaterController extends Controller
         $mychannel = \App\Models\AssignChannel::select('name')->where('userid', auth()->user()->id)->pluck('name');
 
         return $operation = activation_form::where('status', '1.02')
-            ->whereIn('activation_forms.channel_type', $mychannel)
+            ->whereIn('activation_forms.channel_type',['ConnectCC'])
             ->whereMonth('activation_forms.created_at', Carbon::now()->month)
             ->whereYear('activation_forms.created_at', Carbon::now()->year)
 
@@ -2203,10 +2203,12 @@ class CoordinaterController extends Controller
                     '=',
                     'lead_sales.id'
                 )
-                ->whereIn('lead_sales.channel_type', $mychannel)
+                // ->whereIn('lead_sales.channel_type', $mychannel)
                 ->whereIn('lead_sales.status', ['1.10', '1.21'])
-                ->where('lead_locations.assign_to', '!=', auth()->user()->id)
+                ->where('lead_locations.assign_to', '!=', 136)
                 ->whereDate('lead_sales.updated_at', Carbon::today())
+                ->whereNotNull('lead_sales.eti_lead_id')
+
                 // ->where('users.agent_code', auth()->user()->agent_code)
                 // ->where('verification_forms.assing_to', auth()->user()->id)
                 // ->where('verification_forms.emirate_location', auth()->user()->emirate)
@@ -2265,6 +2267,8 @@ class CoordinaterController extends Controller
                 ->where('lead_sales.status', '1.10')
                 ->whereDate('lead_sales.updated_at', Carbon::today())
                 ->orderBy('lead_sales.updated_at', 'desc')
+                ->whereNotNull('lead_sales.eti_lead_id')
+
                 ->get();
             // $operation = lead_sale::wherestatus('1.01')->get();
             return view('manager.mygrplead', compact('operation'));
@@ -2373,11 +2377,12 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', ['ExpressDial'])
+            ->whereIn('lead_sales.channel_type', ['ConnectCC'])
             ->whereIn('lead_sales.status', ['1.10', '1.21'])
             ->where('lead_locations.assign_to', '!=', 136)
-            ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
+            // ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
             ->whereDate('lead_sales.updated_at', Carbon::today())
+            ->whereNotNull('lead_sales.eti_lead_id')
             // ->where('users.agent_code', auth()->user()->agent_code)
             // ->where('verification_forms.assing_to', auth()->user()->id)
             // ->where('verification_forms.emirate_location', auth()->user()->emirate)
@@ -2385,7 +2390,7 @@ class CoordinaterController extends Controller
             ->get();
         // $operation = verification_form::wherestatus('1.10')->get();
         // return view('number.number-list-activation', compact('operation'));
-        return view('dashboard.my-lead-junaid', compact('operation'));
+        return view('coordination.my-lead-junaid', compact('operation'));
     }
     public function myproceedleadyesterday()
     {
@@ -2436,7 +2441,7 @@ class CoordinaterController extends Controller
                     '=',
                     'lead_sales.id'
                 )
-                ->whereIn('lead_sales.channel_type', $mychannel)
+                // ->whereIn('lead_sales.channel_type', $mychannel)
                 ->whereIn('lead_sales.status', ['1.10', '1.21'])
                 // ->where('lead_locations.assign_to', '!=', auth()->user()->id)
                 ->whereDate('lead_sales.updated_at', Carbon::yesterday())
@@ -2607,7 +2612,7 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->whereIn('lead_sales.status', ['1.10', '1.21'])
             // ->where('lead_locations.assign_to', '!=', auth()->user()->id)
             ->whereDate('lead_sales.updated_at', Carbon::yesterday())
@@ -2635,7 +2640,7 @@ class CoordinaterController extends Controller
         // }
         // $operation = verification_form::wherestatus('1.10')->get();
         // return view('number.number-list-activation', compact('operation'));
-        return view('dashboard.my-lead-junaid', compact('operation'));
+        return view('coordination.my-lead-junaid', compact('operation'));
 
         // })->name('activation.proceed');
     }
@@ -3026,7 +3031,7 @@ class CoordinaterController extends Controller
                     '=',
                     'lead_sales.id'
                 )
-                ->whereIn('lead_sales.channel_type', $mychannel)
+                // ->whereIn('lead_sales.channel_type', $mychannel)
                 ->whereIn('lead_sales.status', ['1.19', '1.20'])
                 ->whereDate('lead_sales.updated_at', $current_date)
                 ->groupBy('verification_forms.lead_no')
@@ -3144,7 +3149,7 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->whereIn('lead_sales.status', ['1.19', '1.20'])
             ->whereDate('lead_sales.updated_at', $current_date)
             ->groupBy('verification_forms.lead_no')
@@ -3157,7 +3162,7 @@ class CoordinaterController extends Controller
         // ->groupBy('verification_forms.lead_no')
         // $operation = verification_form::wherestatus('1.10')->get();
         // return view('number.number-list-activation', compact('operation'));
-        return view('dashboard.my-lead-junaid', compact('operation'));
+        return view('coordination.my-lead-junaid', compact('operation'));
 
         // })->name('activation.proceed');
     }
@@ -3331,7 +3336,7 @@ class CoordinaterController extends Controller
                     '=',
                     'lead_sales.id'
                 )
-                ->whereIn('lead_sales.channel_type', $mychannel)
+                // ->whereIn('lead_sales.channel_type', $mychannel)
                 ->whereIn('lead_sales.status', ['1.06'])
                 ->whereDate('lead_sales.later_date', Carbon::today())
                 ->groupBy('verification_forms.lead_no')
@@ -3460,7 +3465,7 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
             ->whereIn('lead_sales.status', ['1.06'])
             ->whereDate('lead_sales.updated_at', Carbon::today())
@@ -3521,7 +3526,7 @@ class CoordinaterController extends Controller
                     '=',
                     'lead_sales.id'
                 )
-                ->whereIn('lead_sales.channel_type', $mychannel)
+                // ->whereIn('lead_sales.channel_type', $mychannel)
                 ->whereIn('lead_sales.status', ['1.06'])
                 // ->whereDate('lead_sales.updated_at', Carbon::today())
                 ->groupBy('verification_forms.lead_no')
@@ -3651,7 +3656,7 @@ class CoordinaterController extends Controller
             //         'lead_sales.id'
             //     )
             //     ->where('verification_forms.status', '1.10')
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->whereIn('lead_sales.status', ['1.10', '1.21'])
             ->when($mychannel, function ($query) use ($mychannel) {
                 if ($mychannel == 'TTF') {
@@ -3682,7 +3687,7 @@ class CoordinaterController extends Controller
         // return auth()->user()->agent_code;
         $myrole = auth()->user()->multi_agentcode;
         if (auth()->user()->role == 'MainCoordinator') {
-
+            // return auth()->user()->id;
             $mychannel = AssignChannel::select('name')->where('userid', auth()->user()->id)->pluck('name');
             // ->whereIn('lead_sales.channel_type',$mychannel)
             $operation = verification_form::select("verification_forms.lead_no", "timing_durations.lead_generate_time", "verification_forms.*", "remarks.remarks as latest_remarks", "status_codes.status_name", "lead_locations.assign_to", 'lead_sales.emirates')
@@ -3723,7 +3728,7 @@ class CoordinaterController extends Controller
                     '=',
                     'lead_sales.id'
                 )
-                ->whereIn('lead_sales.channel_type', $mychannel)
+                // ->whereIn('lead_sales.channel_type', $mychannel)
                 ->whereIn('lead_sales.status', ['1.10', '1.21'])
                 // ->where('lead_locations.assign_to', '=', auth()->user()->id)
                 // ->Orwhere('lead_locations.assign_to', '=', '136')
@@ -3736,6 +3741,7 @@ class CoordinaterController extends Controller
                         return $query->whereIn('lead_locations.assign_to', ['136', '583']);
                     }
                 })
+                ->whereNull('lead_sales.eti_lead_id')
                 ->whereDate('lead_sales.updated_at', Carbon::today())
 
 
@@ -3869,7 +3875,7 @@ class CoordinaterController extends Controller
                     '=',
                     'lead_sales.id'
                 )
-                ->whereIn('lead_sales.channel_type', $mychannel)
+                // ->whereIn('lead_sales.channel_type', $mychannel)
                 ->whereIn('lead_sales.status', ['1.10', '1.21'])
                 ->where('lead_locations.assign_to', '=', auth()->user()->id)
                 // ->Orwhere('lead_locations.assign_to', '=', '136')
@@ -4015,20 +4021,21 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->whereIn('lead_sales.status', ['1.10', '1.21'])
             // ->where('lead_locations.assign_to', '=', 136)
             ->when($mychannel, function ($query) use ($mychannel) {
                 if ($mychannel == 'TTF') {
                     return $query->whereIn('lead_locations.assign_to', ['136']);
-                } else if ($mychannel == 'ExpressDial') {
+                } else if ($mychannel == 'ConnectCC') {
                     return $query->whereIn('lead_locations.assign_to', ['583']);
                 } else {
-                    return $query->whereIn('lead_locations.assign_to', ['136', '583']);
+                    return $query->whereIn('lead_locations.assign_to', ['136','583']);
                 }
             })
+            ->whereNull('lead_sales.eti_lead_id')
             ->whereDate('lead_sales.updated_at', Carbon::today())
-            ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
+            // ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
 
             // ->where('users.agent_code', auth()->user()->agent_code)
             // ->where('verification_forms.assing_to', auth()->user()->id)
@@ -4096,7 +4103,7 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
 
             // ->where('verification_forms.status', '1.10')
             ->whereIn('lead_sales.status', ['1.10', '1.21'])
@@ -4109,6 +4116,7 @@ class CoordinaterController extends Controller
                     return $query->whereIn('lead_locations.assign_to', ['136', '583']);
                 }
             })
+            ->whereNull('lead_sales.eti_lead_id')
             // ->where('lead_locations.assign_to', '=', auth()->user()->id)
             ->whereDate('lead_sales.updated_at', Carbon::today())
             ->groupBy('verification_forms.lead_no')
@@ -4138,9 +4146,9 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             // ->where('verification_forms.status', '1.10')
-            ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
+            // ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
             ->whereIn('lead_sales.status', ['1.10', '1.21'])
             // ->where('lead_locations.assign_to', '=', 136)
             ->when($mychannel, function ($query) use ($mychannel) {
@@ -4149,9 +4157,10 @@ class CoordinaterController extends Controller
                 } else if ($mychannel == 'ExpressDial') {
                     return $query->whereIn('lead_locations.assign_to', ['583']);
                 } else {
-                    return $query->whereIn('lead_locations.assign_to', ['136', '583']);
+                    return $query->whereIn('lead_locations.assign_to', ['136','583']);
                 }
             })
+            ->whereNull('lead_sales.eti_lead_id')
             ->whereDate('lead_sales.updated_at', Carbon::today())
             ->groupBy('verification_forms.lead_no')
             ->get()
@@ -4182,7 +4191,7 @@ class CoordinaterController extends Controller
                 //     'lead_sales.id'
                 // )
                 // ->where('verification_forms.status', '1.10')
-                ->whereIn('lead_sales.channel_type', $mychannel)
+                // ->whereIn('lead_sales.channel_type', $mychannel)
 
                 ->whereIn('lead_sales.status', ['1.06'])
                 // ->where('lead_locations.assign_to', '=', auth()->user()->id)
@@ -4246,7 +4255,7 @@ class CoordinaterController extends Controller
             // )
             // ->where('verification_forms.status', '1.10')
             ->whereIn('lead_sales.status', ['1.06'])
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             // ->where('lead_locations.assign_to', '=', auth()->user()->id)
             ->whereDate('lead_sales.updated_at', Carbon::today())
             ->groupBy('verification_forms.lead_no')
@@ -4278,7 +4287,7 @@ class CoordinaterController extends Controller
                     '=',
                     'lead_sales.id'
                 )
-                ->whereIn('lead_sales.channel_type', $mychannel)
+                // ->whereIn('lead_sales.channel_type', $mychannel)
 
                 // ->where('verification_forms.status', '1.10')
                 ->whereIn('lead_sales.status', ['1.06'])
@@ -4416,10 +4425,12 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->where('lead_sales.status', '1.10')
-            ->where('lead_locations.assign_to', '!=', auth()->user()->id)
+            ->where('lead_locations.assign_to', '!=', 136)
             ->whereDate('lead_sales.updated_at', Carbon::today())
+            ->whereNotNull('lead_sales.eti_lead_id')
+
             // ->where('users.agent_code', auth()->user()->agent_code)
             // ->where('verification_forms.assing_to', auth()->user()->id)
             // ->where('verification_forms.emirate_location', auth()->user()->emirate)
@@ -4469,11 +4480,12 @@ class CoordinaterController extends Controller
                 '=',
                 'lead_sales.id'
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->where('lead_sales.status', '1.10')
             ->where('lead_locations.assign_to', '!=', 136)
             ->whereDate('lead_sales.updated_at', Carbon::today())
             ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
+            ->whereNotNull('lead_sales.eti_lead_id')
             // ->where('users.agent_code', auth()->user()->agent_code)
             // ->where('verification_forms.assing_to', auth()->user()->id)
             // ->where('verification_forms.emirate_location', auth()->user()->emirate)
@@ -4498,7 +4510,7 @@ class CoordinaterController extends Controller
         $mychannel = \App\Models\AssignChannel::select('name')->where('userid', auth()->user()->id)->pluck('name');
 
         return $operation = lead_sale::whereIn('status', ['1.19', '1.20'])
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
 
             ->whereDate('lead_sales.updated_at', Carbon::today())
             ->get()->count();
@@ -4512,7 +4524,7 @@ class CoordinaterController extends Controller
         // $id = 'Activated Leads';
         // $operation = activation_form::where('status','1.02')->get();
         return $operation = lead_sale::whereIn('status', ['1.19', '1.20'])
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->whereIn('lead_sales.emirates', explode(',', auth()->user()->emirate))
             ->whereDate('lead_sales.updated_at', Carbon::today())
             ->get()->count();
@@ -4693,7 +4705,7 @@ class CoordinaterController extends Controller
             //     'lead_sales.saler_id'
             // )
             ->where('lead_sales.status', '1.03')
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
 
             ->whereDate('lead_sales.updated_at', Carbon::today())
             // ->whereMonth('lead_sales.updated_at', Carbon::now()->month)
@@ -4892,7 +4904,7 @@ class CoordinaterController extends Controller
                 'lead_sales.status',
                 ['1.05', '1.07', '1.08', '1.09', '1.10', '1.16', '1.17', '1.19', '1.20', '1.21']
             )
-            ->whereIn('lead_sales.channel_type', $mychannel)
+            // ->whereIn('lead_sales.channel_type', $mychannel)
             ->where('users.agent_code', $call_center)
             ->groupBy('verification_forms.lead_no')
             ->get()->count();

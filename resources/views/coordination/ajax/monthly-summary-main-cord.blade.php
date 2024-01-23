@@ -48,7 +48,7 @@
                     </div>
                     <div class="bg-body-light rounded-bottom">
                         <a class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between"
-                            href="{{ route('pending.lead','ConnectCC') }}">
+                            href="{{ route('total-active-lead') }}">
                             <span>{{ __('Activate Lead') }}</span>
                             <i class="fa fa-arrow-alt-circle-right ms-1 opacity-25 fs-base"></i>
                         </a>
